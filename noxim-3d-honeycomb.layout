@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="src/NoximCmdLineParser.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="405" topLine="5" />
+	</File>
+	<File name="src/NoximGlobalRoutingTable.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="44" />
+	</File>
+	<File name="src/NoximGlobalStats.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="33" />
+	</File>
+	<File name="src/NoximGlobalStats.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="53" />
+	</File>
+	<File name="src/NoximHMNoC.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="1360" topLine="0" />
+	</File>
+	<File name="src/NoximHMNoC.h" open="0" top="0" tabpos="0">
+		<Cursor position="4947" topLine="69" />
+	</File>
+	<File name="src/NoximHMRouter.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="199" topLine="0" />
+	</File>
+	<File name="src/NoximHMRouter.h" open="0" top="0" tabpos="0">
+		<Cursor position="2974" topLine="94" />
+	</File>
+	<File name="src/NoximHMTile.h" open="0" top="0" tabpos="0">
+		<Cursor position="2231" topLine="44" />
+	</File>
+	<File name="src/NoximHexagon.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="6382" topLine="198" />
+	</File>
+	<File name="src/NoximHexagon.h" open="0" top="0" tabpos="2">
+		<Cursor position="110" topLine="0" />
+	</File>
+	<File name="src/NoximMain.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2763" topLine="53" />
+	</File>
+	<File name="src/NoximMain.h" open="0" top="0" tabpos="0">
+		<Cursor position="3428" topLine="0" />
+	</File>
+	<File name="src/NoximNoC.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1052" topLine="20" />
+	</File>
+	<File name="src/NoximNoC.h" open="0" top="0" tabpos="0">
+		<Cursor position="2375" topLine="45" />
+	</File>
+	<File name="src/NoximProcessingElement.h" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="54" />
+	</File>
+	<File name="src/NoximTile.h" open="0" top="0" tabpos="0">
+		<Cursor position="1705" topLine="60" />
+	</File>
+</CodeBlocks_layout_file>
