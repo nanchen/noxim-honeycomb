@@ -54,9 +54,6 @@ SC_MODULE(NoximNoC)
     // Matrix of tiles
     NoximTile *t[MAX_STATIC_DIM][MAX_STATIC_DIM];
 
-    // 3-dimensional tile array for 2D honeycomb mesh
-    NoximTile *ta[MAX_STATIC_DIM][MAX_STATIC_DIM][MAX_STATIC_DIM];
-
     // Global tables
     NoximGlobalRoutingTable grtable;
     NoximGlobalTrafficTable gttable;
@@ -90,20 +87,15 @@ SC_MODULE(NoximNoC)
 	//---------- Mau experiment <stop>
 
 	// Build the Mesh
-	//buildMesh();
-        buildHoneycombMesh();
+	buildMesh();
     }
 
     // Support methods
     NoximTile *searchNode(const int id) const;
 
-    void buildHoneycombMesh();
-
   private:
 
     void buildMesh();
-
-    
 
 };
 

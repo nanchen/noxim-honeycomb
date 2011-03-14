@@ -9,9 +9,6 @@
  */
 
 #include "NoximNoC.h"
-#include "NoximHexagon.h"
-
-using namespace std;
 
 void NoximNoC::buildMesh()
 {
@@ -91,7 +88,7 @@ void NoximNoC::buildMesh()
 	    t[i][j]->free_slots_neighbor[DIRECTION_SOUTH] (free_slots_to_north[i][j + 1]);
 	    t[i][j]->free_slots_neighbor[DIRECTION_WEST] (free_slots_to_east[i][j]);
 
-	    // NoP
+	    // NoP 
 	    t[i][j]->NoP_data_out[DIRECTION_NORTH] (NoP_data_to_north[i][j]);
 	    t[i][j]->NoP_data_out[DIRECTION_EAST] (NoP_data_to_east[i + 1][j]);
 	    t[i][j]->NoP_data_out[DIRECTION_SOUTH] (NoP_data_to_south[i][j + 1]);
@@ -163,70 +160,3 @@ NoximTile *NoximNoC::searchNode(const int id) const
 
     return false;
 }
-
-
-void NoximNoC::buildHoneycombMesh()
-{
-    cout << "buildHoneycombMesh()" <<endl;
-    // Check for routing table availability
-    if (NoximGlobalParams::routing_algorithm == ROUTING_TABLE_BASED)
-        assert(grtable.load(NoximGlobalParams::routing_table_filename));
-
-    // Check for traffic table availability
-    if (NoximGlobalParams::traffic_distribution == TRAFFIC_TABLE_BASED)
-        assert(gttable.load(NoximGlobalParams::traffic_table_filename));
-
-    // Create honeycomb mesh
-    NoximHexagon::buildHexagonTree(NoximGlobalParams::honeycomb_mesh_size);
-
-    // dummy NoximNoP_data structure
-    NoximNoP_data tmp_NoP;
-
-    tmp_NoP.sender_id = NOT_VALID;
-
-    for (int i = 0; i < DIRECTIONS_HM; i++) {
-        tmp_NoP.channel_status_neighbor[i].free_slots = NOT_VALID;
-        tmp_NoP.channel_status_neighbor[i].available = false;
-    }
-
-    // Clear signals for borderline nodes
-    for (int i = 0; i <= NoximGlobalParams::mesh_dim_x; i++) {
-	req_to_south[i][0] = 0;
-	ack_to_north[i][0] = 0;
-	req_to_north[i][NoximGlobalParams::mesh_dim_y] = 0;
-	ack_to_south[i][NoximGlobalParams::mesh_dim_y] = 0;
-
-	free_slots_to_south[i][0].write(NOT_VALID);
-	free_slots_to_north[i][NoximGlobalParams::mesh_dim_y].write(NOT_VALID);
-
-	NoP_data_to_south[i][0].write(tmp_NoP);
-	NoP_data_to_north[i][NoximGlobalParams::mesh_dim_y].write(tmp_NoP);
-
-    }
-
-    for (int j = 0; j <= NoximGlobalParams::mesh_dim_y; j++) {
-	req_to_east[0][j] = 0;
-	ack_to_west[0][j] = 0;
-	req_to_west[NoximGlobalParams::mesh_dim_x][j] = 0;
-	ack_to_east[NoximGlobalParams::mesh_dim_x][j] = 0;
-
-	free_slots_to_east[0][j].write(NOT_VALID);
-	free_slots_to_west[NoximGlobalParams::mesh_dim_x][j].write(NOT_VALID);
-
-	NoP_data_to_east[0][j].write(tmp_NoP);
-	NoP_data_to_west[NoximGlobalParams::mesh_dim_x][j].write(tmp_NoP);
-
-    }
-
-    // invalidate reservation table entries for non-exhistent channels
-    for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++) {
-	t[i][0]->r->reservation_table.invalidate(DIRECTION_NORTH);
-	t[i][NoximGlobalParams::mesh_dim_y - 1]->r->reservation_table.invalidate(DIRECTION_SOUTH);
-    }
-    for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++) {
-	t[0][j]->r->reservation_table.invalidate(DIRECTION_WEST);
-	t[NoximGlobalParams::mesh_dim_x - 1][j]->r->reservation_table.invalidate(DIRECTION_EAST);
-    }
-}
-
-
