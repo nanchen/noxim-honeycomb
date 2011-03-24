@@ -49,7 +49,7 @@ SC_MODULE(NoximHMRouter)
     /*
        NoximCoord position;                     // Router position inside the mesh
      */
-    int local_id;		                // Unique ID
+    int local_id;		                    // Unique ID
     int routing_type;		                // Type of routing algorithm
     int selection_type;
     NoximBuffer buffer[DIRECTIONS_HM + 1];	        // Buffer for each input channel

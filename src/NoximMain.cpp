@@ -10,7 +10,7 @@
 
 #include "NoximMain.h"
 #include "NoximHMNoC.h"
-#include "NoximGlobalStats.h"
+#include "NoximHMGlobalStats.h"
 #include "NoximCmdLineParser.h"
 using namespace std;
 
@@ -68,54 +68,54 @@ int sc_main(int arg_num, char *arg_vet[])
     // Trace signals
     sc_trace_file *tf = NULL;
     if (NoximGlobalParams::trace_mode) {
-	tf = sc_create_vcd_trace_file(NoximGlobalParams::trace_filename);
-	sc_trace(tf, reset, "reset");
-	sc_trace(tf, clock, "clock");
+        tf = sc_create_vcd_trace_file(NoximGlobalParams::trace_filename);
+        sc_trace(tf, reset, "reset");
+        sc_trace(tf, clock, "clock");
 
     /*
-	for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++) {
-	    for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++) {
-		char label[30];
+        for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++) {
+            for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++) {
+                char label[30];
 
-		sprintf(label, "req_to_east(%02d)(%02d)", i, j);
-		sc_trace(tf, n->req_to_east[i][j], label);
-		sprintf(label, "req_to_west(%02d)(%02d)", i, j);
-		sc_trace(tf, n->req_to_west[i][j], label);
-		sprintf(label, "req_to_south(%02d)(%02d)", i, j);
-		sc_trace(tf, n->req_to_south[i][j], label);
-		sprintf(label, "req_to_north(%02d)(%02d)", i, j);
-		sc_trace(tf, n->req_to_north[i][j], label);
+                sprintf(label, "req_to_east(%02d)(%02d)", i, j);
+                sc_trace(tf, n->req_to_east[i][j], label);
+                sprintf(label, "req_to_west(%02d)(%02d)", i, j);
+                sc_trace(tf, n->req_to_west[i][j], label);
+                sprintf(label, "req_to_south(%02d)(%02d)", i, j);
+                sc_trace(tf, n->req_to_south[i][j], label);
+                sprintf(label, "req_to_north(%02d)(%02d)", i, j);
+                sc_trace(tf, n->req_to_north[i][j], label);
 
-		sprintf(label, "ack_to_east(%02d)(%02d)", i, j);
-		sc_trace(tf, n->ack_to_east[i][j], label);
-		sprintf(label, "ack_to_west(%02d)(%02d)", i, j);
-		sc_trace(tf, n->ack_to_west[i][j], label);
-		sprintf(label, "ack_to_south(%02d)(%02d)", i, j);
-		sc_trace(tf, n->ack_to_south[i][j], label);
-		sprintf(label, "ack_to_north(%02d)(%02d)", i, j);
-		sc_trace(tf, n->ack_to_north[i][j], label);
-	    }
-	}
+                sprintf(label, "ack_to_east(%02d)(%02d)", i, j);
+                sc_trace(tf, n->ack_to_east[i][j], label);
+                sprintf(label, "ack_to_west(%02d)(%02d)", i, j);
+                sc_trace(tf, n->ack_to_west[i][j], label);
+                sprintf(label, "ack_to_south(%02d)(%02d)", i, j);
+                sc_trace(tf, n->ack_to_south[i][j], label);
+                sprintf(label, "ack_to_north(%02d)(%02d)", i, j);
+                sc_trace(tf, n->ack_to_north[i][j], label);
+            }
+        }
+	  */
     }
+
     // Reset the chip and run the simulation
     reset.write(1);
     cout << "Reset...";
     srand(NoximGlobalParams::rnd_generator_seed);	// time(NULL));
     sc_start(DEFAULT_RESET_TIME, SC_NS);
     reset.write(0);
-    cout << " done! Now running for " << NoximGlobalParams::
-	simulation_time << " cycles..." << endl;
+    cout << " done! Now running for " << NoximGlobalParams::simulation_time << " cycles..." << endl;
     sc_start(NoximGlobalParams::simulation_time, SC_NS);
 
     // Close the simulation
     if (NoximGlobalParams::trace_mode)
 	sc_close_vcd_trace_file(tf);
     cout << "Noxim simulation completed." << endl;
-    cout << " ( " << sc_time_stamp().to_double() /
-	1000 << " cycles executed)" << endl;
+    cout << " ( " << sc_time_stamp().to_double() /	1000 << " cycles executed)" << endl;
 
     // Show statistics
-    NoximGlobalStats gs(n);
+    NoximHMGlobalStats gs(n);
     gs.showStats(std::cout, NoximGlobalParams::detailed);
 
     if ((NoximGlobalParams::max_volume_to_be_drained > 0) &&
@@ -136,7 +136,6 @@ int sc_main(int arg_num, char *arg_vet[])
 	    drained_total << endl;
 	cout << "\n Effective drained volume: " << drained_volume;
 #endif
-    */
     }
 
     return 0;

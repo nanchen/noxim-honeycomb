@@ -17,6 +17,12 @@ extern "C"{
 
 using namespace std;
 
+static const int OFFSET = 10;
+
+//static sc_signal <bool> getSignal(sc_signal <bool> array[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1], int x, int y, int z){
+//    return array[x+OFFSET][y+OFFSET][z+OFFSET];
+//}
+
 void NoximHMNoC::buildHoneycombMesh()
 {
     cout << "buildHoneycombMesh()" <<endl;
@@ -44,7 +50,14 @@ void NoximHMNoC::buildHoneycombMesh()
     for(int x=-MAX_ABSOLUTE_COORD_VALUE; x<MAX_ABSOLUTE_COORD_VALUE+1; x++){
         for(int y=-MAX_ABSOLUTE_COORD_VALUE; y<MAX_ABSOLUTE_COORD_VALUE+1; y++){
             for(int z=-MAX_ABSOLUTE_COORD_VALUE; z<MAX_ABSOLUTE_COORD_VALUE+1; z++){
-                NoximHMTile* tile = NoximHexagon::getTile(x,y,z);
+                NoximHMTile* tile = NULL;
+                tile = NoximHexagon::getTile(x,y,z);
+
+                // in case there is no tile at x, y, z
+                if(tile == NULL)
+                    continue;
+
+                cout << "building signals for tile at (" << x << ", " << y << ", " << z << ")" << endl;
 
                 const int MESH_SIZE = NoximGlobalParams::honeycomb_mesh_size;
                 const int id = x * MESH_SIZE * MESH_SIZE + y * MESH_SIZE + z;
@@ -89,9 +102,74 @@ void NoximHMNoC::buildHoneycombMesh()
 //                tile->ack_tx[DIRECTION_NORTH] (ack_to_south[i][j]);
                 if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PX))
                 {
-                    tile->req_tx[DIRECTION_PX] (req_to_px[x][y][z]);
-                    tile->flit_tx[DIRECTION_PX] (flit_to_px[x][y][z]);
-                    tile->ack_tx[DIRECTION_PX] (ack_to_mx[x][y][z]);
+                    // rx
+                    tile->req_rx[DIRECTION_PX] (req_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_PX] (flit_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_PX] (ack_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_PX] (req_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_PX] (flit_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_PX] (ack_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                }
+
+                if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MX))
+                {
+                    // rx
+                    tile->req_rx[DIRECTION_MX] (req_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_MX] (flit_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_MX] (ack_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_MX] (req_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_MX] (flit_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_MX] (ack_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+                }
+
+                if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PY))
+                {
+                    // rx
+                    tile->req_rx[DIRECTION_PY] (req_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_PY] (flit_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_PY] (ack_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_PY] (req_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_PY] (flit_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_PY] (ack_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                }
+
+                if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MY))
+                {
+                    // rx
+                    tile->req_rx[DIRECTION_MY] (req_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_MY] (flit_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_MY] (ack_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_MY] (req_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_MY] (flit_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_MY] (ack_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+                }
+
+                if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PZ))
+                {
+                    // rx
+                    tile->req_rx[DIRECTION_PZ] (req_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_PZ] (flit_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_PZ] (ack_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_PZ] (req_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_PZ] (flit_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_PZ] (ack_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                }
+
+                if(NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MZ))
+                {
+                    // rx
+                    tile->req_rx[DIRECTION_MZ] (req_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_rx[DIRECTION_MZ] (flit_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_rx[DIRECTION_MZ] (ack_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    // tx
+                    tile->req_tx[DIRECTION_MZ] (req_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->flit_tx[DIRECTION_MZ] (flit_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->ack_tx[DIRECTION_MZ] (ack_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
                 }
 
 //                tile->req_tx[DIRECTION_EAST] (req_to_east[i + 1][j]);
@@ -130,7 +208,6 @@ void NoximHMNoC::buildHoneycombMesh()
             }
         }
     }
-
 
     // dummy NoximNoP_data structure
     NoximNoP_data tmp_NoP;
@@ -183,6 +260,7 @@ void NoximHMNoC::buildHoneycombMesh()
     }
     */
 }
+
 
 
 

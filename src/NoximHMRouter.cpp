@@ -12,6 +12,7 @@
 
 void NoximHMRouter::rxProcess()
 {
+    cout << "rxProcess()" << endl;
     if (reset.read()) {
 	// Clear outputs and indexes of receiving protocol
 	for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
@@ -59,6 +60,7 @@ void NoximHMRouter::rxProcess()
 
 void NoximHMRouter::txProcess()
 {
+    cout << "txProcess()" << endl;
     if (reset.read()) {
 	// Clear outputs and indexes of transmitting protocol
 	for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
@@ -190,15 +192,21 @@ void NoximHMRouter::bufferMonitor()
     }
 }
 
-vector <
-    int >NoximHMRouter::routingFunction(const NoximRouteData & route_data)
+vector <int >NoximHMRouter::routingFunction(const NoximRouteData & route_data)
 {
     NoximCoord position = id2Coord(route_data.current_id);
     NoximCoord src_coord = id2Coord(route_data.src_id);
     NoximCoord dst_coord = id2Coord(route_data.dst_id);
     int dir_in = route_data.dir_in;
 
+    NoximHMCoord hmPosition;
+    NoximHMCoord hmDstCoord;
+
     switch (NoximGlobalParams::routing_algorithm) {
+
+    case ROUTING_MXPZ:
+    return routingMinusXPlusZFirst(hmPosition,hmDstCoord);
+
     case ROUTING_XY:
 	return routingXY(position, dst_coord);
 

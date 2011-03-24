@@ -10,7 +10,7 @@
 
 // tiles array
 static NoximHMTile *a[20][20][20];
-//#define OFFSET 10;
+
 static const int OFFSET = 10;
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z){
     return a[x+OFFSET][y+OFFSET][z+OFFSET];
@@ -103,19 +103,19 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
     NoximHexagon* rootHexagon = new NoximHexagon(level, "Root", NULL, 0, 0, 0);
 
     // queue for level-order creation
-    Queue queue = Queue_CreateQueue(100);
+    Queue queue = Queue_createQueue(100);
 //    std::cout << "Queue for level order creation initilized" << std::endl;
 //    std::cout << "Empty? " << Queue_IsEmpty(queue) << ", isFull? " << Queue_IsFull(queue) << std::endl;
-    Queue_Enqueue(rootHexagon, queue);
+    Queue_enqueue(rootHexagon, queue);
 
     // statistics
     unsigned int levelCount =  1;
     unsigned int count = 0;
     unsigned short currentLevel = 0;
 
-    while(!Queue_IsEmpty(queue))
+    while(!Queue_isEmpty(queue))
     {
-        NoximHexagon* h = (NoximHexagon*) Queue_FrontAndDequeue(queue);
+        NoximHexagon* h = (NoximHexagon*) Queue_frontAndDequeue(queue);
         // create next-level neighbors
         if (h && h->getLevel() < meshSize)
         {
@@ -138,7 +138,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n0 = h->createNeighbor("n0");
                 levelCount++;
-                Queue_Enqueue(h->n0, queue);
+                Queue_enqueue(h->n0, queue);
             }
             h->n0->n3 = h;
 
@@ -146,7 +146,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n1 = h->createNeighbor("n1");
                 levelCount++;
-                Queue_Enqueue(h->n1, queue);
+                Queue_enqueue(h->n1, queue);
             }
             h->n1->n4 = h;
             h->n0->n2 = h->n1;
@@ -156,7 +156,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n2 = h->createNeighbor("n2");
                 levelCount++;
-                Queue_Enqueue(h->n2, queue);
+                Queue_enqueue(h->n2, queue);
             }
             h->n2->n5 = h;
             h->n1->n3 = h->n2;
@@ -166,7 +166,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n3 = h->createNeighbor("n3");
                 levelCount++;
-                Queue_Enqueue(h->n3, queue);
+                Queue_enqueue(h->n3, queue);
             }
             h->n3->n0 = h;
             h->n2->n4 = h->n3;
@@ -176,7 +176,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n4 = h->createNeighbor("n4");
                 levelCount++;
-                Queue_Enqueue(h->n4, queue);
+                Queue_enqueue(h->n4, queue);
             }
             h->n4->n1 = h;
             h->n3->n5 = h->n4;
@@ -186,7 +186,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
             {
                 h->n5 = h->createNeighbor("n5");
                 levelCount++;
-                Queue_Enqueue(h->n5, queue);
+                Queue_enqueue(h->n5, queue);
             }
             h->n5->n2 = h;
             h->n4->n0 = h->n5;
@@ -199,7 +199,7 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize)
     }
     count +=levelCount;
     std::cout << levelCount << " hexagons for level: " << currentLevel << " (total: " << count << ") created." << std::endl;
-    Queue_DisposeQueue(queue);
+    Queue_disposeQueue(queue);
     return rootHexagon;
 }
 

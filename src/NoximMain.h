@@ -43,6 +43,7 @@ using namespace std;
 #define NOT_VALID             -1
 
 // Routing algorithms
+#define ROUTING_MXPZ           10
 #define ROUTING_XY             0
 #define ROUTING_WEST_FIRST     1
 #define ROUTING_NORTH_LAST     2
@@ -154,6 +155,9 @@ class NoximHMCoord {
 
     inline bool operator ==(const NoximHMCoord & coord) const {
         return (coord.x == x && coord.y == y && coord.z == z);
+	}
+	bool equals(const int ax, const int ay, const int az) const{
+	    return x == ax && y == ay && z == az;
 	}
 //    char* toString(){
 //////        //ret += "x:"+x+" y:"+y+" z:"+z;
