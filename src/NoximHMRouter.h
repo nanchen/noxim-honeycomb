@@ -90,6 +90,10 @@ SC_MODULE(NoximHMRouter)
 	sensitive << clock.pos();
     }
 
+  public:
+      vector < int >routingMinusXPlusZFirst(const NoximHMCoord & current,
+            const NoximHMCoord & destination);
+
   private:
 
     // performs actual routing + selection
@@ -128,9 +132,6 @@ SC_MODULE(NoximHMRouter)
     vector < int >routingTableBased(const int dir_in,
 				    const NoximCoord & current,
 				    const NoximCoord & destination);
-
-    vector < int >routingMinusXPlusZFirst(const NoximHMCoord & current,
-            const NoximHMCoord & destination);
 
     NoximNoP_data getCurrentNoPData() const;
     void NoP_report() const;

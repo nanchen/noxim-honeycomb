@@ -10,6 +10,7 @@
 
 #include "NoximMain.h"
 #include "NoximHMNoC.h"
+#include "NoximNoC.h"
 #include "NoximHMGlobalStats.h"
 #include "NoximCmdLineParser.h"
 using namespace std;

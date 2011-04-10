@@ -9,6 +9,7 @@
  */
 
 #include "NoximHMRouter.h"
+#include "NoximHexagon.h"
 
 void NoximHMRouter::rxProcess()
 {
@@ -638,23 +639,94 @@ vector < int >NoximHMRouter::routingTableBased(const int dir_in,
 }
 
 
-vector < int >NoximHMRouter::routingMinusXPlusZFirst(const NoximHMCoord & current,
+vector < int > NoximHMRouter::routingMinusXPlusZFirst(const NoximHMCoord & current,
 					    const NoximHMCoord & destination)
 {
     vector < int >directions;
+    // current -> dst include -x or +z hop
+    // -x / +y direction possibilities in current
 
-    /*
-    if (destination.x <= current.x || destination.y == current.y)
-	return routingXY(current, destination);
+    int cx = current.x;
+    int cy = current.y;
+    int cz = current.z;
+    const int dx = destination.x;
+    const int dy = destination.y;
+    const int dz = destination.z;
 
-    if (destination.y < current.y) {
-	directions.push_back(DIRECTION_NORTH);
-	directions.push_back(DIRECTION_EAST);
-    } else {
-	directions.push_back(DIRECTION_SOUTH);
-	directions.push_back(DIRECTION_EAST);
+    NoximHMTile* t = NoximHexagon::getTile(cx,cy,cz);
+    const NoximHMTile* dstTile = NoximHexagon::getTile(dx,dy,dz);
+    if(dstTile==NULL){
+         cout << "Destination tile is NULL! return" << endl;
+        return directions;
     }
-    */
+    // -x +z first
+    unsigned int count = 0;
+    while(t && t!=dstTile && t->coord->x > dx || t->coord->z < dz){
+        count++;
+        if(count>500){
+            cerr << "loop detected!" << endl;
+            break;
+        }
+
+        if(t->nTile[DIRECTION_MX]!=NULL){
+            directions.push_back(DIRECTION_MX);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MX);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_PZ]!=NULL){
+            directions.push_back(DIRECTION_PZ);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PZ);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_PY]!=NULL && t->coord->y < dy){
+            directions.push_back(DIRECTION_PY);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PY);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_MY]!=NULL && t->coord->y > dy){
+            directions.push_back(DIRECTION_MY);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MY);
+            continue;
+        }
+    }
+    if(t==NULL){
+       cout << "Current tile is NULL! return" << endl;
+       return directions;
+    }
+    // minimal routing algorithm
+    count = 0;
+    while(t && t!=dstTile){
+        if(count>500){
+            cerr << "loop detected!" << endl;
+            break;
+        }
+        if(t->nTile[DIRECTION_PY]!=NULL && t->coord->y < dy){
+            directions.push_back(DIRECTION_PY);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PY);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_MY]!=NULL && t->coord->y > dy){
+            directions.push_back(DIRECTION_MY);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MY);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_PX]!=NULL && t->coord->x < dx){
+            directions.push_back(DIRECTION_PX);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PX);
+            continue;
+        }
+
+        if(t->nTile[DIRECTION_MZ]!=NULL && t->coord->z > dz){
+            directions.push_back(DIRECTION_MZ);
+            t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MZ);
+            continue;
+        }
+    }
     return directions;
 }
 

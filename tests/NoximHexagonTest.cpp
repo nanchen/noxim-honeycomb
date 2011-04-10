@@ -2,9 +2,9 @@
 #include "NoximHexagon.h"
 
 void NoximHexagonTest::run(){
-    testConstructor();
-    testCreateNeighbor();
-    testBuildHexagonTree();
+//    testConstructor();
+//    testCreateNeighbor();
+//    testBuildHexagonTree();
 }
 
 void NoximHexagonTest::testConstructor(){
@@ -48,5 +48,5 @@ void NoximHexagonTest::testCreateNeighbor(){
 }
 
 void NoximHexagonTest::testBuildHexagonTree(){
-
+    NoximHexagon::buildHexagonTree(1);
 }

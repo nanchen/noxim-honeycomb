@@ -14,6 +14,7 @@
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-O" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
@@ -48,12 +49,14 @@
 			<Add option="-fexceptions" />
 			<Add directory="/home/nan/dev/systemc-2.2.0/include" />
 			<Add directory="/home/nan/chen-work/c-data-structures-analysis/ds-lib" />
+			<Add directory="src" />
 		</Compiler>
 		<Linker>
 			<Add library="/home/nan/dev/systemc-2.2.0/lib-linux/libsystemc.a" />
 			<Add library="/home/nan/chen-work/c-data-structures-analysis/bin/Debug/libc-data-structures-analysis.a" />
 			<Add directory="/home/nan/dev/systemc-2.2.0/lib-linux64" />
 			<Add directory="/home/nan/dev/systemc-2.2.0/include" />
+			<Add directory="src" />
 		</Linker>
 		<Unit filename="src/NoximBuffer.cpp" />
 		<Unit filename="src/NoximBuffer.h" />
@@ -91,6 +94,17 @@
 		<Unit filename="src/NoximStats.cpp" />
 		<Unit filename="src/NoximStats.h" />
 		<Unit filename="src/NoximTile.h" />
+		<Unit filename="tests/NoximHMNoCTest.cpp" />
+		<Unit filename="tests/NoximHMNoCTest.h" />
+		<Unit filename="tests/NoximHMRouterTest.cpp" />
+		<Unit filename="tests/NoximHMRouterTest.h" />
+		<Unit filename="tests/NoximHexagonTest.cpp" />
+		<Unit filename="tests/NoximHexagonTest.h" />
+		<Unit filename="tests/NoximHoneycombTestMain.cpp" />
+		<Unit filename="tests/Suite.cpp" />
+		<Unit filename="tests/Suite.h" />
+		<Unit filename="tests/Test.cpp" />
+		<Unit filename="tests/Test.h" />
 		<Unit filename="tests/TestNoximHexagon.h" />
 		<Extensions>
 			<code_completion>

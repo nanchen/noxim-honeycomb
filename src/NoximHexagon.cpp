@@ -15,6 +15,10 @@ static const int OFFSET = 10;
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z){
     return a[x+OFFSET][y+OFFSET][z+OFFSET];
 }
+NoximHMTile* NoximHexagon::getTile(NoximHMCoord* c){
+    return a[c->x+OFFSET][c->y+OFFSET][c->z+OFFSET];
+}
+
 void NoximHexagon::setTile(int x, int y, int z, NoximHMTile* tile){
     a[x+OFFSET][y+OFFSET][z+OFFSET] = tile;
 }
@@ -48,8 +52,12 @@ static int* getOffsetVector(int direction)
 NoximHMTile* NoximHexagon::getNeighborTile(int x, int y, int z, int direction){
     NoximHMTile* ret = NULL;
     int* offset = getOffsetVector(direction);
-    ret = getTile(x+offset[0], y+offset[1], z+offset[3]);
+    ret = getTile(x+offset[0], y+offset[1], z+offset[2]);
     return ret;
+}
+
+NoximHMTile* NoximHexagon::getNeighborTile(NoximHMCoord* c, int direction){
+    return getNeighborTile(c->x, c->y, c->z, direction);
 }
 
 //NoximHexagon::NoximHexagon(unsigned short level, string name)

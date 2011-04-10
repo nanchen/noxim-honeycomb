@@ -153,6 +153,14 @@ class NoximHMCoord {
     int y;			// Y coordinate
     int z;
 
+    NoximHMCoord(){
+    }
+
+    NoximHMCoord(int ax, int ay, int az){
+        x=ax;
+        y=ay;
+        z=az;
+    }
     inline bool operator ==(const NoximHMCoord & coord) const {
         return (coord.x == x && coord.y == y && coord.z == z);
 	}

@@ -55,6 +55,10 @@ SC_MODULE(NoximHMTile)
     NoximHMRouter *r;		                // Router instance
     NoximProcessingElement *pe;	                // Processing Element instance
 
+    // neighbor tile
+    NoximHMTile* nTile[DIRECTIONS_HM];
+
+    // coord
     NoximHMCoord* coord;
 
     void setCoord(int x, int y, int z)
@@ -68,10 +72,16 @@ SC_MODULE(NoximHMTile)
 
     SC_CTOR(NoximHMTile) {
 
+    // neighbor tile
+    for(int i=0;i<DIRECTIONS_HM;i++)
+        nTile[i] = NULL;
+
+    // coord
 	coord = new NoximHMCoord;
 	coord->x=0;
 	coord->y=0;
 	coord->z=0;
+
 	// Router pin assignments
 	r = new NoximHMRouter("Router");
 	r->clock(clock);

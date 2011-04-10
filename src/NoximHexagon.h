@@ -35,9 +35,11 @@ public:
     static NoximHexagon* buildHexagonTree(int meshSize);
 
     static NoximHMTile* getTile(int x, int y, int z);
+    static NoximHMTile* getTile(NoximHMCoord* c);
     static void setTile(int x, int y, int z, NoximHMTile* tile);
 
     static NoximHMTile* getNeighborTile(int x, int y, int z, int direction);
+    static NoximHMTile* getNeighborTile(NoximHMCoord* c, int direction);
 
     NoximHexagon* createNeighbor(string name);
 
