@@ -74,6 +74,7 @@
 		<Unit filename="src/NoximHMNoC.h" />
 		<Unit filename="src/NoximHMRouter.cpp" />
 		<Unit filename="src/NoximHMRouter.h" />
+		<Unit filename="src/NoximHMTile.cpp" />
 		<Unit filename="src/NoximHMTile.h" />
 		<Unit filename="src/NoximHexagon.cpp" />
 		<Unit filename="src/NoximHexagon.h" />

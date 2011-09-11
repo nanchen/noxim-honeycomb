@@ -14,6 +14,7 @@ class NoximHMRouterTest : public TestSuite::Test
         ~NoximHMRouterTest(){};
 
     private:
+        void testTxProcess();
         void testRoutingMinusXPlusZFirst();
         void printVector(const vector<int>& v);
 };

@@ -15,6 +15,7 @@
 #include <systemc.h>
 #include <vector>
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 
@@ -100,7 +101,7 @@ using namespace std;
 #define DEFAULT_DYAD_THRESHOLD                     0.6
 #define DEFAULT_MAX_VOLUME_TO_BE_DRAINED             0
 
-#define DEFAULT_HONEYCOMB_MESH_SIZE                  4
+#define DEFAULT_HONEYCOMB_MESH_SIZE                  1
 
 // TODO by Fafa - this MUST be removed!!! Use only STL vectors instead!!!
 #define MAX_STATIC_DIM 20
@@ -167,22 +168,12 @@ class NoximHMCoord {
 	bool equals(const int ax, const int ay, const int az) const{
 	    return x == ax && y == ay && z == az;
 	}
-//    char* toString(){
-//////        //ret += "x:"+x+" y:"+y+" z:"+z;
-//////        string strx("x:"+x);
-//////        //strx = strx + x;
-//////        string stry(" y:");
-//////        stry +=y;
-//////        string strz(" z:");
-//////        strz +=z;
-//////        return strx+stry+strz;
-//
-//        char buffer [20];
-//        int n=sprintf (buffer, "x:%d y:%d z:%d", x,y,z);
-//        return buffer;
-//    }
+	char* toString() const{
+		char* ret = (char*)malloc(20*sizeof(char));
+		sprintf(ret,"[%d,%d,%d]",x,y,z);
+		return ret;
+	}
 };
-
 
 // NoximFlitType -- Flit type enumeration
 enum NoximFlitType {
@@ -239,7 +230,7 @@ struct NoximChannelStatus {
 // NoximNoP_data -- NoP Data definition
 struct NoximNoP_data {
     int sender_id;
-    NoximChannelStatus channel_status_neighbor[DIRECTIONS];
+    NoximChannelStatus channel_status_neighbor[DIRECTIONS_HM];
 
     inline bool operator ==(const NoximNoP_data & nop_data) const {
 	return (sender_id == nop_data.sender_id &&
@@ -250,7 +241,11 @@ struct NoximNoP_data {
 		&& nop_data.channel_status_neighbor[2] ==
 		channel_status_neighbor[2]
 		&& nop_data.channel_status_neighbor[3] ==
-		channel_status_neighbor[3]);
+		channel_status_neighbor[3]
+		&& nop_data.channel_status_neighbor[4] ==
+		channel_status_neighbor[4]
+		&& nop_data.channel_status_neighbor[5] ==
+		channel_status_neighbor[5]);
     };
 };
 

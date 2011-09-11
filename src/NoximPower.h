@@ -37,6 +37,7 @@ hop interconnect is 0.384nJ.
 #define PWR_ROUTING_DYAD           0.182e-9
 #define PWR_ROUTING_FULLY_ADAPTIVE 0.0
 #define PWR_ROUTING_TABLE_BASED    0.185e-9
+#define PWR_ROUTING_MXPZ		   0.151e-9  //TODO how to determine the power of it?
 
 #define PWR_SEL_RANDOM             0.002e-9
 #define PWR_SEL_BUFFER_LEVEL       0.006e-9

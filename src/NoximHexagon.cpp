@@ -243,7 +243,7 @@ NoximHexagon* NoximHexagon::createNeighbor(string name)
 }
 
 
-static NoximHMTile* fillTileIntoArray(int x, int y, int z)
+static NoximHMTile* fillTileIntoArray(int x, int y, int z, bool isTypePositive)
 {
     NoximHMTile* tile =  NULL;
     tile = NoximHexagon::getTile(x,y,z);
@@ -253,6 +253,11 @@ static NoximHMTile* fillTileIntoArray(int x, int y, int z)
         sprintf(tile_name, "Tile[%02d][%02d][%02d]", x, y, z);
         tile = new NoximHMTile(tile_name);
         tile->setCoord(x,y,z);
+        //type
+        if(isTypePositive)
+        	tile->type =  NoximHMTile::POSITIVE;
+        else
+        	tile->type = NoximHMTile::NEGATIVE;
         NoximHexagon::setTile(x,y,z,tile);
         cout << "\t" << tile_name << " created"<< endl;
     }else
@@ -272,12 +277,12 @@ void NoximHexagon::createTiles()
     y = c.y;
     z = c.z;
 
-    pxTile = fillTileIntoArray(x+1,y,z);
-    mxTile = fillTileIntoArray(x,y+1,z+1);
-    pyTile = fillTileIntoArray(x,y+1,z);
-    myTile = fillTileIntoArray(x+1,y,z+1);
-    pzTile = fillTileIntoArray(x,y,z+1);
-    mzTile = fillTileIntoArray(x+1,y+1,z);
+    pxTile = fillTileIntoArray(x+1,y,z, true);
+    mxTile = fillTileIntoArray(x,y+1,z+1, false);
+    pyTile = fillTileIntoArray(x,y+1,z, true);
+    myTile = fillTileIntoArray(x+1,y,z+1, false);
+    pzTile = fillTileIntoArray(x,y,z+1, true);
+    mzTile = fillTileIntoArray(x+1,y+1,z, false);
 }
 
 

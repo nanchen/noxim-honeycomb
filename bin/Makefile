@@ -20,8 +20,12 @@ VPATH = ../src:.
 SRCS := $(wildcard ../src/*.cpp)
 OBJS = $(subst ../src/,,$(SRCS:.cpp=.o))
 
-INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I$(QT)/include -I$(DS)/ds-lib 
-LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L$(QT)/lib -L$(DS)/bin/Debug
+#INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I$(QT)/include -I$(DS)/ds-lib 
+#LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L$(QT)/lib -L$(DS)/bin/Debug
+
+INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I$(DS)/ds-lib 
+LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L$(DS)/bin/Debug
+
 
 #EXTRA_LIBS = -lpthread
 LIBS = -lsystemc -lm $(EXTRA_LIBS) -lc-data-structures-analysis

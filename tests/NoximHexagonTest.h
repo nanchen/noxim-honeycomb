@@ -14,6 +14,7 @@ private:
     void testConstructor();
     void testCreateNeighbor();
     void testBuildHexagonTree();
+    void testTileType();
 
 };
 

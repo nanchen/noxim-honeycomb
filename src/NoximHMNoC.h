@@ -16,6 +16,7 @@
 #include "NoximHexagon.h"
 #include "NoximGlobalRoutingTable.h"
 #include "NoximGlobalTrafficTable.h"
+
 using namespace std;
 
 SC_MODULE(NoximHMNoC)
@@ -69,6 +70,9 @@ SC_MODULE(NoximHMNoC)
     sc_signal <int> free_slots_to_my[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+
+    sc_signal <int> invalid_free_slots[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][DIRECTIONS_HM];
+
 
     // NoP
 //    sc_signal <NoximNoP_data> NoP_data_to_east[MAX_STATIC_DIM][MAX_STATIC_DIM];

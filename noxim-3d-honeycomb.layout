@@ -2,7 +2,7 @@
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
 	<File name="src/NoximCmdLineParser.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="405" topLine="5" />
+		<Cursor position="6456" topLine="132" />
 	</File>
 	<File name="src/NoximGlobalRoutingTable.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="2470" topLine="109" />
@@ -16,23 +16,23 @@
 	<File name="src/NoximGlobalStats.h" open="0" top="0" tabpos="0">
 		<Cursor position="359" topLine="8" />
 	</File>
-	<File name="src/NoximHMNoC.cpp" open="0" top="0" tabpos="6">
-		<Cursor position="9447" topLine="166" />
+	<File name="src/NoximHMNoC.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="2992" topLine="59" />
 	</File>
-	<File name="src/NoximHMNoC.h" open="0" top="0" tabpos="2">
-		<Cursor position="5024" topLine="85" />
+	<File name="src/NoximHMNoC.h" open="1" top="0" tabpos="2">
+		<Cursor position="4398" topLine="68" />
 	</File>
-	<File name="src/NoximHMRouter.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="19533" topLine="697" />
+	<File name="src/NoximHMRouter.cpp" open="0" top="0" tabpos="1">
+		<Cursor position="736" topLine="0" />
 	</File>
 	<File name="src/NoximHMRouter.h" open="0" top="0" tabpos="3">
 		<Cursor position="3604" topLine="0" />
 	</File>
 	<File name="src/NoximHMTile.h" open="0" top="0" tabpos="5">
-		<Cursor position="413" topLine="6" />
+		<Cursor position="626" topLine="18" />
 	</File>
 	<File name="src/NoximHexagon.cpp" open="0" top="0" tabpos="3">
-		<Cursor position="867" topLine="39" />
+		<Cursor position="867" topLine="237" />
 	</File>
 	<File name="src/NoximHexagon.h" open="0" top="0" tabpos="4">
 		<Cursor position="1613" topLine="64" />
@@ -43,14 +43,14 @@
 	<File name="src/NoximLocalRoutingTable.h" open="0" top="0" tabpos="0">
 		<Cursor position="298" topLine="12" />
 	</File>
-	<File name="src/NoximMain.cpp" open="0" top="0" tabpos="4">
-		<Cursor position="2801" topLine="101" />
+	<File name="src/NoximMain.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="2381" topLine="43" />
 	</File>
-	<File name="src/NoximMain.h" open="0" top="0" tabpos="3">
-		<Cursor position="11037" topLine="371" />
+	<File name="src/NoximMain.h" open="0" top="0" tabpos="0">
+		<Cursor position="3616" topLine="183" />
 	</File>
 	<File name="src/NoximNoC.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2469" topLine="30" />
+		<Cursor position="2469" topLine="6" />
 	</File>
 	<File name="src/NoximNoC.h" open="0" top="0" tabpos="0">
 		<Cursor position="3176" topLine="51" />
@@ -71,19 +71,19 @@
 		<Cursor position="2635" topLine="54" />
 	</File>
 	<File name="src/NoximTile.h" open="0" top="0" tabpos="0">
-		<Cursor position="3529" topLine="89" />
+		<Cursor position="3158" topLine="85" />
 	</File>
-	<File name="tests/NoximHMNoCTest.cpp" open="0" top="0" tabpos="7">
-		<Cursor position="529" topLine="0" />
+	<File name="tests/NoximHMNoCTest.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="1245" topLine="10" />
 	</File>
 	<File name="tests/NoximHMNoCTest.h" open="0" top="0" tabpos="0">
-		<Cursor position="175" topLine="0" />
-	</File>
-	<File name="tests/NoximHMRouterTest.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="6968" topLine="0" />
-	</File>
-	<File name="tests/NoximHMRouterTest.h" open="0" top="0" tabpos="0">
 		<Cursor position="146" topLine="0" />
+	</File>
+	<File name="tests/NoximHMRouterTest.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="125" topLine="0" />
+	</File>
+	<File name="tests/NoximHMRouterTest.h" open="0" top="0" tabpos="3">
+		<Cursor position="306" topLine="0" />
 	</File>
 	<File name="tests/NoximHexagonTest.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="142" topLine="0" />
@@ -91,11 +91,11 @@
 	<File name="tests/NoximHexagonTest.h" open="0" top="0" tabpos="0">
 		<Cursor position="147" topLine="0" />
 	</File>
-	<File name="tests/NoximHoneycombTestMain.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="190" topLine="0" />
+	<File name="tests/NoximHoneycombTestMain.cpp" open="1" top="1" tabpos="5">
+		<Cursor position="115" topLine="0" />
 	</File>
 	<File name="tests/Suite.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="990" topLine="37" />
+		<Cursor position="990" topLine="66" />
 	</File>
 	<File name="tests/Test.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="16" />

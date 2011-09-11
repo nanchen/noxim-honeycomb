@@ -1,10 +1,12 @@
 #include "NoximHexagonTest.h"
 #include "NoximHexagon.h"
+#include "NoximHMTile.h"
 
 void NoximHexagonTest::run(){
-//    testConstructor();
-//    testCreateNeighbor();
-//    testBuildHexagonTree();
+    testConstructor();
+    testCreateNeighbor();
+    testBuildHexagonTree();
+    testTileType();
 }
 
 void NoximHexagonTest::testConstructor(){
@@ -13,7 +15,6 @@ void NoximHexagonTest::testConstructor(){
     test_(h->getName() == "Root");
     test_(h->getCreator() == NULL);
     test_(h->getCoord().equals(0,0,0));
-
 }
 
 void NoximHexagonTest::testCreateNeighbor(){
@@ -49,4 +50,27 @@ void NoximHexagonTest::testCreateNeighbor(){
 
 void NoximHexagonTest::testBuildHexagonTree(){
     NoximHexagon::buildHexagonTree(1);
+}
+
+void NoximHexagonTest::testTileType(){
+    // px
+    NoximHMTile* tile = NoximHexagon::getTile(1,0,0);
+//    std::cout << "type = " << tile->getType() << std::endl;
+    test_(tile->getType() == NoximHMTile::POSITIVE);
+    // mz
+    tile = NoximHexagon::getTile(1,1,0);
+    test_(tile->getType() == NoximHMTile::NEGATIVE);
+    // py
+    tile = NoximHexagon::getTile(0,1,0);
+    test_(tile->getType() == NoximHMTile::POSITIVE);
+    // mx
+    tile = NoximHexagon::getTile(0,1,1);
+    test_(tile->getType() == NoximHMTile::NEGATIVE);
+    //pz
+    tile = NoximHexagon::getTile(0,0,1);
+    test_(tile->getType() == NoximHMTile::POSITIVE);
+    //my
+    tile = NoximHexagon::getTile(1,0,1);
+    test_(tile->getType() == NoximHMTile::NEGATIVE);
+
 }

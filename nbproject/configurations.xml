@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="69">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <df name="other" root="other">
+      <in>apsra2noxim.cpp</in>
+      <in>mapping2cg.cpp</in>
+      <in>noxim_explorer.cpp</in>
+    </df>
+    <df name="src" root="src">
+      <in>NoximBuffer.cpp</in>
+      <in>NoximBuffer.h</in>
+      <in>NoximCmdLineParser.cpp</in>
+      <in>NoximCmdLineParser.h</in>
+      <in>NoximGlobalRoutingTable.cpp</in>
+      <in>NoximGlobalRoutingTable.h</in>
+      <in>NoximGlobalStats.cpp</in>
+      <in>NoximGlobalStats.h</in>
+      <in>NoximGlobalTrafficTable.cpp</in>
+      <in>NoximGlobalTrafficTable.h</in>
+      <in>NoximHexagon.cpp</in>
+      <in>NoximHexagon.h</in>
+      <in>NoximLocalRoutingTable.cpp</in>
+      <in>NoximLocalRoutingTable.h</in>
+      <in>NoximMain.cpp</in>
+      <in>NoximMain.h</in>
+      <in>NoximNoC.cpp</in>
+      <in>NoximNoC.h</in>
+      <in>NoximPower.cpp</in>
+      <in>NoximPower.h</in>
+      <in>NoximProcessingElement.cpp</in>
+      <in>NoximProcessingElement.h</in>
+      <in>NoximReservationTable.cpp</in>
+      <in>NoximReservationTable.h</in>
+      <in>NoximRouter.cpp</in>
+      <in>NoximRouter.h</in>
+      <in>NoximStats.cpp</in>
+      <in>NoximStats.h</in>
+      <in>NoximTile.h</in>
+    </df>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>bin/Makefile</itemPath>
+      <itemPath>noxim-3d-honeycomb-Makefile.mk</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+      <logicalFolder name="f2"
+                     displayName="TestHexagon"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/TestHexagon.cpp</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1"
+                     displayName="TestNoximHexagon"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/TestNoximHexagon.cpp</itemPath>
+        <itemPath>tests/TestNoximHexagon.h</itemPath>
+        <itemPath>tests/newtestrunner.cpp</itemPath>
+      </logicalFolder>
+    </logicalFolder>
+  </logicalFolder>
+  <sourceRootList>
+    <Elem>src</Elem>
+    <Elem>other</Elem>
+  </sourceRootList>
+  <projectmakefile>noxim-3d-honeycomb-Makefile.mk</projectmakefile>
+  <confs>
+    <conf name="Default" type="0">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <compilerSet>GNU|GNU</compilerSet>
+        <platform>2</platform>
+      </toolsSet>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>bin</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>bin/noxim</executablePath>
+          <ccTool>
+            <incDir>
+              <pElem>../../dev/systemc-2.2.0/include</pElem>
+              <pElem>other</pElem>
+              <pElem>src</pElem>
+            </incDir>
+          </ccTool>
+        </makeTool>
+      </makefileType>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>CppUnit</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+        </linkerTool>
+      </folder>
+    </conf>
+  </confs>
+</configurationDescriptor>
