@@ -14,6 +14,7 @@
 void NoximHMRouter::rxProcess() {
 	cout << "rxProcess()" << endl;
 	if (reset.read()) {
+		cout << "reset.read()" << endl;
 		// Clear outputs and indexes of receiving protocol
 		for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
 			ack_rx[i].write(0);

@@ -14,7 +14,6 @@ using namespace TestSuite;
  #ifndef MAIN
  #define MAIN
 
-//int main()
 int sc_main(int argc, char* argv[])
 {
     Suite suite("Noxim Honeycomb Test");

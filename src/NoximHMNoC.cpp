@@ -75,15 +75,15 @@ void NoximHMNoC::buildHoneycombMesh()
 //
 //    }
 
-    // dummy NoximNoP_data structure
-    NoximNoP_data tmp_NoP;
-
-    tmp_NoP.sender_id = NOT_VALID;
-
-    for (int i = 0; i < DIRECTIONS_HM; i++) {
-        tmp_NoP.channel_status_neighbor[i].free_slots = NOT_VALID;
-        tmp_NoP.channel_status_neighbor[i].available = false;
-    }
+//    // dummy NoximNoP_data structure
+//    NoximNoP_data tmp_NoP;
+//
+//    tmp_NoP.sender_id = NOT_VALID;
+//
+//    for (int i = 0; i < DIRECTIONS_HM; i++) {
+//        tmp_NoP.channel_status_neighbor[i].free_slots = NOT_VALID;
+//        tmp_NoP.channel_status_neighbor[i].available = false;
+//    }
 
     //Initilize signals on tile
 	for (int x = -MAX_ABSOLUTE_COORD_VALUE; x < MAX_ABSOLUTE_COORD_VALUE + 1; x++) {
@@ -100,10 +100,11 @@ void NoximHMNoC::buildHoneycombMesh()
 					sc_signal<bool> nullBool;
 					sc_signal<NoximFlit> nullFlit;
 					sc_signal<int> nullInt;
-					sc_signal<NoximNoP_data> nullNoP;
 
-					nullInt.write(NOT_VALID);
-					nullNoP.write(tmp_NoP);
+//					sc_signal<NoximNoP_data> nullNoP;
+//
+//					nullInt.write(NOT_VALID);
+//					nullNoP.write(tmp_NoP);
 
 					tile->flit_rx[i](nullFlit);
 					tile->req_rx[i](nullBool);
@@ -141,7 +142,7 @@ void NoximHMNoC::buildHoneycombMesh()
                 cout << "building signals for tile at (" << x << ", " << y << ", " << z << "):" << endl;
 
                 const int MESH_SIZE = NoximGlobalParams::honeycomb_mesh_size;
-                //FIXME this won't work, e.g. when
+                //FIXME this won't work, e.g. when some value is negative some is positive
                 const int id = x * MESH_SIZE * MESH_SIZE + y * MESH_SIZE + z;
 
                 // Tell to the router its coordinates
