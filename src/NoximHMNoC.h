@@ -86,9 +86,6 @@ SC_MODULE(NoximHMNoC)
     sc_signal <NoximNoP_data> NoP_data_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <NoximNoP_data> NoP_data_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-    // 3-dimensional tile array for 2D honeycomb mesh
-//    NoximHMTile *a[MAX_STATIC_DIM][MAX_STATIC_DIM][MAX_STATIC_DIM];
-
     // Global tables
     NoximGlobalRoutingTable grtable;
     NoximGlobalTrafficTable gttable;

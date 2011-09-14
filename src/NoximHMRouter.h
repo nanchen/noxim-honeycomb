@@ -18,6 +18,7 @@
 #include "NoximGlobalRoutingTable.h"
 #include "NoximLocalRoutingTable.h"
 #include "NoximReservationTable.h"
+
 using namespace std;
 
 extern unsigned int drained_volume;
@@ -28,16 +29,16 @@ SC_MODULE(NoximHMRouter) {
 	sc_in_clk clock; // The input clock for the router
 	sc_in<bool> reset; // The reset signal for the router
 
-	sc_in<NoximFlit> flit_rx[DIRECTIONS_HM + 1]; // The input channels (including local one)
-	sc_in<bool> req_rx[DIRECTIONS_HM + 1]; // The requests associated with the input channels
-	sc_out<bool> ack_rx[DIRECTIONS_HM + 1]; // The outgoing ack signals associated with the input channels
+	sc_in<NoximFlit> flit_rx[DIRS + 1]; // The input channels (including local one)
+	sc_in<bool> req_rx[DIRS + 1]; // The requests associated with the input channels
+	sc_out<bool> ack_rx[DIRS + 1]; // The outgoing ack signals associated with the input channels
 
-	sc_out<NoximFlit> flit_tx[DIRECTIONS_HM + 1]; // The output channels (including local one)
-	sc_out<bool> req_tx[DIRECTIONS_HM + 1]; // The requests associated with the output channels
-	sc_in<bool> ack_tx[DIRECTIONS_HM + 1]; // The outgoing ack signals associated with the output channels
+	sc_out<NoximFlit> flit_tx[DIRS + 1]; // The output channels (including local one)
+	sc_out<bool> req_tx[DIRS + 1]; // The requests associated with the output channels
+	sc_in<bool> ack_tx[DIRS + 1]; // The outgoing ack signals associated with the output channels
 
-	sc_out<int> free_slots[DIRECTIONS_HM + 1];
-	sc_in<int> free_slots_neighbor[DIRECTIONS_HM + 1];
+	sc_out<int> free_slots[DIRS + 1];
+	sc_in<int> free_slots_neighbor[DIRS + 1];
 
 	// Neighbor-on-Path related I/O
 	//    sc_out < NoximNoP_data > NoP_data_out[DIRECTIONS_HM];
@@ -51,9 +52,9 @@ SC_MODULE(NoximHMRouter) {
 	int local_id; // Unique ID
 	int routing_type; // Type of routing algorithm
 	int selection_type;
-	NoximBuffer buffer[DIRECTIONS_HM + 1]; // Buffer for each input channel
-	bool current_level_rx[DIRECTIONS_HM + 1]; // Current level for Alternating Bit Protocol (ABP)
-	bool current_level_tx[DIRECTIONS_HM + 1]; // Current level for Alternating Bit Protocol (ABP)
+	NoximBuffer buffer[DIRS + 1]; // Buffer for each input channel
+	bool current_level_rx[DIRS + 1]; // Current level for Alternating Bit Protocol (ABP)
+	bool current_level_tx[DIRS + 1]; // Current level for Alternating Bit Protocol (ABP)
 	NoximStats stats; // Statistics
 	NoximLocalRoutingTable routing_table; // Routing table
 	NoximReservationTable reservation_table; // Switch reservation table

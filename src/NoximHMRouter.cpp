@@ -16,7 +16,7 @@ void NoximHMRouter::rxProcess() {
 	if (reset.read()) {
 		cout << "reset.read()" << endl;
 		// Clear outputs and indexes of receiving protocol
-		for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
+		for (int i = 0; i < DIRS + 1; i++) {
 			ack_rx[i].write(0);
 			current_level_rx[i] = 0;
 		}
@@ -29,7 +29,7 @@ void NoximHMRouter::rxProcess() {
 		// This process simply sees a flow of incoming flits. All arbitration
 		// and wormhole related issues are addressed in the txProcess()
 
-		for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
+		for (int i = 0; i < DIRS + 1; i++) {
 			// To accept a new flit, the following conditions must match:
 			//
 			// 1) there is an incoming request
@@ -63,14 +63,14 @@ void NoximHMRouter::txProcess() {
 	cout << "txProcess()" << endl;
 	if (reset.read()) {
 		// Clear outputs and indexes of transmitting protocol
-		for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
+		for (int i = 0; i < DIRS + 1; i++) {
 			req_tx[i].write(0);
 			current_level_tx[i] = 0;
 		}
 	} else {
 		// 1st phase: Reservation
-		for (int j = 0; j < DIRECTIONS_HM + 1; j++) {
-			int i = (start_from_port + j) % (DIRECTIONS_HM + 1);
+		for (int j = 0; j < DIRS + 1; j++) {
+			int i = (start_from_port + j) % (DIRS + 1);
 
 			if (!buffer[i].IsEmpty()) {
 				NoximFlit flit = buffer[i].Front();
@@ -101,7 +101,7 @@ void NoximHMRouter::txProcess() {
 		start_from_port++;
 
 		// 2nd phase: Forwarding
-		for (int i = 0; i < DIRECTIONS_HM + 1; i++) {
+		for (int i = 0; i < DIRS + 1; i++) {
 			if (!buffer[i].IsEmpty()) {
 				NoximFlit flit = buffer[i].Front();
 
@@ -168,7 +168,7 @@ void NoximHMRouter::txProcess() {
 
 void NoximHMRouter::bufferMonitor() {
 	if (reset.read()) {
-		for (int i = 0; i < DIRECTIONS_HM + 1; i++)
+		for (int i = 0; i < DIRS + 1; i++)
 			free_slots[i].write(buffer[i].GetMaxBufferSize());
 	} else {
 
@@ -176,7 +176,7 @@ void NoximHMRouter::bufferMonitor() {
 				|| NoximGlobalParams::selection_strategy == SEL_NOP) {
 
 			// update current input buffers level to neighbors
-			for (int i = 0; i < DIRECTIONS_HM + 1; i++)
+			for (int i = 0; i < DIRS + 1; i++)
 				free_slots[i].write(buffer[i].getCurrentFreeSlots());
 
 			//	    // NoP selection: send neighbor info to each direction 'i'
@@ -720,12 +720,12 @@ void NoximHMRouter::configure(const int _id, const double _warm_up_time,
 	//    local_id = _id;
 	//    stats.configure(_id, _warm_up_time);
 
-	start_from_port = DIRECTION_HM_LOCAL;
+	start_from_port = DIR_LOCAL;
 
 	//    if (grt.isValid())
 	//	routing_table.configure(grt, _id);
 
-	for (int i = 0; i < DIRECTIONS_HM + 1; i++)
+	for (int i = 0; i < DIRS + 1; i++)
 		buffer[i].SetMaxBufferSize(_max_buffer_size);
 }
 
@@ -736,7 +736,7 @@ unsigned long NoximHMRouter::getRoutedFlits() {
 unsigned int NoximHMRouter::getFlitsCount() {
 	unsigned count = 0;
 
-	for (int i = 0; i < DIRECTIONS_HM + 1; i++)
+	for (int i = 0; i < DIRS + 1; i++)
 		count += buffer[i].Size();
 
 	return count;
@@ -800,7 +800,7 @@ int NoximHMRouter::getNeighborId(int _id, int direction) const {
 }
 
 bool NoximHMRouter::inCongestion() {
-	for (int i = 0; i < DIRECTIONS_HM; i++) {
+	for (int i = 0; i < DIRS; i++) {
 		int flits = NoximGlobalParams::buffer_depth - free_slots_neighbor[i];
 		if (flits > (int) (NoximGlobalParams::buffer_depth
 				* NoximGlobalParams::dyad_threshold))

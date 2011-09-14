@@ -24,20 +24,20 @@ SC_MODULE(NoximHMTile) {
 	sc_in_clk clock; // The input clock for the tile  0
 	sc_in<bool> reset; // The reset signal for the tile 1
 
-	sc_in<NoximFlit> flit_rx[DIRECTIONS_HM]; // The input channels 2-7
-	sc_in<bool> req_rx[DIRECTIONS_HM]; // The requests associated with the input channels 3-13
-	sc_out<bool> ack_rx[DIRECTIONS_HM]; // The outgoing ack signals associated with the input channels 14-19
+	sc_in<NoximFlit> flit_rx[DIRS]; // The input channels 2-7
+	sc_in<bool> req_rx[DIRS]; // The requests associated with the input channels 3-13
+	sc_out<bool> ack_rx[DIRS]; // The outgoing ack signals associated with the input channels 14-19
 
-	sc_out<NoximFlit> flit_tx[DIRECTIONS_HM]; // The output channels 20-25
-	sc_out<bool> req_tx[DIRECTIONS_HM]; // The requests associated with the output channels 26-31
-	sc_in<bool> ack_tx[DIRECTIONS_HM]; // The outgoing ack signals associated with the output channels 32-37
+	sc_out<NoximFlit> flit_tx[DIRS]; // The output channels 20-25
+	sc_out<bool> req_tx[DIRS]; // The requests associated with the output channels 26-31
+	sc_in<bool> ack_tx[DIRS]; // The outgoing ack signals associated with the output channels 32-37
 
-	sc_out<int> free_slots[DIRECTIONS_HM]; //38-43
-	sc_in<int> free_slots_neighbor[DIRECTIONS_HM]; //44-49
+	sc_out<int> free_slots[DIRS]; //38-43
+	sc_in<int> free_slots_neighbor[DIRS]; //44-49
 
 	// NoP related I/O
-//	sc_out<NoximNoP_data> NoP_data_out[DIRECTIONS_HM]; //50-55
-//	sc_in<NoximNoP_data> NoP_data_in[DIRECTIONS_HM]; //56-61
+//	sc_out<NoximNoP_data> NoP_data_out[DIRS]; //50-55
+//	sc_in<NoximNoP_data> NoP_data_in[DIRS]; //56-61
 
 	// Signals
 	sc_signal<NoximFlit> flit_rx_local; // The input channels
@@ -92,7 +92,7 @@ SC_MODULE(NoximHMTile) {
 		r = new NoximHMRouter("Router");
 		r->clock(clock);
 		r->reset(reset);
-		for (int i = 0; i < DIRECTIONS_HM; i++) {
+		for (int i = 0; i < DIRS; i++) {
 			r->flit_rx[i](flit_rx[i]);
 			r->req_rx[i](req_rx[i]);
 			r->ack_rx[i](ack_rx[i]);
@@ -109,16 +109,16 @@ SC_MODULE(NoximHMTile) {
 //			r->NoP_data_in[i](NoP_data_in[i]);
 		}
 
-		r->flit_rx[DIRECTION_HM_LOCAL](flit_tx_local);
-		r->req_rx[DIRECTION_HM_LOCAL](req_tx_local);
-		r->ack_rx[DIRECTION_HM_LOCAL](ack_tx_local);
+		r->flit_rx[DIR_LOCAL](flit_tx_local);
+		r->req_rx[DIR_LOCAL](req_tx_local);
+		r->ack_rx[DIR_LOCAL](ack_tx_local);
 
-		r->flit_tx[DIRECTION_HM_LOCAL](flit_rx_local);
-		r->req_tx[DIRECTION_HM_LOCAL](req_rx_local);
-		r->ack_tx[DIRECTION_HM_LOCAL](ack_rx_local);
+		r->flit_tx[DIR_LOCAL](flit_rx_local);
+		r->req_tx[DIR_LOCAL](req_rx_local);
+		r->ack_tx[DIR_LOCAL](ack_rx_local);
 
-		r->free_slots[DIRECTION_HM_LOCAL](free_slots_local);
-		r->free_slots_neighbor[DIRECTION_HM_LOCAL](free_slots_neighbor_local);
+		r->free_slots[DIR_LOCAL](free_slots_local);
+		r->free_slots_neighbor[DIR_LOCAL](free_slots_neighbor_local);
 
 		// Processing Element pin assignments
 		pe = new NoximProcessingElement("ProcessingElement");

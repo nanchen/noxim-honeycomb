@@ -37,6 +37,14 @@ using namespace std;
 #define DIRECTION_MZ           5
 #define DIRECTION_HM_LOCAL     6
 
+// directions for 1 tile
+#define DIRS		3
+#define DIR_X		0
+#define DIR_Y		1
+#define DIR_Z		2
+#define DIR_LOCAL	3
+
+
 // Generic not reserved resource
 #define NOT_RESERVED          -2
 

@@ -113,7 +113,7 @@ int sc_main(int arg_num, char *arg_vet[]) {
 	// time(NULL));
 	//TODO comment out because of "Error: (E109) complete binding failed: 2 binds exceeds maximum of 1 allowed: port 'NoC.Tile[01][01][00].port_47' (sc_in)
 	//    In file: ../../../../src/sysc/communication/sc_port.cpp:265"
-	//  sc_start(DEFAULT_RESET_TIME, SC_NS);
+    sc_start(DEFAULT_RESET_TIME, SC_NS);
 	reset.write(0);
 	//cout << " done! Now running for " << NoximGlobalParams::simulation_time << " cycles..." << endl;
 	//sc_start(NoximGlobalParams::simulation_time, SC_NS);
