@@ -49,21 +49,25 @@ void NoximBuffer::Push(const NoximFlit & flit) {
 
 NoximFlit NoximBuffer::Pop() {
 	NoximFlit f;
+
 	if (IsEmpty())
 		Empty();
 	else {
 		f = buffer.front();
 		buffer.pop();
 	}
+
 	return f;
 }
 
 NoximFlit NoximBuffer::Front() const {
 	NoximFlit f;
+
 	if (IsEmpty())
 		Empty();
 	else
 		f = buffer.front();
+
 	return f;
 }
 
