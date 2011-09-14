@@ -10,7 +10,6 @@
 
 #include "NoximMain.h"
 #include "NoximHMNoC.h"
-#include "NoximNoC.h"
 #include "NoximHMGlobalStats.h"
 #include "NoximCmdLineParser.h"
 using namespace std;
@@ -53,7 +52,7 @@ int NoximGlobalParams::honeycomb_mesh_size = DEFAULT_HONEYCOMB_MESH_SIZE;
 #ifndef MAIN
 #define MAIN
 
-int sc_main1(int arg_num, char *arg_vet[]) {
+int sc_main(int arg_num, char *arg_vet[]) {
 	// TEMP
 	drained_volume = 0;
 
