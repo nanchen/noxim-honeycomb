@@ -24,16 +24,16 @@ SC_MODULE(NoximHMTile) {
 	sc_in_clk clock; // The input clock for the tile  0
 	sc_in<bool> reset; // The reset signal for the tile 1
 
-	sc_in<NoximFlit> flit_rx[DIRS]; // The input channels 2-7
-	sc_in<bool> req_rx[DIRS]; // The requests associated with the input channels 3-13
-	sc_out<bool> ack_rx[DIRS]; // The outgoing ack signals associated with the input channels 14-19
+	sc_in<NoximFlit> flit_rx[DIRS]; // The input channels 2-4
+	sc_in<bool> req_rx[DIRS]; // The requests associated with the input channels 5-7
+	sc_out<bool> ack_rx[DIRS]; // The outgoing ack signals associated with the input channels 8-10
 
-	sc_out<NoximFlit> flit_tx[DIRS]; // The output channels 20-25
-	sc_out<bool> req_tx[DIRS]; // The requests associated with the output channels 26-31
-	sc_in<bool> ack_tx[DIRS]; // The outgoing ack signals associated with the output channels 32-37
+	sc_out<NoximFlit> flit_tx[DIRS]; // The output channels 11-13
+	sc_out<bool> req_tx[DIRS]; // The requests associated with the output channels 14-16
+	sc_in<bool> ack_tx[DIRS]; // The outgoing ack signals associated with the output channels 17-19
 
-	sc_out<int> free_slots[DIRS]; //38-43
-	sc_in<int> free_slots_neighbor[DIRS]; //44-49
+	sc_out<int> free_slots[DIRS]; //20-22
+	sc_in<int> free_slots_neighbor[DIRS]; //23-25
 
 	// NoP related I/O
 //	sc_out<NoximNoP_data> NoP_data_out[DIRS]; //50-55

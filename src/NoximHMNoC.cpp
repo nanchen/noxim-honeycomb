@@ -85,47 +85,49 @@ void NoximHMNoC::buildHoneycombMesh()
 //        tmp_NoP.channel_status_neighbor[i].available = false;
 //    }
 
-    //Initilize signals on tile
-	for (int x = -MAX_ABSOLUTE_COORD_VALUE; x < MAX_ABSOLUTE_COORD_VALUE + 1; x++) {
-		for (int y = -MAX_ABSOLUTE_COORD_VALUE; y < MAX_ABSOLUTE_COORD_VALUE+ 1; y++) {
-			for (int z = -MAX_ABSOLUTE_COORD_VALUE; z< MAX_ABSOLUTE_COORD_VALUE + 1; z++) {
-				NoximHMTile* tile = NULL;
-				tile = NoximHexagon::getTile(x, y, z);
-
-				// in case there is no tile at x, y, z
-				if (tile == NULL)
-					continue;
-
-				for (int i = 0; i < DIRS; i++) {
-					sc_signal<bool> nullBool;
-					sc_signal<NoximFlit> nullFlit;
-					sc_signal<int> nullInt;
-
-//					sc_signal<NoximNoP_data> nullNoP;
+//    //Initilize signals on tile
+//	for (int x = -MAX_ABSOLUTE_COORD_VALUE; x < MAX_ABSOLUTE_COORD_VALUE + 1; x++) {
+//		for (int y = -MAX_ABSOLUTE_COORD_VALUE; y < MAX_ABSOLUTE_COORD_VALUE+ 1; y++) {
+//			for (int z = -MAX_ABSOLUTE_COORD_VALUE; z< MAX_ABSOLUTE_COORD_VALUE + 1; z++) {
+//				NoximHMTile* tile = NULL;
+//				tile = NoximHexagon::getTile(x, y, z);
 //
-//					nullInt.write(NOT_VALID);
-//					nullNoP.write(tmp_NoP);
-
-					tile->flit_rx[i](nullFlit);
-					tile->req_rx[i](nullBool);
-					tile->ack_rx[i](nullBool);
-
-					tile->flit_tx[i](nullFlit);
-					tile->req_tx[i](nullBool);
-					tile->ack_tx[i](nullBool);
-
-//					tile->free_slots[i](nullInt);
-//					tile->free_slots_neighbor[i](nullInt);
+//				// in case there is no tile at x, y, z
+//				if (tile == NULL)
+//					continue;
+//
+//				for (int i = 0; i < DIRS; i++) {
+//					sc_signal<bool> nullBool;
+//					sc_signal<NoximFlit> nullFlit;
+//					sc_signal<int> nullInt;
+//					nullInt.write(5);
+//
+////					sc_signal<NoximNoP_data> nullNoP;
+////
+////					nullInt.write(NOT_VALID);
+////					nullNoP.write(tmp_NoP);
+//
+////					tile->flit_rx[i](nullFlit);
+////					tile->req_rx[i](nullBool);
+////					tile->ack_rx[i](nullBool);
+////
+////					tile->flit_tx[i](nullFlit);
+////					tile->req_tx[i](nullBool);
+////					tile->ack_tx[i](nullBool);
+//
+////					tile->free_slots[i](nullInt);
+////					tile->free_slots_neighbor[i](nullInt);
+//
 //					invalid_free_slots[x+OFFSET][y+OFFSET][z+OFFSET][i].write(NOT_VALID);
 //					tile->free_slots_neighbor[i](invalid_free_slots[x+OFFSET][y+OFFSET][z+OFFSET][i]);
-//					tile->free_slots_neighbor[i] (free_slots_to_mx[OFFSET][OFFSET][OFFSET]);
-
-//					tile->NoP_data_in[i](nullNoP);
-//					tile->NoP_data_out[i](nullNoP);
-				}
-			}
-		}
-	}
+////					tile->free_slots_neighbor[i] (free_slots_to_mx[OFFSET][OFFSET][OFFSET]);
+//
+////					tile->NoP_data_in[i](nullNoP);
+////					tile->NoP_data_out[i](nullNoP);
+//				}
+//			}
+//		}
+//	}
 
 
     // Iterate over the tile array
