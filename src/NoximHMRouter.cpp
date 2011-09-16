@@ -76,7 +76,7 @@ void NoximHMRouter::txProcess() {
 				NoximFlit flit = buffer[i].Front();
 
 				if (flit.flit_type == FLIT_TYPE_HEAD) {
-					// prepare data for routing
+					// prepare data for routing  TODO resolve id issue
 					NoximRouteData route_data;
 					route_data.current_id = local_id;
 					route_data.src_id = flit.src_id;
@@ -765,39 +765,39 @@ int NoximHMRouter::reflexDirection(int direction) const {
 	return NOT_VALID;
 }
 
-int NoximHMRouter::getNeighborId(int _id, int direction) const {
-	NoximCoord my_coord = id2Coord(_id);
-
-	switch (direction) {
-	case DIRECTION_NORTH:
-		if (my_coord.y == 0)
-			return NOT_VALID;
-		my_coord.y--;
-		break;
-	case DIRECTION_SOUTH:
-		if (my_coord.y == NoximGlobalParams::mesh_dim_y - 1)
-			return NOT_VALID;
-		my_coord.y++;
-		break;
-	case DIRECTION_EAST:
-		if (my_coord.x == NoximGlobalParams::mesh_dim_x - 1)
-			return NOT_VALID;
-		my_coord.x++;
-		break;
-	case DIRECTION_WEST:
-		if (my_coord.x == 0)
-			return NOT_VALID;
-		my_coord.x--;
-		break;
-	default:
-		cout << "direction not valid : " << direction;
-		assert(false);
-	}
-
-	int neighbor_id = coord2Id(my_coord);
-
-	return neighbor_id;
-}
+//int NoximHMRouter::getNeighborId(int _id, int direction) const {
+//	NoximCoord my_coord = id2Coord(_id);
+//
+//	switch (direction) {
+//	case DIRECTION_NORTH:
+//		if (my_coord.y == 0)
+//			return NOT_VALID;
+//		my_coord.y--;
+//		break;
+//	case DIRECTION_SOUTH:
+//		if (my_coord.y == NoximGlobalParams::mesh_dim_y - 1)
+//			return NOT_VALID;
+//		my_coord.y++;
+//		break;
+//	case DIRECTION_EAST:
+//		if (my_coord.x == NoximGlobalParams::mesh_dim_x - 1)
+//			return NOT_VALID;
+//		my_coord.x++;
+//		break;
+//	case DIRECTION_WEST:
+//		if (my_coord.x == 0)
+//			return NOT_VALID;
+//		my_coord.x--;
+//		break;
+//	default:
+//		cout << "direction not valid : " << direction;
+//		assert(false);
+//	}
+//
+//	int neighbor_id = coord2Id(my_coord);
+//
+//	return neighbor_id;
+//}
 
 bool NoximHMRouter::inCongestion() {
 	for (int i = 0; i < DIRS; i++) {

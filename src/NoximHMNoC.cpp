@@ -223,6 +223,7 @@ void NoximHMNoC::buildHoneycombMesh()
                     tile->free_slots[DIR_Z](free_slots_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
 //                    tile->NoP_data_out[DIRECTION_PZ](NoP_data_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
                 }
+
                 else if(tile->getType() == NoximHMTile::NEGATIVE){
 
                 	tile->req_rx[DIR_X] (req_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
