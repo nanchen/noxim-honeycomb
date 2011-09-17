@@ -15,6 +15,7 @@ private:
     void testCreateNeighbor();
     void testBuildHexagonTree();
     void testTileType();
+    void testIdAndCoord();
 
 };
 

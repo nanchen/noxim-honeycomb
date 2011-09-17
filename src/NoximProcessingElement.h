@@ -47,23 +47,23 @@ SC_MODULE(NoximProcessingElement)
     bool canShot(NoximPacket & packet);	// True when the packet must be shot
     NoximFlit nextFlit();	// Take the next flit of the current packet
     NoximPacket trafficRandom();	// Random destination distribution
-    NoximPacket trafficTranspose1();	// Transpose 1 destination distribution
-    NoximPacket trafficTranspose2();	// Transpose 2 destination distribution
-    NoximPacket trafficBitReversal();	// Bit-reversal destination distribution
-    NoximPacket trafficShuffle();	// Shuffle destination distribution
-    NoximPacket trafficButterfly();	// Butterfly destination distribution
+//    NoximPacket trafficTranspose1();	// Transpose 1 destination distribution
+//    NoximPacket trafficTranspose2();	// Transpose 2 destination distribution
+//    NoximPacket trafficBitReversal();	// Bit-reversal destination distribution
+//    NoximPacket trafficShuffle();	// Shuffle destination distribution
+//    NoximPacket trafficButterfly();	// Butterfly destination distribution
 
 
     NoximGlobalTrafficTable *traffic_table;	// Reference to the Global traffic Table
     bool never_transmit;	// true if the PE does not transmit any packet 
     //  (valid only for the table based traffic)
 
-    void fixRanges(const NoximCoord, NoximCoord &);	// Fix the ranges of the destination
+//    void fixRanges(const NoximCoord, NoximCoord &);	// Fix the ranges of the destination
     int randInt(int min, int max);	// Extracts a random integer number between min and max
     int getRandomSize();	// Returns a random size in flits for the packet
-    void setBit(int &x, int w, int v);
-    int getBit(int x, int w);
-    double log2ceil(double x);
+//    void setBit(int &x, int w, int v);
+//    int getBit(int x, int w);
+//    double log2ceil(double x);
 
     // Constructor
     SC_CTOR(NoximProcessingElement) {

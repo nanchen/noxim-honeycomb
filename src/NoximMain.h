@@ -178,7 +178,7 @@ public:
 	}
 	char* toString() const {
 		char* ret = (char*) malloc(20 * sizeof(char));
-		sprintf(ret, "[%d,%d,%d]", x, y, z);
+		sprintf(ret, "(%d,%d,%d)", x, y, z);
 		return ret;
 	}
 };

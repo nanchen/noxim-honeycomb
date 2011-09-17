@@ -36,8 +36,8 @@ SC_MODULE(NoximHMTile) {
 	sc_in<int> free_slots_neighbor[DIRS]; //23-25
 
 	// NoP related I/O
-//	sc_out<NoximNoP_data> NoP_data_out[DIRS]; //50-55
-//	sc_in<NoximNoP_data> NoP_data_in[DIRS]; //56-61
+	//	sc_out<NoximNoP_data> NoP_data_out[DIRS]; //50-55
+	//	sc_in<NoximNoP_data> NoP_data_in[DIRS]; //56-61
 
 	// Signals
 	sc_signal<NoximFlit> flit_rx_local; // The input channels
@@ -59,17 +59,24 @@ SC_MODULE(NoximHMTile) {
 	NoximHMTile* nTile[DIRECTIONS_HM];
 
 	// coord
-	NoximHMCoord* coord;
+	NoximHMCoord getCoord() const{
+		return coord;
+	}
 	void setCoord(int x, int y, int z);
 
 	char* toString() const;
 
-	enum TileType { POSITIVE, NEGATIVE, UNDEFINED };
+	enum TileType {
+		POSITIVE, NEGATIVE, UNDEFINED
+	};
 
 	TileType type;
 
 	TileType getType() const;
 
+	unsigned int id;
+
+	unsigned int getId() const;
 
 	// Constructor
 
@@ -83,10 +90,7 @@ SC_MODULE(NoximHMTile) {
 			nTile[i] = NULL;
 
 		// init coord
-		coord = new NoximHMCoord;
-		coord->x = 0;
-		coord->y = 0;
-		coord->z = 0;
+		setCoord(0,0,0);
 
 		// Router pin assignments
 		r = new NoximHMRouter("Router");
@@ -105,8 +109,8 @@ SC_MODULE(NoximHMTile) {
 			r->free_slots_neighbor[i](free_slots_neighbor[i]);
 
 			// NoP
-//			r->NoP_data_out[i](NoP_data_out[i]);
-//			r->NoP_data_in[i](NoP_data_in[i]);
+			//			r->NoP_data_out[i](NoP_data_out[i]);
+			//			r->NoP_data_in[i](NoP_data_in[i]);
 		}
 
 		r->flit_rx[DIR_LOCAL](flit_tx_local);
@@ -122,6 +126,7 @@ SC_MODULE(NoximHMTile) {
 
 		// Processing Element pin assignments
 		pe = new NoximProcessingElement("ProcessingElement");
+		pe->local_id = getId();
 		pe->clock(clock);
 		pe->reset(reset);
 
@@ -136,6 +141,9 @@ SC_MODULE(NoximHMTile) {
 		pe->free_slots_neighbor(free_slots_neighbor_local);
 
 	}
+
+private:
+	NoximHMCoord coord;
 
 };
 

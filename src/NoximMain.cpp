@@ -111,11 +111,11 @@ int sc_main(int arg_num, char *arg_vet[]) {
 	cout << "Reset...";
 	srand(NoximGlobalParams::rnd_generator_seed);
 	// time(NULL));
-	sc_start(DEFAULT_RESET_TIME, SC_NS);
+//	sc_start(DEFAULT_RESET_TIME, SC_NS);
 	reset.write(0);
 	cout << " done! Now running for " << NoximGlobalParams::simulation_time
 			<< " cycles..." << endl;
-	sc_start(NoximGlobalParams::simulation_time, SC_NS);
+//	sc_start(NoximGlobalParams::simulation_time, SC_NS);
 
 	// Close the simulation
 	if (NoximGlobalParams::trace_mode)

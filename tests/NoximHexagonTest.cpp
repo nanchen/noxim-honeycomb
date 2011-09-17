@@ -7,6 +7,7 @@ void NoximHexagonTest::run(){
     testCreateNeighbor();
     testBuildHexagonTree();
     testTileType();
+    testIdAndCoord();
 }
 
 void NoximHexagonTest::testConstructor(){
@@ -72,5 +73,27 @@ void NoximHexagonTest::testTileType(){
     //my
     tile = NoximHexagon::getTile(1,0,1);
     test_(tile->getType() == NoximHMTile::NEGATIVE);
+
+}
+
+void NoximHexagonTest::testIdAndCoord(){
+//    std::cout <<" id = "<< NoximHexagon::getLatestId() << std::endl;
+    test_(NoximHexagon::getLatestId() == 5);
+    NoximHMCoord c(1,0,0);
+//    std::cout << "px id = " << NoximHexagon::coord2Id(c) << std::endl;
+    test_(NoximHexagon::coord2Id(c) == 0);
+    test_(NoximHexagon::coord2Id(NoximHMCoord(0,1,1))==1);
+    test_(NoximHexagon::coord2Id(NoximHMCoord(0,1,0))==2);
+    test_(NoximHexagon::coord2Id(NoximHMCoord(1,0,1))==3);
+    test_(NoximHexagon::coord2Id(NoximHMCoord(0,0,1))==4);
+    test_(NoximHexagon::coord2Id(NoximHMCoord(1,1,0))==5);
+
+//    std::cout << NoximHexagon::id2Coord(0).toString() << std::endl;
+    test_(NoximHexagon::id2Coord(0) == NoximHMCoord(1,0,0));
+    test_(NoximHexagon::id2Coord(1) == NoximHMCoord(0,1,1));
+    test_(NoximHexagon::id2Coord(2) == NoximHMCoord(0,1,0));
+    test_(NoximHexagon::id2Coord(3) == NoximHMCoord(1,0,1));
+    test_(NoximHexagon::id2Coord(4) == NoximHMCoord(0,0,1));
+    test_(NoximHexagon::id2Coord(5) == NoximHMCoord(1,1,0));
 
 }

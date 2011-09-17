@@ -238,7 +238,7 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 	stats.power.Routing();
 
 	if (route_data.dst_id == local_id)
-		return DIRECTION_LOCAL;
+		return DIR_LOCAL;
 
 	vector<int> candidate_channels = routingFunction(route_data);
 
@@ -646,7 +646,7 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 	}
 	// -x +z first
 	unsigned int count = 0;
-	while (t && t != dstTile && t->coord->x > dx || t->coord->z < dz) {
+	while (t && t != dstTile && t->getCoord().x > dx || t->getCoord().z < dz) {
 		count++;
 		if (count > 500) {
 			cerr << "loop detected!" << endl;
@@ -655,25 +655,25 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 
 		if (t->nTile[DIRECTION_MX] != NULL) {
 			directions.push_back(DIRECTION_MX);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MX);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_MX);
 			continue;
 		}
 
 		if (t->nTile[DIRECTION_PZ] != NULL) {
 			directions.push_back(DIRECTION_PZ);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PZ);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_PZ);
 			continue;
 		}
 
-		if (t->nTile[DIRECTION_PY] != NULL && t->coord->y < dy) {
+		if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
 			directions.push_back(DIRECTION_PY);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PY);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_PY);
 			continue;
 		}
 
-		if (t->nTile[DIRECTION_MY] != NULL && t->coord->y > dy) {
+		if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
 			directions.push_back(DIRECTION_MY);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MY);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_MY);
 			continue;
 		}
 	}
@@ -688,46 +688,49 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 			cerr << "loop detected!" << endl;
 			break;
 		}
-		if (t->nTile[DIRECTION_PY] != NULL && t->coord->y < dy) {
+		if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
 			directions.push_back(DIRECTION_PY);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PY);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_PY);
 			continue;
 		}
 
-		if (t->nTile[DIRECTION_MY] != NULL && t->coord->y > dy) {
+		if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
 			directions.push_back(DIRECTION_MY);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MY);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_MY);
 			continue;
 		}
 
-		if (t->nTile[DIRECTION_PX] != NULL && t->coord->x < dx) {
+		if (t->nTile[DIRECTION_PX] != NULL && t->getCoord().x < dx) {
 			directions.push_back(DIRECTION_PX);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_PX);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_PX);
 			continue;
 		}
 
-		if (t->nTile[DIRECTION_MZ] != NULL && t->coord->z > dz) {
+		if (t->nTile[DIRECTION_MZ] != NULL && t->getCoord().z > dz) {
 			directions.push_back(DIRECTION_MZ);
-			t = NoximHexagon::getNeighborTile(t->coord, DIRECTION_MZ);
+			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_MZ);
 			continue;
 		}
 	}
 	return directions;
 }
 
+
 void NoximHMRouter::configure(const int _id, const double _warm_up_time,
-		const unsigned int _max_buffer_size, NoximGlobalRoutingTable &grt) {
-	//    local_id = _id;
-	//    stats.configure(_id, _warm_up_time);
+		const unsigned int _max_buffer_size, NoximGlobalRoutingTable & grt) {
+	local_id = _id;
+	stats.configure(_id, _warm_up_time);
 
 	start_from_port = DIR_LOCAL;
 
-	//    if (grt.isValid())
-	//	routing_table.configure(grt, _id);
+	if (grt.isValid())
+		routing_table.configure(grt, _id);
 
 	for (int i = 0; i < DIRS + 1; i++)
 		buffer[i].SetMaxBufferSize(_max_buffer_size);
 }
+
+
 
 unsigned long NoximHMRouter::getRoutedFlits() {
 	return routed_flits;

@@ -23,69 +23,76 @@ extern "C" {
 
 using namespace std;
 
-class NoximHexagon{
+class NoximHexagon {
 
-//typedef NoximHexagon ElementType;
+	//typedef NoximHexagon ElementType;
 
 public:
-//    NoximHexagon(unsigned short level, string name);
-    NoximHexagon(unsigned short level, string name, NoximHexagon* creator, int x, int y, int z);
-    virtual ~NoximHexagon();
+	// -------------STATIC-----------------------------
+	static NoximHexagon* buildHexagonTree(int meshSize);
 
-    static NoximHexagon* buildHexagonTree(int meshSize);
+	static NoximHMTile* getTile(int x, int y, int z);
+	static NoximHMTile* getTile(const NoximHMCoord& c);
+	static void setTile(int x, int y, int z, NoximHMTile* tile);
 
-    static NoximHMTile* getTile(int x, int y, int z);
-    static NoximHMTile* getTile(NoximHMCoord* c);
-    static void setTile(int x, int y, int z, NoximHMTile* tile);
+	static NoximHMTile* getNeighborTile(int x, int y, int z, int direction);
+	static NoximHMTile* getNeighborTile(NoximHMCoord* c, int direction);
+	static NoximHMTile* getNeighborTile(NoximHMCoord c, int direction);
 
-    static NoximHMTile* getNeighborTile(int x, int y, int z, int direction);
-    static NoximHMTile* getNeighborTile(NoximHMCoord* c, int direction);
+	static int getLatestId();
+	static int coord2Id(const NoximHMCoord& c);
+	static NoximHMCoord id2Coord(int id);
+	// ------END-----STATIC----------------------------
 
-    NoximHexagon* createNeighbor(string name);
+	//    NoximHexagon(unsigned short level, string name);
+	NoximHexagon(unsigned short level, string name, NoximHexagon* creator,
+			int x, int y, int z);
+	virtual ~NoximHexagon();
 
-    void createTiles();
+	NoximHexagon* createNeighbor(string name);
 
-    string toString();
+	void createTiles();
 
-    void setCreator(NoximHexagon* creator);
-    NoximHexagon* getCreator() const;
-    void setName(string name);
-    string getName() const;
-    unsigned short getLevel() const;
-    void setLevel(unsigned short level);
-    void setCoord(int x, int y, int z);
-    NoximHMCoord getCoord(){return coord;}
+	string toString();
 
-    // link to neighbors
-    NoximHexagon* n0;
-    NoximHexagon* n1;
-    NoximHexagon* n2;
-    NoximHexagon* n3;
-    NoximHexagon* n4;
-    NoximHexagon* n5;
+	void setCreator(NoximHexagon* creator);
+	NoximHexagon* getCreator() const;
+	void setName(string name);
+	string getName() const;
+	unsigned short getLevel() const;
+	void setLevel(unsigned short level);
+	void setCoord(int x, int y, int z);
+	NoximHMCoord getCoord() {
+		return coord;
+	}
 
-        // 3-dimensional tile array for 2D honeycomb mesh
-    //static NoximHMTile *a[20][20][20];
+	// link to neighbors
+	NoximHexagon* n0;
+	NoximHexagon* n1;
+	NoximHexagon* n2;
+	NoximHexagon* n3;
+	NoximHexagon* n4;
+	NoximHexagon* n5;
 
 private:
-    unsigned short level;
-    string name;
-    // tiles as vertices
-    NoximHMTile* pxTile;
-    NoximHMTile* mxTile;
-    NoximHMTile* pyTile;
-    NoximHMTile* myTile;
-    NoximHMTile* pzTile;
-    NoximHMTile* mzTile;
+	unsigned short level;
+	string name;
+	// tiles as vertices
+	NoximHMTile* pxTile;
+	NoximHMTile* mxTile;
+	NoximHMTile* pyTile;
+	NoximHMTile* myTile;
+	NoximHMTile* pzTile;
+	NoximHMTile* mzTile;
 
-    // link to creator
-    NoximHexagon* creator;
+	// link to creator
+	NoximHexagon* creator;
 
-    // coordinate
-    NoximHMCoord coord;
+	// coordinate
+	NoximHMCoord coord;
 
-    // GUI
-    //NoximGuiManager* guiManager;
+	// GUI
+	//NoximGuiManager* guiManager;
 
 };
 

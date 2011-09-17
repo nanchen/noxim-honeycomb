@@ -11,11 +11,9 @@
 
 #include "NoximHMNoC.h"
 
-extern "C"{
+extern "C" {
 #include "queue.h"
 }
-
-using namespace std;
 
 static const int OFFSET = 10;
 
@@ -137,22 +135,18 @@ void NoximHMNoC::buildHoneycombMesh()
                 if(tile == NULL)
                     continue;
 
-                cout << "building signals for tile at (" << x << ", " << y << ", " << z << "):" << endl;
+                cout << "building signals for " << tile->toString() << endl;
 
-                const int MESH_SIZE = NoximGlobalParams::honeycomb_mesh_size;
-                //FIXME this won't work, e.g. when some value is negative some is positive
-                const int id = x * MESH_SIZE * MESH_SIZE + y * MESH_SIZE + z;
+                // Tell to the router its id
+				int id = tile->getId();
+				tile->r->configure(id, NoximGlobalParams::stats_warm_up_time,
+						NoximGlobalParams::buffer_depth, grtable);
 
-                // Tell to the router its coordinates
-                tile->r->configure(id,
-                          NoximGlobalParams::stats_warm_up_time,
-                          NoximGlobalParams::buffer_depth,
-                          grtable);
-
-                // Tell to the PE its coordinates
-                tile->pe->local_id = id;
-                tile->pe->traffic_table = &gttable;	// Needed to choose destination
-                tile->pe->never_transmit = (gttable.occurrencesAsSource(tile->pe->local_id) == 0);
+				// Tell to the PE its coordinates
+				//                tile->pe->local_id = id;
+				tile->pe->traffic_table = &gttable; // Needed to choose destination
+				tile->pe->never_transmit = (gttable.occurrencesAsSource(
+						tile->pe->local_id) == 0);
 
                 // Map clock and reset
                 tile->clock(clock);
