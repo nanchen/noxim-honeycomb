@@ -7,18 +7,8 @@
  *
  * This file contains the implementation of the Network-on-Chip
  */
-#include <iostream>
-#include <string>
 
 #include "NoximNoC.h"
-
-void logSignal(const string dstSignal, int srcX, int srcY, const string srcSignal, int dstX, int dstY){
-    //cout << "t[" << srcX <<"]["<<srcY<<"]->"<< dstSignal << " = "<<srcSignal << "["<<dstX<<"]["<<dstY << "]" << endl;
-}
-
-void printCommonSignal(const string left, int x, int y, const string right, int i, int j){
-    cout << "["<<x<<"]["<<y<<"]->"<<left << " = ["<<i<<"]["<<j<<"]->"<<right << endl;
-}
 
 void NoximNoC::buildMesh()
 {
@@ -55,61 +45,37 @@ void NoximNoC::buildMesh()
 
 	    // Map Rx signals
 	    t[i][j]->req_rx[DIRECTION_NORTH] (req_to_south[i][j]);
-	    logSignal("req_rx[DIRECTION_NORTH]",i,j,"req_to_south",i,j);
 	    t[i][j]->flit_rx[DIRECTION_NORTH] (flit_to_south[i][j]);
-	    logSignal("flit_rx[DIRECTION_NORTH]",i,j,"flit_to_south",i,j);
 	    t[i][j]->ack_rx[DIRECTION_NORTH] (ack_to_north[i][j]);
-	    logSignal("ack_rx[DIRECTION_NORTH]",i,j,"ack_to_north",i,j);
 
 	    t[i][j]->req_rx[DIRECTION_EAST] (req_to_west[i + 1][j]);
-	    logSignal("req_rx[DIRECTION_EAST]",i,j,"req_to_west",i+1,j);
 	    t[i][j]->flit_rx[DIRECTION_EAST] (flit_to_west[i + 1][j]);
-        logSignal("flit_rx[DIRECTION_EAST]",i,j,"flit_to_west",i+1,j);
 	    t[i][j]->ack_rx[DIRECTION_EAST] (ack_to_east[i + 1][j]);
-	    logSignal("ack_rx[DIRECTION_EAST]",i,j,"ack_to_east",i+1,j);
 
 	    t[i][j]->req_rx[DIRECTION_SOUTH] (req_to_north[i][j + 1]);
-	    logSignal("req_rx[DIRECTION_SOUTH]",i,j,"req_to_north",i,j+1);
 	    t[i][j]->flit_rx[DIRECTION_SOUTH] (flit_to_north[i][j + 1]);
-   	    logSignal("flit_rx[DIRECTION_SOUTH]",i,j,"flit_to_north",i,j+1);
 	    t[i][j]->ack_rx[DIRECTION_SOUTH] (ack_to_south[i][j + 1]);
-	    logSignal("ack_rx[DIRECTION_SOUTH]",i,j,"ack_to_south",i,j+1);
 
 	    t[i][j]->req_rx[DIRECTION_WEST] (req_to_east[i][j]);
-	    logSignal("req_rx[DIRECTION_WEST]",i,j,"req_to_east",i,j);
 	    t[i][j]->flit_rx[DIRECTION_WEST] (flit_to_east[i][j]);
-	    logSignal("flit_rx[DIRECTION_WEST]",i,j,"flit_to_east",i,j);
 	    t[i][j]->ack_rx[DIRECTION_WEST] (ack_to_west[i][j]);
-	    logSignal("ack_rx[DIRECTION_WEST]",i,j,"ack_to_west",i,j);
 
 	    // Map Tx signals
 	    t[i][j]->req_tx[DIRECTION_NORTH] (req_to_north[i][j]);
-        logSignal("req_tx[DIRECTION_NORTH]",i,j,"req_to_north",i,j);
 	    t[i][j]->flit_tx[DIRECTION_NORTH] (flit_to_north[i][j]);
-        logSignal("flit_tx[DIRECTION_NORTH]",i,j,"flit_to_north",i,j);
 	    t[i][j]->ack_tx[DIRECTION_NORTH] (ack_to_south[i][j]);
-        logSignal("ack_tx[DIRECTION_NORTH]",i,j,"ack_to_south",i,j);
 
 	    t[i][j]->req_tx[DIRECTION_EAST] (req_to_east[i + 1][j]);
-        logSignal("req_tx[DIRECTION_EAST]",i,j,"req_to_east",i+1,j);
 	    t[i][j]->flit_tx[DIRECTION_EAST] (flit_to_east[i + 1][j]);
-	    logSignal("flit_tx[DIRECTION_EAST]",i,j,"flit_to_east",i+1,j);
 	    t[i][j]->ack_tx[DIRECTION_EAST] (ack_to_west[i + 1][j]);
-	    logSignal("ack_tx[DIRECTION_EAST]",i,j,"ack_to_west",i+1,j);
 
 	    t[i][j]->req_tx[DIRECTION_SOUTH] (req_to_south[i][j + 1]);
-	    logSignal("req_tx[DIRECTION_SOUTH]",i,j,"req_to_south",i,j+1);
 	    t[i][j]->flit_tx[DIRECTION_SOUTH] (flit_to_south[i][j + 1]);
-	    logSignal("flit_tx[DIRECTION_SOUTH]",i,j,"flit_to_south",i,j+1);
 	    t[i][j]->ack_tx[DIRECTION_SOUTH] (ack_to_north[i][j + 1]);
-	    logSignal("ack_tx[DIRECTION_SOUTH]",i,j,"ack_to_north",i,j+1);
 
 	    t[i][j]->req_tx[DIRECTION_WEST] (req_to_west[i][j]);
-	    logSignal("req_tx[DIRECTION_WEST]",i,j,"req_to_west",i,j);
 	    t[i][j]->flit_tx[DIRECTION_WEST] (flit_to_west[i][j]);
-	    logSignal("flit_tx[DIRECTION_WEST]",i,j,"flit_to_west",i,j);
 	    t[i][j]->ack_tx[DIRECTION_WEST] (ack_to_east[i][j]);
-	    logSignal("ack_tx[DIRECTION_WEST]",i,j,"ack_to_east",i,j);
 
 	    // Map buffer level signals (analogy with req_tx/rx port mapping)
 	    t[i][j]->free_slots[DIRECTION_NORTH] (free_slots_to_north[i][j]);
@@ -122,7 +88,7 @@ void NoximNoC::buildMesh()
 	    t[i][j]->free_slots_neighbor[DIRECTION_SOUTH] (free_slots_to_north[i][j + 1]);
 	    t[i][j]->free_slots_neighbor[DIRECTION_WEST] (free_slots_to_east[i][j]);
 
-	    // NoP
+	    // NoP 
 	    t[i][j]->NoP_data_out[DIRECTION_NORTH] (NoP_data_to_north[i][j]);
 	    t[i][j]->NoP_data_out[DIRECTION_EAST] (NoP_data_to_east[i + 1][j]);
 	    t[i][j]->NoP_data_out[DIRECTION_SOUTH] (NoP_data_to_south[i][j + 1]);
@@ -182,23 +148,6 @@ void NoximNoC::buildMesh()
     for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++) {
 	t[0][j]->r->reservation_table.invalidate(DIRECTION_WEST);
 	t[NoximGlobalParams::mesh_dim_x - 1][j]->r->reservation_table.invalidate(DIRECTION_EAST);
-    }
-
-    for(int x =0; x<NoximGlobalParams::mesh_dim_x;x++){
-        for(int y = 0; y<NoximGlobalParams::mesh_dim_y;y++){
-            for(int i=0;i<NoximGlobalParams::mesh_dim_x;i++){
-                for(int j=0;j<NoximGlobalParams::mesh_dim_y;j++){
-          /*
-                    NoximTile* tmpT = t[x][y];
-                    if((tmpT->req_rx[DIRECTION_NORTH]) == (t[i][j]->req_tx[DIRECTION_SOUTH])){
-                        cout << tmpT << endl;
-                        printCommonSignal("req_rx[NORTH]",x,y,"req_tx[SOUTH]", i,j);
-                    }
-           */
-
-                }
-            }
-        }
     }
 }
 

@@ -86,7 +86,7 @@ using namespace std;
 #define VERBOSE_HIGH           3
 
 // Default configuration can be overridden with command-line arguments
-#define DEFAULT_VERBOSE_MODE               VERBOSE_OFF
+#define DEFAULT_VERBOSE_MODE               VERBOSE_LOW
 #define DEFAULT_TRACE_MODE                       false
 #define DEFAULT_TRACE_FILENAME                      ""
 #define DEFAULT_MESH_DIM_X                           4
@@ -144,16 +144,16 @@ struct NoximGlobalParams {
 
 };
 
-// NoximCoord -- XY coordinates type of the Tile inside the Mesh
-class NoximCoord {
-public:
-	int x; // X coordinate
-	int y; // Y coordinate
-
-	inline bool operator ==(const NoximCoord & coord) const {
-		return (coord.x == x && coord.y == y);
-	}
-};
+//// NoximCoord -- XY coordinates type of the Tile inside the Mesh
+//class NoximCoord {
+//public:
+//	int x; // X coordinate
+//	int y; // Y coordinate
+//
+//	inline bool operator ==(const NoximCoord & coord) const {
+//		return (coord.x == x && coord.y == y);
+//	}
+//};
 
 // NoximHMCoord -- XYZ coordinates type of the Tile inside the Honeycomb Mesh
 class NoximHMCoord {
@@ -238,28 +238,28 @@ struct NoximChannelStatus {
 	;
 };
 
-// NoximNoP_data -- NoP Data definition
-struct NoximNoP_data {
-	int sender_id;
-	NoximChannelStatus channel_status_neighbor[DIRECTIONS_HM];
-
-	inline bool operator ==(const NoximNoP_data & nop_data) const {
-		return (sender_id == nop_data.sender_id
-				&& nop_data.channel_status_neighbor[0]
-						== channel_status_neighbor[0]
-				&& nop_data.channel_status_neighbor[1]
-						== channel_status_neighbor[1]
-				&& nop_data.channel_status_neighbor[2]
-						== channel_status_neighbor[2]
-				&& nop_data.channel_status_neighbor[3]
-						== channel_status_neighbor[3]
-				&& nop_data.channel_status_neighbor[4]
-						== channel_status_neighbor[4]
-				&& nop_data.channel_status_neighbor[5]
-						== channel_status_neighbor[5]);
-	}
-	;
-};
+//// NoximNoP_data -- NoP Data definition
+//struct NoximNoP_data {
+//	int sender_id;
+//	NoximChannelStatus channel_status_neighbor[DIRECTIONS_HM];
+//
+//	inline bool operator ==(const NoximNoP_data & nop_data) const {
+//		return (sender_id == nop_data.sender_id
+//				&& nop_data.channel_status_neighbor[0]
+//						== channel_status_neighbor[0]
+//				&& nop_data.channel_status_neighbor[1]
+//						== channel_status_neighbor[1]
+//				&& nop_data.channel_status_neighbor[2]
+//						== channel_status_neighbor[2]
+//				&& nop_data.channel_status_neighbor[3]
+//						== channel_status_neighbor[3]
+//				&& nop_data.channel_status_neighbor[4]
+//						== channel_status_neighbor[4]
+//				&& nop_data.channel_status_neighbor[5]
+//						== channel_status_neighbor[5]);
+//	}
+//	;
+//};
 
 // NoximFlit -- Flit definition
 struct NoximFlit {
@@ -335,21 +335,20 @@ inline ostream & operator <<(ostream & os, const NoximChannelStatus & status) {
 	return os;
 }
 
-inline ostream & operator <<(ostream & os, const NoximNoP_data & NoP_data) {
-	os << "      NoP data from [" << NoP_data.sender_id << "] [ ";
+//inline ostream & operator <<(ostream & os, const NoximNoP_data & NoP_data) {
+//	os << "      NoP data from [" << NoP_data.sender_id << "] [ ";
+//
+//	for (int j = 0; j < DIRECTIONS; j++)
+//		os << NoP_data.channel_status_neighbor[j] << " ";
+//
+//	cout << "]" << endl;
+//	return os;
+//}
 
-	for (int j = 0; j < DIRECTIONS; j++)
-		os << NoP_data.channel_status_neighbor[j] << " ";
-
-	cout << "]" << endl;
-	return os;
-}
-
-inline ostream & operator <<(ostream & os, const NoximCoord & coord) {
-	os << "(" << coord.x << "," << coord.y << ")";
-
-	return os;
-}
+//inline ostream & operator <<(ostream & os, const NoximHMCoord & coord) {
+//	os << coord.toString();
+//	return os;
+//}
 
 // Trace overloading
 
@@ -361,10 +360,10 @@ inline void sc_trace(sc_trace_file * &tf, const NoximFlit & flit, string & name)
 	sc_trace(tf, flit.hop_no, name + ".hop_no");
 }
 
-inline void sc_trace(sc_trace_file * &tf, const NoximNoP_data & NoP_data,
-		string & name) {
-	sc_trace(tf, NoP_data.sender_id, name + ".sender_id");
-}
+//inline void sc_trace(sc_trace_file * &tf, const NoximNoP_data & NoP_data,
+//		string & name) {
+//	sc_trace(tf, NoP_data.sender_id, name + ".sender_id");
+//}
 
 inline void sc_trace(sc_trace_file * &tf, const NoximChannelStatus & bs,
 		string & name) {
@@ -374,24 +373,24 @@ inline void sc_trace(sc_trace_file * &tf, const NoximChannelStatus & bs,
 
 // Misc common functions
 
-inline NoximCoord id2Coord(int id) {
-	NoximCoord coord;
-
-	coord.x = id % NoximGlobalParams::mesh_dim_x;
-	coord.y = id / NoximGlobalParams::mesh_dim_x;
-
-	assert(coord.x < NoximGlobalParams::mesh_dim_x);
-	assert(coord.y < NoximGlobalParams::mesh_dim_y);
-
-	return coord;
-}
-
-inline int coord2Id(const NoximCoord & coord) {
-	int id = (coord.y * NoximGlobalParams::mesh_dim_x) + coord.x;
-
-	assert(id < NoximGlobalParams::mesh_dim_x * NoximGlobalParams::mesh_dim_y);
-
-	return id;
-}
+//inline NoximCoord id2Coord(int id) {
+//	NoximCoord coord;
+//
+//	coord.x = id % NoximGlobalParams::mesh_dim_x;
+//	coord.y = id / NoximGlobalParams::mesh_dim_x;
+//
+//	assert(coord.x < NoximGlobalParams::mesh_dim_x);
+//	assert(coord.y < NoximGlobalParams::mesh_dim_y);
+//
+//	return coord;
+//}
+//
+//inline int coord2Id(const NoximCoord & coord) {
+//	int id = (coord.y * NoximGlobalParams::mesh_dim_x) + coord.x;
+//
+//	assert(id < NoximGlobalParams::mesh_dim_x * NoximGlobalParams::mesh_dim_y);
+//
+//	return id;
+//}
 
 #endif

@@ -79,12 +79,13 @@ SC_MODULE(NoximHMNoC)
 //    sc_signal <NoximNoP_data> NoP_data_to_west[MAX_STATIC_DIM][MAX_STATIC_DIM];
 //    sc_signal <NoximNoP_data> NoP_data_to_south[MAX_STATIC_DIM][MAX_STATIC_DIM];
 //    sc_signal <NoximNoP_data> NoP_data_to_north[MAX_STATIC_DIM][MAX_STATIC_DIM];
-    sc_signal <NoximNoP_data> NoP_data_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
-    sc_signal <NoximNoP_data> NoP_data_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
-    sc_signal <NoximNoP_data> NoP_data_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
-    sc_signal <NoximNoP_data> NoP_data_to_my[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
-    sc_signal <NoximNoP_data> NoP_data_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
-    sc_signal <NoximNoP_data> NoP_data_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+
+//    sc_signal <NoximNoP_data> NoP_data_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+//    sc_signal <NoximNoP_data> NoP_data_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+//    sc_signal <NoximNoP_data> NoP_data_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+//    sc_signal <NoximNoP_data> NoP_data_to_my[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+//    sc_signal <NoximNoP_data> NoP_data_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+//    sc_signal <NoximNoP_data> NoP_data_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
     // Global tables
     NoximGlobalRoutingTable grtable;

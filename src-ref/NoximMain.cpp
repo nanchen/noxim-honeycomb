@@ -100,8 +100,7 @@ int sc_main(int arg_num, char *arg_vet[]) {
 	// Reset the chip and run the simulation
 	reset.write(1);
 	cout << "Reset...";
-	srand(NoximGlobalParams::rnd_generator_seed); 
-    // time(NULL));
+	srand(NoximGlobalParams::rnd_generator_seed); // time(NULL));
 	sc_start(DEFAULT_RESET_TIME, SC_NS);
 	reset.write(0);
 	cout << " done! Now running for " << NoximGlobalParams::simulation_time

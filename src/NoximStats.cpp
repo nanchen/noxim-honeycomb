@@ -157,23 +157,23 @@ unsigned int NoximStats::getTotalCommunications()
 
 double NoximStats::getCommunicationEnergy(int src_id, int dst_id)
 {
-    // Assumptions: minimal path routing, constant packet size
-
-    NoximCoord src_coord = id2Coord(src_id);
-    NoximCoord dst_coord = id2Coord(dst_id);
-
-    int hops =
-	abs(src_coord.x - dst_coord.x) + abs(src_coord.y - dst_coord.y);
-
-    double energy =
-	hops * ((power.getPwrForward() +
-		 power.getPwrIncoming()) *
-		(NoximGlobalParams::min_packet_size +
-		 NoximGlobalParams::max_packet_size) / 2 +
-		power.getPwrRouting() + power.getPwrSelection()
-	);
-
-    return energy;
+//    // Assumptions: minimal path routing, constant packet size
+//
+//    NoximCoord src_coord = id2Coord(src_id);
+//    NoximCoord dst_coord = id2Coord(dst_id);
+//
+//    int hops =
+//	abs(src_coord.x - dst_coord.x) + abs(src_coord.y - dst_coord.y);
+//
+//    double energy =
+//	hops * ((power.getPwrForward() +
+//		 power.getPwrIncoming()) *
+//		(NoximGlobalParams::min_packet_size +
+//		 NoximGlobalParams::max_packet_size) / 2 +
+//		power.getPwrRouting() + power.getPwrSelection()
+//	);
+//
+//    return energy;
 }
 
 int NoximStats::searchCommHistory(int src_id)

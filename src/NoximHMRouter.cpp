@@ -189,13 +189,13 @@ void NoximHMRouter::bufferMonitor() {
 }
 
 vector<int> NoximHMRouter::routingFunction(const NoximRouteData & route_data) {
-	NoximCoord position = id2Coord(route_data.current_id);
-	NoximCoord src_coord = id2Coord(route_data.src_id);
-	NoximCoord dst_coord = id2Coord(route_data.dst_id);
-	int dir_in = route_data.dir_in;
+	//	NoximCoord position = id2Coord(route_data.current_id);
+	//	NoximCoord src_coord = id2Coord(route_data.src_id);
+	//	NoximCoord dst_coord = id2Coord(route_data.dst_id);
 
-	NoximHMCoord hmPosition;
-	NoximHMCoord hmDstCoord;
+	int dir_in = route_data.dir_in;
+	NoximHMCoord hmPosition = NoximHexagon::id2Coord(route_data.current_id);
+	NoximHMCoord hmDstCoord = NoximHexagon::id2Coord(route_data.dst_id);
 
 	switch (NoximGlobalParams::routing_algorithm) {
 
@@ -715,22 +715,20 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 	return directions;
 }
 
-
 void NoximHMRouter::configure(const int _id, const double _warm_up_time,
 		const unsigned int _max_buffer_size, NoximGlobalRoutingTable & grt) {
 	local_id = _id;
 	stats.configure(_id, _warm_up_time);
 
 	start_from_port = DIR_LOCAL;
-
-	if (grt.isValid())
-		routing_table.configure(grt, _id);
+	//TODO commented to workaround SEGMENTATION FAULT
+	//	cout << "gtr = " << grt.isValid() << endl;
+	//	if (grt.isValid())
+	//		routing_table.configure(grt, _id);
 
 	for (int i = 0; i < DIRS + 1; i++)
 		buffer[i].SetMaxBufferSize(_max_buffer_size);
 }
-
-
 
 unsigned long NoximHMRouter::getRoutedFlits() {
 	return routed_flits;

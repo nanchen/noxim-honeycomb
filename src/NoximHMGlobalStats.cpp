@@ -59,18 +59,18 @@ double NoximHMGlobalStats::getAverageDelay(const int src_id,
 double NoximHMGlobalStats::getMaxDelay()
 {
     double maxd = -1.0;
-
-    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	    NoximCoord coord;
-	    coord.x = x;
-	    coord.y = y;
-	    int node_id = coord2Id(coord);
-	    double d = getMaxDelay(node_id);
-	    if (d > maxd)
-		maxd = d;
-	}
-
+//
+//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
+//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
+//	    NoximCoord coord;
+//	    coord.x = x;
+//	    coord.y = y;
+//	    int node_id = coord2Id(coord);
+//	    double d = getMaxDelay(node_id);
+//	    if (d > maxd)
+//		maxd = d;
+//	}
+//
     return maxd;
 }
 
@@ -102,20 +102,20 @@ double NoximHMGlobalStats::getMaxDelay(const int src_id, const int dst_id)
 vector < vector < double > > NoximHMGlobalStats::getMaxDelayMtx()
 {
     vector < vector < double > > mtx;
-
-    mtx.resize(NoximGlobalParams::mesh_dim_y);
-    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	mtx[y].resize(NoximGlobalParams::mesh_dim_x);
-
-    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	    NoximCoord coord;
-	    coord.x = x;
-	    coord.y = y;
-	    int id = coord2Id(coord);
-	    mtx[y][x] = getMaxDelay(id);
-	}
-
+//
+//    mtx.resize(NoximGlobalParams::mesh_dim_y);
+//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
+//	mtx[y].resize(NoximGlobalParams::mesh_dim_x);
+//
+//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
+//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
+//	    NoximCoord coord;
+//	    coord.x = x;
+//	    coord.y = y;
+//	    int id = coord2Id(coord);
+//	    mtx[y][x] = getMaxDelay(id);
+//	}
+//
     return mtx;
 }
 
