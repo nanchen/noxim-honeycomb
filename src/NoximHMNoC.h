@@ -71,7 +71,7 @@ SC_MODULE(NoximHMNoC)
     sc_signal <int> free_slots_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-    sc_signal <int> invalid_free_slots[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][DIRECTIONS_HM];
+//    sc_signal <int> invalid_free_slots[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][DIRECTIONS_HM];
 
 
     // NoP

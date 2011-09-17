@@ -147,6 +147,7 @@ double NoximHMGlobalStats::getAverageThroughput() {
 unsigned int NoximHMGlobalStats::getReceivedPackets() {
 	unsigned int n = 0;
 	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+//		cout << "getReceivedPackets   " << NoximHexagon::getTile(i)->r->stats.getReceivedPackets() << endl;
 		n += NoximHexagon::getTile(i)->r->stats.getReceivedPackets();
 	}
 	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
@@ -217,7 +218,9 @@ vector<vector<unsigned long> > NoximHMGlobalStats::getRoutedFlitsMtx() {
 
 double NoximHMGlobalStats::getPower() {
 	double power = 0.0;
-
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		power += NoximHexagon::getTile(i)->r->getPower();
+	}
 	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
 	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++)
 	//	    power += noc->t[x][y]->r->getPower();

@@ -126,7 +126,7 @@ void NoximHMRouter::txProcess() {
 							reservation_table.release(o);
 
 						// Update stats
-						if (o == DIRECTION_LOCAL) {
+						if (o == DIR_LOCAL) {
 							stats.receivedFlit(
 									sc_time_stamp(). to_double() / 1000, flit);
 							if (NoximGlobalParams::max_volume_to_be_drained) {
@@ -138,7 +138,7 @@ void NoximHMRouter::txProcess() {
 									local_drained++;
 								}
 							}
-						} else if (i != DIRECTION_LOCAL) {
+						} else if (i != DIR_LOCAL) {
 							// Increment routed flits counter
 							routed_flits++;
 						}
@@ -241,12 +241,13 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 		return DIR_LOCAL;
 
 	vector<int> candidate_channels = routingFunction(route_data);
-	//TODO needed?
+	
 	if (candidate_channels.size() > 0){
 		int fullOutDir = candidate_channels[0];
 		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
 		return reducedOutDir;
 	}
+	//TODO needed?
 	else
 		return 0;
 	//	return selectionFunction(candidate_channels, route_data);
@@ -754,24 +755,24 @@ double NoximHMRouter::getPower() {
 	return stats.power.getPower();
 }
 
-int NoximHMRouter::reflexDirection(int direction) const {
-	if (direction == DIRECTION_PX)
-		return DIRECTION_MX;
-	if (direction == DIRECTION_MX)
-		return DIRECTION_PX;
-	if (direction == DIRECTION_PY)
-		return DIRECTION_MY;
-	if (direction == DIRECTION_MY)
-		return DIRECTION_PY;
-	if (direction == DIRECTION_PZ)
-		return DIRECTION_MZ;
-	if (direction == DIRECTION_MZ)
-		return DIRECTION_PZ;
-
-	// you shouldn't be here
-	assert(false);
-	return NOT_VALID;
-}
+//int NoximHMRouter::reflexDirection(int direction) const {
+//	if (direction == DIRECTION_PX)
+//		return DIRECTION_MX;
+//	if (direction == DIRECTION_MX)
+//		return DIRECTION_PX;
+//	if (direction == DIRECTION_PY)
+//		return DIRECTION_MY;
+//	if (direction == DIRECTION_MY)
+//		return DIRECTION_PY;
+//	if (direction == DIRECTION_PZ)
+//		return DIRECTION_MZ;
+//	if (direction == DIRECTION_MZ)
+//		return DIRECTION_PZ;
+//
+//	// you shouldn't be here
+//	assert(false);
+//	return NOT_VALID;
+//}
 
 //int NoximHMRouter::getNeighborId(int _id, int direction) const {
 //	NoximCoord my_coord = id2Coord(_id);
@@ -807,16 +808,16 @@ int NoximHMRouter::reflexDirection(int direction) const {
 //	return neighbor_id;
 //}
 
-bool NoximHMRouter::inCongestion() {
-	for (int i = 0; i < DIRS; i++) {
-		int flits = NoximGlobalParams::buffer_depth - free_slots_neighbor[i];
-		if (flits > (int) (NoximGlobalParams::buffer_depth
-				* NoximGlobalParams::dyad_threshold))
-			return true;
-	}
-
-	return false;
-}
+//bool NoximHMRouter::inCongestion() {
+//	for (int i = 0; i < DIRS; i++) {
+//		int flits = NoximGlobalParams::buffer_depth - free_slots_neighbor[i];
+//		if (flits > (int) (NoximGlobalParams::buffer_depth
+//				* NoximGlobalParams::dyad_threshold))
+//			return true;
+//	}
+//
+//	return false;
+//}
 
 string NoximHMRouter::toString() const {
 	char* ret = (char*) malloc(50 * sizeof(char));

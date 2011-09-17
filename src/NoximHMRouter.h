@@ -141,9 +141,9 @@ private:
 	//    NoximNoP_data getCurrentNoPData() const;
 	//    void NoP_report() const;
 	//    int NoPScore(const NoximNoP_data & nop_data, const vector <int> & nop_channels) const;
-	int reflexDirection(int direction) const;
-	int getNeighborId(int _id, int direction) const;
-	bool inCongestion();
+	//	int reflexDirection(int direction) const;
+	//	int getNeighborId(int _id, int direction) const;
+	//	bool inCongestion();
 
 public:
 
