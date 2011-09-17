@@ -138,12 +138,10 @@ void NoximHMNoC::buildHoneycombMesh()
                 cout << "building signals for " << tile->toString() << endl;
 
                 // Tell to the router its id
-				int id = tile->getId();
-				tile->r->configure(id, NoximGlobalParams::stats_warm_up_time,
+				tile->r->configure(tile->getId(), NoximGlobalParams::stats_warm_up_time,
 						NoximGlobalParams::buffer_depth, grtable);
 
 				// Tell to the PE its coordinates
-				//                tile->pe->local_id = id;
 				tile->pe->traffic_table = &gttable; // Needed to choose destination
 				tile->pe->never_transmit = (gttable.occurrencesAsSource(
 						tile->pe->local_id) == 0);

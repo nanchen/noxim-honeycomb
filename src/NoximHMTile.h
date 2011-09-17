@@ -64,19 +64,19 @@ SC_MODULE(NoximHMTile) {
 	}
 	void setCoord(int x, int y, int z);
 
-	char* toString() const;
-
+	// type
 	enum TileType {
 		POSITIVE, NEGATIVE, UNDEFINED
 	};
-
 	TileType type;
-
 	TileType getType() const;
 
-	unsigned int id;
+	// id
+	int id;
+	void setId(int aId);
+	int getId() const;
 
-	unsigned int getId() const;
+	char* toString() const;
 
 	// Constructor
 
@@ -89,11 +89,12 @@ SC_MODULE(NoximHMTile) {
 		for (int i = 0; i < DIRECTIONS_HM; i++)
 			nTile[i] = NULL;
 
-		// init coord
-		setCoord(0,0,0);
+//		// init coord
+//		setCoord(0,0,0);
 
 		// Router pin assignments
 		r = new NoximHMRouter("Router");
+		r->setCoord(getCoord());
 		r->clock(clock);
 		r->reset(reset);
 		for (int i = 0; i < DIRS; i++) {
@@ -126,7 +127,6 @@ SC_MODULE(NoximHMTile) {
 
 		// Processing Element pin assignments
 		pe = new NoximProcessingElement("ProcessingElement");
-		pe->local_id = getId();
 		pe->clock(clock);
 		pe->reset(reset);
 

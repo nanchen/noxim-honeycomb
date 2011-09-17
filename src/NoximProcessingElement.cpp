@@ -23,8 +23,8 @@ void NoximProcessingElement::rxProcess() {
 		if (req_rx.read() == 1 - current_level_rx) {
 			NoximFlit flit_tmp = flit_rx.read();
 			if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-				cout << sc_simulation_time() << ": ProcessingElement["
-						<< local_id << "] RECEIVING " << flit_tmp << endl;
+				cout << sc_simulation_time() << ": " << this->toString()
+						<< " RECEIVING " << flit_tmp << endl;
 			}
 			current_level_rx = 1 - current_level_rx; // Negate the old value for Alternating Bit Protocol (ABP)
 		}
@@ -50,9 +50,8 @@ void NoximProcessingElement::txProcess() {
 			if (!packet_queue.empty()) {
 				NoximFlit flit = nextFlit(); // Generate a new flit
 				if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-					cout << sc_time_stamp().to_double() / 1000
-							<< ": ProcessingElement[" << local_id
-							<< "] SENDING " << flit << endl;
+					cout << sc_time_stamp().to_double() / 1000 << ": "
+							<< this->toString() << " SENDING " << flit << endl;
 				}
 				flit_tx->write(flit); // Send the generated flit
 				current_level_tx = 1 - current_level_tx; // Negate the old value for Alternating Bit Protocol (ABP)
@@ -104,25 +103,25 @@ bool NoximProcessingElement::canShot(NoximPacket & packet) {
 				packet = trafficRandom();
 				break;
 
-//			case TRAFFIC_TRANSPOSE1:
-//				packet = trafficTranspose1();
-//				break;
-//
-//			case TRAFFIC_TRANSPOSE2:
-//				packet = trafficTranspose2();
-//				break;
-//
-//			case TRAFFIC_BIT_REVERSAL:
-//				packet = trafficBitReversal();
-//				break;
-//
-//			case TRAFFIC_SHUFFLE:
-//				packet = trafficShuffle();
-//				break;
-//
-//			case TRAFFIC_BUTTERFLY:
-//				packet = trafficButterfly();
-//				break;
+				//			case TRAFFIC_TRANSPOSE1:
+				//				packet = trafficTranspose1();
+				//				break;
+				//
+				//			case TRAFFIC_TRANSPOSE2:
+				//				packet = trafficTranspose2();
+				//				break;
+				//
+				//			case TRAFFIC_BIT_REVERSAL:
+				//				packet = trafficBitReversal();
+				//				break;
+				//
+				//			case TRAFFIC_SHUFFLE:
+				//				packet = trafficShuffle();
+				//				break;
+				//
+				//			case TRAFFIC_BUTTERFLY:
+				//				packet = trafficButterfly();
+				//				break;
 
 			default:
 				assert(false);
@@ -321,3 +320,10 @@ int NoximProcessingElement::getRandomSize() {
 	return randInt(NoximGlobalParams::min_packet_size,
 			NoximGlobalParams::max_packet_size);
 }
+string NoximProcessingElement::toString() const {
+	char* ret = (char*) malloc(50 * sizeof(char));
+	sprintf(ret, "PE[%d] at %s", local_id, coord.toString());
+	string strRet(ret);
+	return strRet;
+}
+

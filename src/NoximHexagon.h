@@ -33,6 +33,7 @@ public:
 
 	static NoximHMTile* getTile(int x, int y, int z);
 	static NoximHMTile* getTile(const NoximHMCoord& c);
+	static NoximHMTile* getTile(int id);
 	static void setTile(int x, int y, int z, NoximHMTile* tile);
 
 	static NoximHMTile* getNeighborTile(int x, int y, int z, int direction);
@@ -42,6 +43,8 @@ public:
 	static int getLatestId();
 	static int coord2Id(const NoximHMCoord& c);
 	static NoximHMCoord id2Coord(int id);
+
+	static int fullDir2ReducedDir(const int fullDir);
 	// ------END-----STATIC----------------------------
 
 	//    NoximHexagon(unsigned short level, string name);

@@ -44,11 +44,6 @@ SC_MODULE(NoximHMRouter) {
 	//    sc_out < NoximNoP_data > NoP_data_out[DIRECTIONS_HM];
 	//    sc_in < NoximNoP_data > NoP_data_in[DIRECTIONS_HM];
 
-	// Registers
-
-	// NoximCoord position;
-
-	// Router position inside the mesh
 	int local_id; // Unique ID
 	int routing_type; // Type of routing algorithm
 	int selection_type;
@@ -91,20 +86,32 @@ SC_MODULE(NoximHMRouter) {
 public:
 	vector<int> routingMinusXPlusZFirst(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
+	string toString() const;
+
+	NoximHMCoord getCoord() const {
+		return coord;
+	}
+	void setCoord(NoximHMCoord c) {
+		coord = c;
+	}
+	inline ostream & operator <<(ostream & os) {
+		os << toString();
+		return os;
+	}
 
 private:
 
 	// performs actual routing + selection
 	int route(const NoximRouteData & route_data);
 
-	// wrappers
-	int selectionFunction(const vector<int> &directions,
-			const NoximRouteData & route_data);
+	//	// wrappers
+	//	int selectionFunction(const vector<int> &directions,
+	//			const NoximRouteData & route_data);
 	vector<int> routingFunction(const NoximRouteData & route_data);
 
 	// selection strategies
-	int selectionRandom(const vector<int> & directions);
-	int selectionBufferLevel(const vector<int> & directions);
+	//	int selectionRandom(const vector<int> & directions);
+	//	int selectionBufferLevel(const vector<int> & directions);
 	//    int selectionNoP(const vector <int> & directions,
 	//		     const NoximRouteData & route_data);
 
@@ -141,6 +148,9 @@ private:
 public:
 
 	unsigned int local_drained;
+
+private:
+	NoximHMCoord coord;
 
 };
 

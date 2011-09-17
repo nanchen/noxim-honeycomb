@@ -8,13 +8,13 @@
  * This file contains the implementation of the router
  */
 
+#include <stdio.h>
 #include "NoximHMRouter.h"
 #include "NoximHexagon.h"
 
 void NoximHMRouter::rxProcess() {
-	cout << "rxProcess()" << endl;
+	//	cout << "rxProcess()" << endl;
 	if (reset.read()) {
-		cout << "reset.read()" << endl;
 		// Clear outputs and indexes of receiving protocol
 		for (int i = 0; i < DIRS + 1; i++) {
 			ack_rx[i].write(0);
@@ -40,8 +40,8 @@ void NoximHMRouter::rxProcess() {
 				NoximFlit received_flit = flit_rx[i].read();
 
 				if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-					cout << sc_time_stamp().to_double() / 1000 << ": Router["
-							<< local_id << "], Input[" << i
+					cout << sc_time_stamp().to_double() / 1000 << ": "
+							<< this->toString() << ", Input[" << i
 							<< "], Received flit: " << received_flit << endl;
 				}
 				// Store the incoming flit in the circular buffer
@@ -60,7 +60,7 @@ void NoximHMRouter::rxProcess() {
 }
 
 void NoximHMRouter::txProcess() {
-	cout << "txProcess()" << endl;
+	//	cout << "txProcess()" << endl;
 	if (reset.read()) {
 		// Clear outputs and indexes of transmitting protocol
 		for (int i = 0; i < DIRS + 1; i++) {
@@ -76,7 +76,7 @@ void NoximHMRouter::txProcess() {
 				NoximFlit flit = buffer[i].Front();
 
 				if (flit.flit_type == FLIT_TYPE_HEAD) {
-					// prepare data for routing  TODO resolve id issue
+					// prepare data for routing
 					NoximRouteData route_data;
 					route_data.current_id = local_id;
 					route_data.src_id = flit.src_id;
@@ -88,11 +88,11 @@ void NoximHMRouter::txProcess() {
 					if (reservation_table.isAvailable(o)) {
 						reservation_table.reserve(i, o);
 						if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-							cout << sc_time_stamp().to_double() / 1000
-									<< ": Router[" << local_id << "], Input["
-									<< i << "] (" << buffer[i]. Size()
-									<< " flits)" << ", reserved Output[" << o
-									<< "], flit: " << flit << endl;
+							cout << sc_time_stamp().to_double() / 1000 << ": "
+									<< this->toString() << ", Input[" << i
+									<< "] (" << buffer[i]. Size() << " flits)"
+									<< ", reserved Output[" << o << "], flit: "
+									<< flit << endl;
 						}
 					}
 				}
@@ -109,9 +109,9 @@ void NoximHMRouter::txProcess() {
 				if (o != NOT_RESERVED) {
 					if (current_level_tx[o] == ack_tx[o].read()) {
 						if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-							cout << sc_time_stamp().to_double() / 1000
-									<< ": Router[" << local_id << "], Input["
-									<< i << "] forward to Output[" << o
+							cout << sc_time_stamp().to_double() / 1000 << ": "
+									<< this->toString() << ", Input[" << i
+									<< "] forward to Output[" << o
 									<< "], flit: " << flit << endl;
 						}
 
@@ -172,19 +172,19 @@ void NoximHMRouter::bufferMonitor() {
 			free_slots[i].write(buffer[i].GetMaxBufferSize());
 	} else {
 
-		if (NoximGlobalParams::selection_strategy == SEL_BUFFER_LEVEL
-				|| NoximGlobalParams::selection_strategy == SEL_NOP) {
-
-			// update current input buffers level to neighbors
-			for (int i = 0; i < DIRS + 1; i++)
-				free_slots[i].write(buffer[i].getCurrentFreeSlots());
-
-			//	    // NoP selection: send neighbor info to each direction 'i'
-			//	    NoximNoP_data current_NoP_data = getCurrentNoPData();
-			//
-			//	    for (int i = 0; i < DIRECTIONS_HM; i++)
-			//		NoP_data_out[i].write(current_NoP_data);
-		}
+		//		if (NoximGlobalParams::selection_strategy == SEL_BUFFER_LEVEL
+		//				|| NoximGlobalParams::selection_strategy == SEL_NOP) {
+		//
+		//			// update current input buffers level to neighbors
+		//			for (int i = 0; i < DIRS + 1; i++)
+		//				free_slots[i].write(buffer[i].getCurrentFreeSlots());
+		//
+		//			//	    // NoP selection: send neighbor info to each direction 'i'
+		//			//	    NoximNoP_data current_NoP_data = getCurrentNoPData();
+		//			//
+		//			//	    for (int i = 0; i < DIRECTIONS_HM; i++)
+		//			//		NoP_data_out[i].write(current_NoP_data);
+		//		}
 	}
 }
 
@@ -241,8 +241,15 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 		return DIR_LOCAL;
 
 	vector<int> candidate_channels = routingFunction(route_data);
-
-	return selectionFunction(candidate_channels, route_data);
+	//TODO needed?
+	if (candidate_channels.size() > 0){
+		int fullOutDir = candidate_channels[0];
+		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
+		return reducedOutDir;
+	}
+	else
+		return 0;
+	//	return selectionFunction(candidate_channels, route_data);
 }
 
 //void NoximHMRouter::NoP_report() const
@@ -337,90 +344,90 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 //    return direction_selected;
 //}
 
-int NoximHMRouter::selectionBufferLevel(const vector<int>&directions) {
-	vector<int> best_dirs;
-	int max_free_slots = 0;
-	for (unsigned int i = 0; i < directions.size(); i++) {
-		int free_slots = free_slots_neighbor[directions[i]].read();
-		bool available = reservation_table.isAvailable(directions[i]);
-		if (available) {
-			if (free_slots > max_free_slots) {
-				max_free_slots = free_slots;
-				best_dirs.clear();
-				best_dirs.push_back(directions[i]);
-			} else if (free_slots == max_free_slots)
-				best_dirs.push_back(directions[i]);
-		}
-	}
+//int NoximHMRouter::selectionBufferLevel(const vector<int>&directions) {
+//	vector<int> best_dirs;
+//	int max_free_slots = 0;
+//	for (unsigned int i = 0; i < directions.size(); i++) {
+//		int free_slots = free_slots_neighbor[directions[i]].read();
+//		bool available = reservation_table.isAvailable(directions[i]);
+//		if (available) {
+//			if (free_slots > max_free_slots) {
+//				max_free_slots = free_slots;
+//				best_dirs.clear();
+//				best_dirs.push_back(directions[i]);
+//			} else if (free_slots == max_free_slots)
+//				best_dirs.push_back(directions[i]);
+//		}
+//	}
+//
+//	if (best_dirs.size())
+//		return (best_dirs[rand() % best_dirs.size()]);
+//	else
+//		return (directions[rand() % directions.size()]);
+//
+//	//-------------------------
+//	// TODO: unfair if multiple directions have same buffer level
+//	// TODO: to check when both available
+//	//   unsigned int max_free_slots = 0;
+//	//   int direction_choosen = NOT_VALID;
+//
+//	//   for (unsigned int i=0;i<directions.size();i++)
+//	//     {
+//	//       int free_slots = free_slots_neighbor[directions[i]].read();
+//	//       if ((free_slots >= max_free_slots) &&
+//	//        (reservation_table.isAvailable(directions[i])))
+//	//      {
+//	//        direction_choosen = directions[i];
+//	//        max_free_slots = free_slots;
+//	//      }
+//	//     }
+//
+//	//   // No available channel
+//	//   if (direction_choosen==NOT_VALID)
+//	//     direction_choosen = directions[rand() % directions.size()];
+//
+//	//   if(NoximGlobalParams::verbose_mode>VERBOSE_OFF)
+//	//     {
+//	//       NoximChannelStatus tmp;
+//
+//	//       cout << sc_time_stamp().to_double()/1000 << ": Router[" << local_id << "] SELECTION between: " << endl;
+//	//       for (unsigned int i=0;i<directions.size();i++)
+//	//      {
+//	//        tmp.free_slots = free_slots_neighbor[directions[i]].read();
+//	//        tmp.available = (reservation_table.isAvailable(directions[i]));
+//	//        cout << "    -> direction " << directions[i] << ", channel status: " << tmp << endl;
+//	//      }
+//	//       cout << " direction choosen: " << direction_choosen << endl;
+//	//     }
+//
+//	//   assert(direction_choosen>=0);
+//	//   return direction_choosen;
+//}
 
-	if (best_dirs.size())
-		return (best_dirs[rand() % best_dirs.size()]);
-	else
-		return (directions[rand() % directions.size()]);
-
-	//-------------------------
-	// TODO: unfair if multiple directions have same buffer level
-	// TODO: to check when both available
-	//   unsigned int max_free_slots = 0;
-	//   int direction_choosen = NOT_VALID;
-
-	//   for (unsigned int i=0;i<directions.size();i++)
-	//     {
-	//       int free_slots = free_slots_neighbor[directions[i]].read();
-	//       if ((free_slots >= max_free_slots) &&
-	//        (reservation_table.isAvailable(directions[i])))
-	//      {
-	//        direction_choosen = directions[i];
-	//        max_free_slots = free_slots;
-	//      }
-	//     }
-
-	//   // No available channel
-	//   if (direction_choosen==NOT_VALID)
-	//     direction_choosen = directions[rand() % directions.size()];
-
-	//   if(NoximGlobalParams::verbose_mode>VERBOSE_OFF)
-	//     {
-	//       NoximChannelStatus tmp;
-
-	//       cout << sc_time_stamp().to_double()/1000 << ": Router[" << local_id << "] SELECTION between: " << endl;
-	//       for (unsigned int i=0;i<directions.size();i++)
-	//      {
-	//        tmp.free_slots = free_slots_neighbor[directions[i]].read();
-	//        tmp.available = (reservation_table.isAvailable(directions[i]));
-	//        cout << "    -> direction " << directions[i] << ", channel status: " << tmp << endl;
-	//      }
-	//       cout << " direction choosen: " << direction_choosen << endl;
-	//     }
-
-	//   assert(direction_choosen>=0);
-	//   return direction_choosen;
-}
-
-int NoximHMRouter::selectionRandom(const vector<int>&directions) {
-	return directions[rand() % directions.size()];
-}
-
-int NoximHMRouter::selectionFunction(const vector<int>&directions,
-		const NoximRouteData & route_data) {
-	// not so elegant but fast escape ;)
-	if (directions.size() == 1)
-		return directions[0];
-
-	stats.power.Selection();
-	switch (NoximGlobalParams::selection_strategy) {
-	case SEL_RANDOM:
-		return selectionRandom(directions);
-	case SEL_BUFFER_LEVEL:
-		return selectionBufferLevel(directions);
-		//    case SEL_NOP:
-		//	return selectionNoP(directions, route_data);
-	default:
-		assert(false);
-	}
-
-	return 0;
-}
+//int NoximHMRouter::selectionRandom(const vector<int>&directions) {
+//	return directions[rand() % directions.size()];
+//}
+//
+//int NoximHMRouter::selectionFunction(const vector<int>&directions,
+//		const NoximRouteData & route_data) {
+//	// not so elegant but fast escape ;)
+//	if (directions.size() == 1)
+//		return directions[0];
+//
+//	stats.power.Selection();
+//	switch (NoximGlobalParams::selection_strategy) {
+//	case SEL_RANDOM:
+//		return selectionRandom(directions);
+//		//	case SEL_BUFFER_LEVEL:
+//		//		return selectionBufferLevel(directions);
+//		//    case SEL_NOP:
+//		//	return selectionNoP(directions, route_data);
+//	default:
+//		assert(false);
+//	}
+//
+//	return 0;
+//}
 
 //vector < int >NoximHMRouter::routingXY(const NoximCoord & current,
 //				     const NoximCoord & destination)
@@ -809,4 +816,11 @@ bool NoximHMRouter::inCongestion() {
 	}
 
 	return false;
+}
+
+string NoximHMRouter::toString() const {
+	char* ret = (char*) malloc(50 * sizeof(char));
+	sprintf(ret, "Router[%d] at %s", local_id, getCoord().toString());
+	string strRet(ret);
+	return strRet;
 }

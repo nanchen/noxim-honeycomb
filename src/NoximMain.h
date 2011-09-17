@@ -86,7 +86,7 @@ using namespace std;
 #define VERBOSE_HIGH           3
 
 // Default configuration can be overridden with command-line arguments
-#define DEFAULT_VERBOSE_MODE               VERBOSE_LOW
+#define DEFAULT_VERBOSE_MODE               VERBOSE_HIGH
 #define DEFAULT_TRACE_MODE                       false
 #define DEFAULT_TRACE_FILENAME                      ""
 #define DEFAULT_MESH_DIM_X                           4
@@ -345,10 +345,10 @@ inline ostream & operator <<(ostream & os, const NoximChannelStatus & status) {
 //	return os;
 //}
 
-//inline ostream & operator <<(ostream & os, const NoximHMCoord & coord) {
-//	os << coord.toString();
-//	return os;
-//}
+inline ostream & operator <<(ostream & os, const NoximHMCoord & coord) {
+	os << coord.toString();
+	return os;
+}
 
 // Trace overloading
 

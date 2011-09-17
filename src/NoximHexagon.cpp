@@ -27,8 +27,14 @@ static const int OFFSET = 10;
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z) {
 	return a[x + OFFSET][y + OFFSET][z + OFFSET];
 }
+
 NoximHMTile* NoximHexagon::getTile(const NoximHMCoord& c) {
 	return a[c.x + OFFSET][c.y + OFFSET][c.z + OFFSET];
+}
+
+NoximHMTile* NoximHexagon::getTile(int id) {
+	NoximHMTile* tile = idTileMap[id];
+	return tile;
 }
 
 void NoximHexagon::setTile(int x, int y, int z, NoximHMTile* tile) {
@@ -41,11 +47,10 @@ int NoximHexagon::coord2Id(const NoximHMCoord& c) {
 		return tile->getId();
 	} else
 		return -1;
-
 }
 
 NoximHMCoord NoximHexagon::id2Coord(int id) {
-	NoximHMTile* tile = idTileMap[id];
+	NoximHMTile* tile = getTile(id);
 	assert(tile != NULL);
 	return tile->getCoord();
 }
@@ -88,6 +93,20 @@ NoximHMTile* NoximHexagon::getNeighborTile(NoximHMCoord* c, int direction) {
 
 NoximHMTile* NoximHexagon::getNeighborTile(NoximHMCoord c, int direction) {
 	return getNeighborTile(c.x, c.y, c.z, direction);
+}
+
+int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
+	if (fullDir == DIRECTION_PX || fullDir == DIRECTION_MX)
+		return DIR_X;
+	else if (fullDir == DIRECTION_PY || fullDir == DIRECTION_MY)
+		return DIR_Y;
+	else if (fullDir == DIRECTION_PZ || fullDir == DIRECTION_MZ)
+		return DIR_Z;
+	else {
+		assert(false);
+		return -1;
+	}
+
 }
 
 NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
@@ -262,7 +281,7 @@ static NoximHMTile* createTileIntoMatrix(int x, int y, int z,
 		sprintf(tile_name, "Tile[%02d][%02d][%02d]", x, y, z);
 		tile = new NoximHMTile(tile_name);
 		tile->setCoord(x, y, z);
-		tile->id = getNextId();
+		tile->setId(getNextId());
 		//type
 		if (isTypePositive)
 			tile->type = NoximHMTile::POSITIVE;
