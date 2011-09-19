@@ -725,7 +725,7 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 
 void NoximHMRouter::configure(const int _id, const double _warm_up_time,
 		const unsigned int _max_buffer_size, NoximGlobalRoutingTable & grt) {
-	local_id = _id;
+//	local_id = _id;
 	stats.configure(_id, _warm_up_time);
 
 	start_from_port = DIR_LOCAL;

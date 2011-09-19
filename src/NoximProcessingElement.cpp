@@ -127,29 +127,33 @@ bool NoximProcessingElement::canShot(NoximPacket & packet) {
 				assert(false);
 			}
 		}
-	} else { // Table based communication traffic
-		if (never_transmit)
-			return false;
-
-		double now = sc_time_stamp().to_double() / 1000;
-		bool use_pir = (transmittedAtPreviousCycle == false);
-		vector<pair<int, double> > dst_prob;
-		double threshold = traffic_table->getCumulativePirPor(local_id,
-				(int) now, use_pir, dst_prob);
-
-		double prob = (double) rand() / RAND_MAX;
-		shot = (prob < threshold);
-		if (shot) {
-			for (unsigned int i = 0; i < dst_prob.size(); i++) {
-				if (prob < dst_prob[i].second) {
-					packet.make(local_id, dst_prob[i].first, now,
-							getRandomSize());
-					break;
-				}
-			}
-		}
 	}
+	//Currently table based is not supported
+	/*
+	 else { // Table based communication traffic
+	 if (never_transmit)
+	 return false;
 
+	 double now = sc_time_stamp().to_double() / 1000;
+	 bool use_pir = (transmittedAtPreviousCycle == false);
+	 vector<pair<int, double> > dst_prob;
+	 double threshold = traffic_table->getCumulativePirPor(local_id,
+	 (int) now, use_pir, dst_prob);
+
+	 double prob = (double) rand() / RAND_MAX;
+	 shot = (prob < threshold);
+	 if (shot) {
+	 for (unsigned int i = 0; i < dst_prob.size(); i++) {
+	 if (prob < dst_prob[i].second) {
+	 packet.make(local_id, dst_prob[i].first, now,
+	 getRandomSize());
+	 break;
+	 }
+	 }
+	 }
+
+	 }
+	 */
 	return shot;
 }
 

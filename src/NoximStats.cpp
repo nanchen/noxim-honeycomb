@@ -18,6 +18,8 @@ void NoximStats::configure(const int node_id, const double _warm_up_time) {
 }
 
 void NoximStats::receivedFlit(const double arrival_time, const NoximFlit & flit) {
+	std::cout << " NoximStats::receivedFlit" << std::endl;
+
 	if (arrival_time - DEFAULT_RESET_TIME < warm_up_time)
 		return;
 
