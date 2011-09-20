@@ -102,7 +102,7 @@ using namespace std;
 #define DEFAULT_TRAFFIC_DISTRIBUTION   TRAFFIC_RANDOM
 #define DEFAULT_TRAFFIC_TABLE_FILENAME              ""
 #define DEFAULT_RESET_TIME                        1000
-#define DEFAULT_SIMULATION_TIME                  100
+#define DEFAULT_SIMULATION_TIME                  2000
 #define DEFAULT_STATS_WARM_UP_TIME  DEFAULT_RESET_TIME
 #define DEFAULT_DETAILED                         false
 #define DEFAULT_DYAD_THRESHOLD                     0.6

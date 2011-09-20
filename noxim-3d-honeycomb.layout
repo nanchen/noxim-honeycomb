@@ -16,10 +16,10 @@
 	<File name="src/NoximGlobalStats.h" open="0" top="0" tabpos="0">
 		<Cursor position="359" topLine="8" />
 	</File>
-	<File name="src/NoximHMNoC.cpp" open="1" top="0" tabpos="1">
+	<File name="src/NoximHMNoC.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2992" topLine="77" />
 	</File>
-	<File name="src/NoximHMNoC.h" open="1" top="0" tabpos="2">
+	<File name="src/NoximHMNoC.h" open="0" top="0" tabpos="2">
 		<Cursor position="4398" topLine="68" />
 	</File>
 	<File name="src/NoximHMRouter.cpp" open="0" top="0" tabpos="1">
@@ -28,10 +28,10 @@
 	<File name="src/NoximHMRouter.h" open="0" top="0" tabpos="3">
 		<Cursor position="3604" topLine="0" />
 	</File>
-	<File name="src/NoximHMTile.cpp" open="1" top="0" tabpos="4">
+	<File name="src/NoximHMTile.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="122" topLine="0" />
 	</File>
-	<File name="src/NoximHMTile.h" open="1" top="1" tabpos="5">
+	<File name="src/NoximHMTile.h" open="0" top="0" tabpos="5">
 		<Cursor position="283" topLine="0" />
 	</File>
 	<File name="src/NoximHexagon.cpp" open="0" top="0" tabpos="3">
@@ -46,7 +46,7 @@
 	<File name="src/NoximLocalRoutingTable.h" open="0" top="0" tabpos="0">
 		<Cursor position="298" topLine="12" />
 	</File>
-	<File name="src/NoximMain.cpp" open="1" top="0" tabpos="3">
+	<File name="src/NoximMain.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="4383" topLine="40" />
 	</File>
 	<File name="src/NoximMain.h" open="0" top="0" tabpos="0">

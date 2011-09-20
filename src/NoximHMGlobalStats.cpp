@@ -23,73 +23,49 @@ double NoximHMGlobalStats::getAverageDelay() {
 	unsigned int total_packets = 0;
 	double avg_delay = 0.0;
 
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	//	    unsigned int received_packets =
-	//		noc->t[x][y]->r->stats.getReceivedPackets();
-	//
-	//	    if (received_packets) {
-	//		avg_delay +=
-	//		    received_packets *
-	//		    noc->t[x][y]->r->stats.getAverageDelay();
-	//		total_packets += received_packets;
-	//	    }
-	//	}
-	//
-	//    avg_delay /= (double) total_packets;
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		unsigned int received_packets =
+				NoximHexagon::getTile(i)->r->stats.getReceivedPackets();
 
+		if (received_packets) {
+			avg_delay += received_packets
+					* NoximHexagon::getTile(i)->r->stats.getAverageDelay();
+			total_packets += received_packets;
+		}
+	}
+	avg_delay /= (double) total_packets;
 	return avg_delay;
 }
 
 double NoximHMGlobalStats::getAverageDelay(const int src_id, const int dst_id) {
-	/*
-	 NoximHMTile *tile = noc->searchNode(dst_id);
-
-	 assert(tile != NULL);
-
-	 return tile->r->stats.getAverageDelay(src_id);
-	 */
-	return 0.0;
+	NoximHMTile* tile = NoximHexagon::getTile(dst_id);
+	assert(tile != NULL);
+	return tile->r->stats.getAverageDelay(src_id);
 }
 
 double NoximHMGlobalStats::getMaxDelay() {
 	double maxd = -1.0;
-	//
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	//	    NoximCoord coord;
-	//	    coord.x = x;
-	//	    coord.y = y;
-	//	    int node_id = coord2Id(coord);
-	//	    double d = getMaxDelay(node_id);
-	//	    if (d > maxd)
-	//		maxd = d;
-	//	}
-	//
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		double d = getMaxDelay(i);
+		if (d > maxd)
+			maxd = d;
+	}
 	return maxd;
 }
 
 double NoximHMGlobalStats::getMaxDelay(const int node_id) {
-	//    NoximCoord coord = id2Coord(node_id);
-	//
-	//    unsigned int received_packets =
-	//	noc->t[coord.x][coord.y]->r->stats.getReceivedPackets();
-	//
-	//    if (received_packets)
-	//	return noc->t[coord.x][coord.y]->r->stats.getMaxDelay();
-	//    else
-	return -1.0;
+	unsigned int receivedPackets =
+			NoximHexagon::getTile(node_id)->r->stats.getReceivedPackets();
+	if (receivedPackets)
+		return NoximHexagon::getTile(node_id)->r->stats.getMaxDelay();
+	else
+		return -1.0;
 }
 
 double NoximHMGlobalStats::getMaxDelay(const int src_id, const int dst_id) {
-	/*
-	 NoximHMTile *tile = noc->searchNode(dst_id);
-
-	 assert(tile != NULL);
-
-	 return tile->r->stats.getMaxDelay(src_id);
-	 */
-	return 0.0;
+	NoximHMTile* tile = NoximHexagon::getTile(dst_id);
+	assert(tile != NULL);
+	return tile->r->stats.getMaxDelay(src_id);
 }
 
 vector<vector<double> > NoximHMGlobalStats::getMaxDelayMtx() {
@@ -113,47 +89,35 @@ vector<vector<double> > NoximHMGlobalStats::getMaxDelayMtx() {
 
 double NoximHMGlobalStats::getAverageThroughput(const int src_id,
 		const int dst_id) {
-	/*
-	 NoximHMTile *tile = noc->searchNode(dst_id);
-
-	 assert(tile != NULL);
-
-	 return tile->r->stats.getAverageThroughput(src_id);
-	 */
-	return 0.0;
+	NoximHMTile* tile = NoximHexagon::getTile(dst_id);
+	assert(tile != NULL);
+	return tile->r->stats.getAverageThroughput(src_id);
 }
 
 double NoximHMGlobalStats::getAverageThroughput() {
 	unsigned int total_comms = 0;
 	double avg_throughput = 0.0;
 
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	//	    unsigned int ncomms =
-	//		noc->t[x][y]->r->stats.getTotalCommunications();
-	//
-	//	    if (ncomms) {
-	//		avg_throughput +=
-	//		    ncomms * noc->t[x][y]->r->stats.getAverageThroughput();
-	//		total_comms += ncomms;
-	//	    }
-	//	}
-	//
-	//    avg_throughput /= (double) total_comms;
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		unsigned int ncomms =
+				NoximHexagon::getTile(i)->r->stats.getTotalCommunications();
 
+		if (ncomms) {
+			avg_throughput += ncomms
+					* NoximHexagon::getTile(i)->r->stats.getAverageThroughput();
+			total_comms += ncomms;
+		}
+	}
+	avg_throughput /= (double) total_comms;
 	return avg_throughput;
 }
 
 unsigned int NoximHMGlobalStats::getReceivedPackets() {
 	unsigned int n = 0;
 	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
-//		cout << "getReceivedPackets   " << NoximHexagon::getTile(i)->r->stats.getReceivedPackets() << endl;
+		//		cout << "getReceivedPackets   " << NoximHexagon::getTile(i)->r->stats.getReceivedPackets() << endl;
 		n += NoximHexagon::getTile(i)->r->stats.getReceivedPackets();
 	}
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++)
-	//	    n += noc->t[x][y]->r->stats.getReceivedPackets();
-
 	return n;
 }
 
@@ -165,14 +129,6 @@ unsigned int NoximHMGlobalStats::getReceivedFlits() {
 		drained_total += NoximHexagon::getTile(i)->r->local_drained;
 #endif
 	}
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	//	    n += noc->t[x][y]->r->stats.getReceivedFlits();
-	//#ifdef TESTING
-	//	    drained_total += noc->t[x][y]->r->local_drained;
-	//#endif
-	//	}
-
 	return n;
 }
 
@@ -180,23 +136,20 @@ double NoximHMGlobalStats::getThroughput() {
 	int total_cycles = NoximGlobalParams::simulation_time
 			- NoximGlobalParams::stats_warm_up_time;
 
-	/*
-	 //  int number_of_ip = NoximGlobalParams::mesh_dim_x * NoximGlobalParams::mesh_dim_y;
-	 //  return (double)getReceivedFlits()/(double)(total_cycles * number_of_ip);
+	//  int number_of_ip = NoximGlobalParams::mesh_dim_x * NoximGlobalParams::mesh_dim_y;
+	//  return (double)getReceivedFlits()/(double)(total_cycles * number_of_ip);
 
-	 unsigned int n = 0;
-	 unsigned int trf = 0;
-	 for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	 for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++) {
-	 unsigned int rf = noc->t[x][y]->r->stats.getReceivedFlits();
+	unsigned int n = 0;
+	unsigned int trf = 0;
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		unsigned int rf = NoximHexagon::getTile(i)->r->stats.getReceivedFlits();
 
-	 if (rf != 0)
-	 n++;
+		if (rf != 0)
+			n++;
 
-	 trf += rf;
-	 }
-	 return (double) trf / (double) (total_cycles * n);
-	 */
+		trf += rf;
+	}
+	return (double) trf / (double) (total_cycles * n);
 	return 0.0;
 
 }
@@ -221,10 +174,6 @@ double NoximHMGlobalStats::getPower() {
 	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
 		power += NoximHexagon::getTile(i)->r->getPower();
 	}
-	//    for (int y = 0; y < NoximGlobalParams::mesh_dim_y; y++)
-	//	for (int x = 0; x < NoximGlobalParams::mesh_dim_x; x++)
-	//	    power += noc->t[x][y]->r->getPower();
-
 	return power;
 }
 
