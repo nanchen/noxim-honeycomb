@@ -86,7 +86,7 @@ using namespace std;
 #define VERBOSE_HIGH           3
 
 // Default configuration can be overridden with command-line arguments
-#define DEFAULT_VERBOSE_MODE               VERBOSE_HIGH
+#define DEFAULT_VERBOSE_MODE               VERBOSE_OFF
 #define DEFAULT_TRACE_MODE                       false
 #define DEFAULT_TRACE_FILENAME                      ""
 #define DEFAULT_MESH_DIM_X                           4
@@ -370,27 +370,4 @@ inline void sc_trace(sc_trace_file * &tf, const NoximChannelStatus & bs,
 	sc_trace(tf, bs.free_slots, name + ".free_slots");
 	sc_trace(tf, bs.available, name + ".available");
 }
-
-// Misc common functions
-
-//inline NoximCoord id2Coord(int id) {
-//	NoximCoord coord;
-//
-//	coord.x = id % NoximGlobalParams::mesh_dim_x;
-//	coord.y = id / NoximGlobalParams::mesh_dim_x;
-//
-//	assert(coord.x < NoximGlobalParams::mesh_dim_x);
-//	assert(coord.y < NoximGlobalParams::mesh_dim_y);
-//
-//	return coord;
-//}
-//
-//inline int coord2Id(const NoximCoord & coord) {
-//	int id = (coord.y * NoximGlobalParams::mesh_dim_x) + coord.x;
-//
-//	assert(id < NoximGlobalParams::mesh_dim_x * NoximGlobalParams::mesh_dim_y);
-//
-//	return id;
-//}
-
 #endif

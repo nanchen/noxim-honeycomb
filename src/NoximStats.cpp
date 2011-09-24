@@ -9,6 +9,7 @@
  */
 
 #include "NoximStats.h"
+#include "NoximHMRouter.h"
 
 // TODO: nan in averageDelay
 
@@ -18,7 +19,7 @@ void NoximStats::configure(const int node_id, const double _warm_up_time) {
 }
 
 void NoximStats::receivedFlit(const double arrival_time, const NoximFlit & flit) {
-	std::cout << " NoximStats::receivedFlit" << std::endl;
+//	std::cout << " NoximStats::receivedFlit" << std::endl;
 
 	if (arrival_time - DEFAULT_RESET_TIME < warm_up_time)
 		return;
@@ -146,23 +147,22 @@ unsigned int NoximStats::getTotalCommunications() {
 }
 
 double NoximStats::getCommunicationEnergy(int src_id, int dst_id) {
-	//    // Assumptions: minimal path routing, constant packet size
-	//
-	//    NoximCoord src_coord = id2Coord(src_id);
-	//    NoximCoord dst_coord = id2Coord(dst_id);
-	//
-	//    int hops =
-	//	abs(src_coord.x - dst_coord.x) + abs(src_coord.y - dst_coord.y);
-	//
-	//    double energy =
-	//	hops * ((power.getPwrForward() +
-	//		 power.getPwrIncoming()) *
-	//		(NoximGlobalParams::min_packet_size +
-	//		 NoximGlobalParams::max_packet_size) / 2 +
-	//		power.getPwrRouting() + power.getPwrSelection()
-	//	);
-	//
-	//    return energy;
+	// Assumptions: minimal path routing, constant packet size
+	NoximRouteData routeData;
+	routeData.current_id = src_id;
+	routeData.src_id = src_id;
+	routeData.dst_id = dst_id;
+
+	vector<int> routingResult = NoximHMRouter::routingFunction(routeData);
+
+	int hops = routingResult.size();
+
+	double energy = hops * ((power.getPwrForward() + power.getPwrIncoming())
+			* (NoximGlobalParams::min_packet_size
+					+ NoximGlobalParams::max_packet_size) / 2
+			+ power.getPwrRouting() + power.getPwrSelection());
+
+	return energy;
 }
 
 int NoximStats::searchCommHistory(int src_id) {
