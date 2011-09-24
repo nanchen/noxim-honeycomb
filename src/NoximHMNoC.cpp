@@ -48,7 +48,6 @@ void printNeighborSignals(const int dir, const NoximHMTile* n){
 
 void NoximHMNoC::buildHoneycombMesh()
 {
-    cout << "buildHoneycombMesh()" <<endl;
     // Check for routing table availability
     if (NoximGlobalParams::routing_algorithm == ROUTING_TABLE_BASED)
         assert(grtable.load(NoximGlobalParams::routing_table_filename));
@@ -459,16 +458,3 @@ void NoximHMNoC::buildHoneycombMesh()
     }
     */
 }
-
-
-
-
-//NoximHMTile *NoximHMNoC::searchNode(const int id) const
-//{
-//    for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++)
-//	for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++)
-//	    if (t[i][j]->r->local_id == id)
-//		return t[i][j];
-//
-//    return false;
-//}
