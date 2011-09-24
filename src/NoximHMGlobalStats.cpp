@@ -62,11 +62,11 @@ double NoximHMGlobalStats::getMaxDelay(const int node_id) {
 		return -1.0;
 }
 
-double NoximHMGlobalStats::getMaxDelay(const int src_id, const int dst_id) {
-	NoximHMTile* tile = NoximHexagon::getTile(dst_id);
-	assert(tile != NULL);
-	return tile->r->stats.getMaxDelay(src_id);
-}
+//double NoximHMGlobalStats::getMaxDelay(const int src_id, const int dst_id) {
+//	NoximHMTile* tile = NoximHexagon::getTile(dst_id);
+//	assert(tile != NULL);
+//	return tile->r->stats.getMaxDelay(src_id);
+//}
 
 vector<vector<double> > NoximHMGlobalStats::getMaxDelayMtx() {
 	vector<vector<double> > mtx;

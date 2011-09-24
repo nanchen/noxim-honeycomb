@@ -27,10 +27,6 @@ SC_MODULE(NoximHMNoC)
     sc_in < bool > reset;	// The reset signal for the NoC
 
     // Signals
-//    sc_signal <bool> req_to_east[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> req_to_west[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> req_to_south[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> req_to_north[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
     sc_signal <bool> req_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> req_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> req_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
@@ -38,10 +34,6 @@ SC_MODULE(NoximHMNoC)
     sc_signal <bool> req_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> req_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-//    sc_signal <bool> ack_to_east[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> ack_to_west[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> ack_to_south[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <bool> ack_to_north[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
     sc_signal <bool> ack_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> ack_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> ack_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
@@ -49,10 +41,6 @@ SC_MODULE(NoximHMNoC)
     sc_signal <bool> ack_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <bool> ack_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-//    sc_signal <NoximFlit> flit_to_east[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <NoximFlit> flit_to_west[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <NoximFlit> flit_to_south[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <NoximFlit> flit_to_north[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
     sc_signal <NoximFlit> flit_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <NoximFlit> flit_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <NoximFlit> flit_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
@@ -60,10 +48,6 @@ SC_MODULE(NoximHMNoC)
     sc_signal <NoximFlit> flit_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <NoximFlit> flit_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-//    sc_signal <int> free_slots_to_east[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <int> free_slots_to_west[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <int> free_slots_to_south[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
-//    sc_signal <int> free_slots_to_north[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1];
     sc_signal <int> free_slots_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
@@ -71,15 +55,7 @@ SC_MODULE(NoximHMNoC)
     sc_signal <int> free_slots_to_pz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
     sc_signal <int> free_slots_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
-//    sc_signal <int> invalid_free_slots[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][DIRECTIONS_HM];
-
-
     // NoP
-//    sc_signal <NoximNoP_data> NoP_data_to_east[MAX_STATIC_DIM][MAX_STATIC_DIM];
-//    sc_signal <NoximNoP_data> NoP_data_to_west[MAX_STATIC_DIM][MAX_STATIC_DIM];
-//    sc_signal <NoximNoP_data> NoP_data_to_south[MAX_STATIC_DIM][MAX_STATIC_DIM];
-//    sc_signal <NoximNoP_data> NoP_data_to_north[MAX_STATIC_DIM][MAX_STATIC_DIM];
-
 //    sc_signal <NoximNoP_data> NoP_data_to_px[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 //    sc_signal <NoximNoP_data> NoP_data_to_mx[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 //    sc_signal <NoximNoP_data> NoP_data_to_py[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
@@ -93,18 +69,15 @@ SC_MODULE(NoximHMNoC)
 
     //---------- Mau experiment <start>
 //    void flitsMonitor() {
-//
-//	if (!reset.read()) {
-//	    //      if ((int)sc_simulation_time() % 5)
-//	    //        return;
-//
-//	    unsigned int count = 0;
-//	    for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++)
-//		for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++)
-//		    count += t[i][j]->r->getFlitsCount();
-//	    cout << count << endl;
+//		if (!reset.read()) {
+//			//      if ((int)sc_simulation_time() % 5)
+//			//        return;
+//			unsigned int count = 0;
+//			for (int i = 0; i <= NoximHexagon::getLatestId(); i++)
+//				count += NoximHexagon::getTile(i)->r->getFlitsCount();
+//			cout << count << endl;
+//		}
 //	}
-//    }
     //---------- Mau experiment <stop>
 
     // Constructor
@@ -113,10 +86,10 @@ SC_MODULE(NoximHMNoC)
 
 	//---------- Mau experiment <start>
 	/*
-	   SC_METHOD(flitsMonitor);
-	   sensitive(reset);
-	   sensitive_pos(clock);
-	 */
+    SC_METHOD(flitsMonitor);
+	sensitive(reset);
+	sensitive_pos(clock);
+	*/
 	//---------- Mau experiment <stop>
 
         // Build the Mesh
@@ -128,8 +101,6 @@ SC_MODULE(NoximHMNoC)
 
   private:
       void buildHoneycombMesh();
-
-
 };
 
 #endif
