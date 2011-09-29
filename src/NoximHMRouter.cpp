@@ -241,8 +241,8 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 		return DIR_LOCAL;
 
 	vector<int> candidate_channels = routingFunction(route_data);
-	
-	if (candidate_channels.size() > 0){
+
+	if (candidate_channels.size() > 0) {
 		int fullOutDir = candidate_channels[0];
 		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
 		return reducedOutDir;
@@ -725,14 +725,12 @@ vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 
 void NoximHMRouter::configure(const int _id, const double _warm_up_time,
 		const unsigned int _max_buffer_size, NoximGlobalRoutingTable & grt) {
-//	local_id = _id;
+	//	local_id = _id;
 	stats.configure(_id, _warm_up_time);
 
 	start_from_port = DIR_LOCAL;
-	//TODO commented to workaround SEGMENTATION FAULT
-	//	cout << "gtr = " << grt.isValid() << endl;
-	//	if (grt.isValid())
-	//		routing_table.configure(grt, _id);
+	if (grt.isValid())
+		routing_table.configure(grt, _id);
 
 	for (int i = 0; i < DIRS + 1; i++)
 		buffer[i].SetMaxBufferSize(_max_buffer_size);
