@@ -77,14 +77,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//----------start from +x--------------
 	//+x -> -z
-	vector<int> ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 0),
+	vector<int> ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 0),
 			NoximHMCoord(1, 1, 0));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_PY);
 
 	//+x -> py
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 0),
 			NoximHMCoord(0, 1, 0));
 	printVector(ret);
 	test_(ret.size()==4);
@@ -94,7 +94,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[3] == DIRECTION_MZ);
 
 	//+x -> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 0),
 			NoximHMCoord(0, 1, 1));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -103,7 +103,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_PY);
 
 	//+x -> +z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 0),
 			NoximHMCoord(0, 0, 1));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -111,7 +111,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_MX);
 
 	//+x -> -y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 0),
 			NoximHMCoord(1, 0, 1));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -119,14 +119,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//-------------start from -z------------
 	//-z -> +y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 1, 0),
 			NoximHMCoord(0, 1, 0));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_MX);
 
 	//-z -> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 1, 0),
 			NoximHMCoord(0, 1, 1));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -134,7 +134,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_PZ);
 
 	//-z -> +z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 1, 0),
 			NoximHMCoord(0, 0, 1));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -143,7 +143,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_MY);
 
 	//-z -> -y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 1, 0),
 			NoximHMCoord(1, 0, 1));
 	printVector(ret);
 	test_(ret.size()==4);
@@ -153,7 +153,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[3] == DIRECTION_PX);
 
 	//-z -> +x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 1, 0),
 			NoximHMCoord(1, 0, 0));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -161,14 +161,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//-------start from +y-------------
 	// -> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 0),
 			NoximHMCoord(0, 1, 1));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_PZ);
 
 	// -> +z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 0),
 			NoximHMCoord(0, 0, 1));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -176,7 +176,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_MY);
 
 	// -> -y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 0),
 			NoximHMCoord(1, 0, 1));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -185,7 +185,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_PX);
 
 	// -> +x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 0),
 			NoximHMCoord(1, 0, 0));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -193,7 +193,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_MY);
 
 	// -> -z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 0),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 0),
 			NoximHMCoord(1, 1, 0));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -201,14 +201,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//-------------start from -x------------
 	// >> +z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 1),
 			NoximHMCoord(0, 0, 1));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_MY);
 
 	// >> -y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 1),
 			NoximHMCoord(1, 0, 1));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -216,7 +216,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_PX);
 
 	// >> +x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 1),
 			NoximHMCoord(1, 0, 0));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -225,7 +225,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_MZ);
 
 	// >> -z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 1),
 			NoximHMCoord(1, 1, 0));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -233,7 +233,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_PX);
 
 	// >> -y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 1, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 1, 1),
 			NoximHMCoord(0, 1, 0));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -241,14 +241,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	// -------start from +z--------------
 	// >> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 0, 1),
 			NoximHMCoord(1, 0, 1));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_PX);
 
 	// >> +x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 0, 1),
 			NoximHMCoord(1, 0, 0));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -256,7 +256,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_MZ);
 
 	// >> -z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 0, 1),
 			NoximHMCoord(1, 1, 0));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -265,7 +265,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_PX);
 
 	// >> +y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 0, 1),
 			NoximHMCoord(0, 1, 0));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -273,7 +273,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_MZ);
 
 	// >> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(0, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(0, 0, 1),
 			NoximHMCoord(0, 1, 1));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -281,14 +281,14 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//-------start from -y------------
 	// >> +x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 1),
 			NoximHMCoord(1, 0, 0));
 	printVector(ret);
 	test_(ret.size()==1);
 	test_(ret[0] == DIRECTION_MZ);
 
 	// >> -z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 1),
 			NoximHMCoord(1, 1, 0));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -296,7 +296,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_PY);
 
 	// >> +y
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 1),
 			NoximHMCoord(0, 1, 0));
 	printVector(ret);
 	test_(ret.size()==3);
@@ -305,7 +305,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[2] == DIRECTION_MZ);
 
 	// >> -x
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 1),
 			NoximHMCoord(0, 1, 1));
 	printVector(ret);
 	test_(ret.size()==2);
@@ -313,7 +313,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[1] == DIRECTION_PY);
 
 	// >> +z
-	ret = router->routingMinusXPlusZFirst(NoximHMCoord(1, 0, 1),
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(1, 0, 1),
 			NoximHMCoord(0, 0, 1));
 	printVector(ret);
 	test_(ret.size()==1);
@@ -321,7 +321,7 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 
 	//arbitary   commented out, currently by default hmsize = 1
 	/*
-	 ret = router->routingMinusXPlusZFirst(NoximHMCoord(3,0,-2),NoximHMCoord(-3,1,4));
+	 ret = router->estimateRoutingMXPZFirst(NoximHMCoord(3,0,-2),NoximHMCoord(-3,1,4));
 	 printVector(ret);
 	 test_(ret.size()==13);
 	 test_(ret[0] == DIRECTION_PZ);

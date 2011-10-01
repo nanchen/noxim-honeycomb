@@ -79,18 +79,13 @@ SC_MODULE(NoximHMTile) {
 	char* toString() const;
 
 	// Constructor
-
 	SC_CTOR(NoximHMTile) {
-
 		// init type
 		type = UNDEFINED;
 
 		// init neighbor tiles
 		for (int i = 0; i < DIRECTIONS_HM; i++)
 			nTile[i] = NULL;
-
-//		// init coord
-//		setCoord(0,0,0);
 
 		// Router pin assignments
 		r = new NoximHMRouter("Router");

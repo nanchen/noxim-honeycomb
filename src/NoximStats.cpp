@@ -10,6 +10,7 @@
 
 #include "NoximStats.h"
 #include "NoximHMRouter.h"
+#include "NoximHexagon.h"
 
 // TODO: nan in averageDelay
 
@@ -19,7 +20,7 @@ void NoximStats::configure(const int node_id, const double _warm_up_time) {
 }
 
 void NoximStats::receivedFlit(const double arrival_time, const NoximFlit & flit) {
-//	std::cout << " NoximStats::receivedFlit" << std::endl;
+	//	std::cout << " NoximStats::receivedFlit" << std::endl;
 
 	if (arrival_time - DEFAULT_RESET_TIME < warm_up_time)
 		return;
@@ -148,12 +149,9 @@ unsigned int NoximStats::getTotalCommunications() {
 
 double NoximStats::getCommunicationEnergy(int src_id, int dst_id) {
 	// Assumptions: minimal path routing, constant packet size
-	NoximRouteData routeData;
-	routeData.current_id = src_id;
-	routeData.src_id = src_id;
-	routeData.dst_id = dst_id;
-
-	vector<int> routingResult = NoximHMRouter::routingFunction(routeData);
+	NoximHMCoord current = NoximHexagon::id2Coord(src_id);
+	NoximHMCoord dest = NoximHexagon::id2Coord(dst_id);
+	vector<int> routingResult = NoximHMRouter::estimateRoutingMXPZFirst(current, dest);
 
 	int hops = routingResult.size();
 

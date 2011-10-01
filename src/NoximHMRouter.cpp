@@ -13,7 +13,6 @@
 #include "NoximHexagon.h"
 
 void NoximHMRouter::rxProcess() {
-	//	cout << "rxProcess()" << endl;
 	if (reset.read()) {
 		// Clear outputs and indexes of receiving protocol
 		for (int i = 0; i < DIRS + 1; i++) {
@@ -60,7 +59,6 @@ void NoximHMRouter::rxProcess() {
 }
 
 void NoximHMRouter::txProcess() {
-	//	cout << "txProcess()" << endl;
 	if (reset.read()) {
 		// Clear outputs and indexes of transmitting protocol
 		for (int i = 0; i < DIRS + 1; i++) {
@@ -200,7 +198,7 @@ vector<int> NoximHMRouter::routingFunction(const NoximRouteData & route_data) {
 	switch (NoximGlobalParams::routing_algorithm) {
 
 	case ROUTING_MXPZ:
-		return routingMinusXPlusZFirst(hmPosition, hmDstCoord);
+		return estimateRoutingMXPZFirst(hmPosition, hmDstCoord);
 
 		//    case ROUTING_XY:
 		//	return routingXY(position, dst_coord);
@@ -405,30 +403,30 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 //	//   return direction_choosen;
 //}
 
-//int NoximHMRouter::selectionRandom(const vector<int>&directions) {
-//	return directions[rand() % directions.size()];
-//}
-//
-//int NoximHMRouter::selectionFunction(const vector<int>&directions,
-//		const NoximRouteData & route_data) {
-//	// not so elegant but fast escape ;)
-//	if (directions.size() == 1)
-//		return directions[0];
-//
-//	stats.power.Selection();
-//	switch (NoximGlobalParams::selection_strategy) {
-//	case SEL_RANDOM:
-//		return selectionRandom(directions);
-//		//	case SEL_BUFFER_LEVEL:
-//		//		return selectionBufferLevel(directions);
-//		//    case SEL_NOP:
-//		//	return selectionNoP(directions, route_data);
-//	default:
-//		assert(false);
-//	}
-//
-//	return 0;
-//}
+int NoximHMRouter::selectionRandom(const vector<int>&directions) {
+	return directions[rand() % directions.size()];
+}
+
+int NoximHMRouter::selectionFunction(const vector<int>&directions,
+		const NoximRouteData & route_data) {
+	// not so elegant but fast escape ;)
+	if (directions.size() == 1)
+		return directions[0];
+
+	stats.power.Selection();
+	switch (NoximGlobalParams::selection_strategy) {
+	case SEL_RANDOM:
+		return selectionRandom(directions);
+		//	case SEL_BUFFER_LEVEL:
+		//		return selectionBufferLevel(directions);
+		//    case SEL_NOP:
+		//	return selectionNoP(directions, route_data);
+	default:
+		assert(false);
+	}
+
+	return 0;
+}
 
 //vector < int >NoximHMRouter::routingXY(const NoximCoord & current,
 //				     const NoximCoord & destination)
@@ -633,10 +631,7 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 //	return admissibleOutputsSet2Vector(ao);
 //}
 
-/**
- * TODO the semantic of returned directions is different than other functions
- */
-vector<int> NoximHMRouter::routingMinusXPlusZFirst(
+vector<int> NoximHMRouter::estimateRoutingMXPZFirst(
 		const NoximHMCoord & current, const NoximHMCoord & destination) {
 	vector<int> directions;
 	// current -> dst include -x or +z hop
