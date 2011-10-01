@@ -68,16 +68,16 @@ SC_MODULE(NoximHMNoC)
 	NoximGlobalTrafficTable gttable;
 
 	//---------- Mau experiment <start>
-	//    void flitsMonitor() {
-	//		if (!reset.read()) {
-	//			//      if ((int)sc_simulation_time() % 5)
-	//			//        return;
-	//			unsigned int count = 0;
-	//			for (int i = 0; i <= NoximHexagon::getLatestId(); i++)
-	//				count += NoximHexagon::getTile(i)->r->getFlitsCount();
-	//			cout << count << endl;
-	//		}
-	//	}
+//	void flitsMonitor() {
+//		if (!reset.read()) {
+//			//      if ((int)sc_simulation_time() % 5)
+//			//        return;
+//			unsigned int count = 0;
+//			for (int i = 0; i <= NoximHexagon::getLatestId(); i++)
+//				count += NoximHexagon::getTile(i)->r->getFlitsCount();
+//			cout << count << endl;
+//		}
+//	}
 	//---------- Mau experiment <stop>
 
 	// Constructor

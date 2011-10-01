@@ -128,7 +128,6 @@ void NoximHMNoC::buildHoneycombMesh() {
 			tile->free_slots[DIR_Z](free_slots_to_pz[x][y][z + 1]);
 			//                    tile->NoP_data_out[DIRECTION_PZ](NoP_data_to_pz[x][y][z+1]);
 		}
-
 		else if (tile->getType() == NoximHMTile::NEGATIVE) {
 			printNeighborSignals(DIRECTION_MX, tile);
 			//rx

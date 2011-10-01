@@ -102,7 +102,6 @@ bool NoximProcessingElement::canShot(NoximPacket & packet) {
 			case TRAFFIC_RANDOM:
 				packet = trafficRandom();
 				break;
-
 				//			case TRAFFIC_TRANSPOSE1:
 				//				packet = trafficTranspose1();
 				//				break;
@@ -122,7 +121,6 @@ bool NoximProcessingElement::canShot(NoximPacket & packet) {
 				//			case TRAFFIC_BUTTERFLY:
 				//				packet = trafficButterfly();
 				//				break;
-
 			default:
 				assert(false);
 			}
@@ -195,135 +193,135 @@ string NoximProcessingElement::toString() const {
 }
 
 /*
-NoximPacket NoximProcessingElement::trafficTranspose1() {
-	NoximPacket p;
-	p.src_id = local_id;
-	NoximCoord src, dst;
+ NoximPacket NoximProcessingElement::trafficTranspose1() {
+ NoximPacket p;
+ p.src_id = local_id;
+ NoximCoord src, dst;
 
-	// Transpose 1 destination distribution
-	src.x = id2Coord(p.src_id).x;
-	src.y = id2Coord(p.src_id).y;
-	dst.x = NoximGlobalParams::mesh_dim_x - 1 - src.y;
-	dst.y = NoximGlobalParams::mesh_dim_y - 1 - src.x;
-	fixRanges(src, dst);
-	p.dst_id = coord2Id(dst);
+ // Transpose 1 destination distribution
+ src.x = id2Coord(p.src_id).x;
+ src.y = id2Coord(p.src_id).y;
+ dst.x = NoximGlobalParams::mesh_dim_x - 1 - src.y;
+ dst.y = NoximGlobalParams::mesh_dim_y - 1 - src.x;
+ fixRanges(src, dst);
+ p.dst_id = coord2Id(dst);
 
-	p.timestamp = sc_time_stamp().to_double() / 1000;
-	p.size = p.flit_left = getRandomSize();
+ p.timestamp = sc_time_stamp().to_double() / 1000;
+ p.size = p.flit_left = getRandomSize();
 
-	return p;
-}
+ return p;
+ }
 
-NoximPacket NoximProcessingElement::trafficTranspose2() {
-	NoximPacket p;
-	p.src_id = local_id;
-	NoximCoord src, dst;
+ NoximPacket NoximProcessingElement::trafficTranspose2() {
+ NoximPacket p;
+ p.src_id = local_id;
+ NoximCoord src, dst;
 
-	// Transpose 2 destination distribution
-	src.x = id2Coord(p.src_id).x;
-	src.y = id2Coord(p.src_id).y;
-	dst.x = src.y;
-	dst.y = src.x;
-	fixRanges(src, dst);
-	p.dst_id = coord2Id(dst);
+ // Transpose 2 destination distribution
+ src.x = id2Coord(p.src_id).x;
+ src.y = id2Coord(p.src_id).y;
+ dst.x = src.y;
+ dst.y = src.x;
+ fixRanges(src, dst);
+ p.dst_id = coord2Id(dst);
 
-	p.timestamp = sc_time_stamp().to_double() / 1000;
-	p.size = p.flit_left = getRandomSize();
+ p.timestamp = sc_time_stamp().to_double() / 1000;
+ p.size = p.flit_left = getRandomSize();
 
-	return p;
-}
+ return p;
+ }
 
-void NoximProcessingElement::setBit(int &x, int w, int v) {
-	int mask = 1 << w;
+ void NoximProcessingElement::setBit(int &x, int w, int v) {
+ int mask = 1 << w;
 
-	if (v == 1)
-		x = x | mask;
-	else if (v == 0)
-		x = x & ~mask;
-	else
-		assert(false);
-}
+ if (v == 1)
+ x = x | mask;
+ else if (v == 0)
+ x = x & ~mask;
+ else
+ assert(false);
+ }
 
-int NoximProcessingElement::getBit(int x, int w) {
-	return (x >> w) & 1;
-}
+ int NoximProcessingElement::getBit(int x, int w) {
+ return (x >> w) & 1;
+ }
 
-inline double NoximProcessingElement::log2ceil(double x) {
-	return ceil(log(x) / log(2.0));
-}
+ inline double NoximProcessingElement::log2ceil(double x) {
+ return ceil(log(x) / log(2.0));
+ }
 
-NoximPacket NoximProcessingElement::trafficBitReversal() {
+ NoximPacket NoximProcessingElement::trafficBitReversal() {
 
-	int nbits = (int) log2ceil(
-			(double) (NoximGlobalParams::mesh_dim_x
-					* NoximGlobalParams::mesh_dim_y));
-	int dnode = 0;
-	for (int i = 0; i < nbits; i++)
-		setBit(dnode, i, getBit(local_id, nbits - i - 1));
+ int nbits = (int) log2ceil(
+ (double) (NoximGlobalParams::mesh_dim_x
+ * NoximGlobalParams::mesh_dim_y));
+ int dnode = 0;
+ for (int i = 0; i < nbits; i++)
+ setBit(dnode, i, getBit(local_id, nbits - i - 1));
 
-	NoximPacket p;
-	p.src_id = local_id;
-	p.dst_id = dnode;
+ NoximPacket p;
+ p.src_id = local_id;
+ p.dst_id = dnode;
 
-	p.timestamp = sc_time_stamp().to_double() / 1000;
-	p.size = p.flit_left = getRandomSize();
+ p.timestamp = sc_time_stamp().to_double() / 1000;
+ p.size = p.flit_left = getRandomSize();
 
-	return p;
-}
+ return p;
+ }
 
-NoximPacket NoximProcessingElement::trafficShuffle() {
+ NoximPacket NoximProcessingElement::trafficShuffle() {
 
-	int nbits = (int) log2ceil(
-			(double) (NoximGlobalParams::mesh_dim_x
-					* NoximGlobalParams::mesh_dim_y));
-	int dnode = 0;
-	for (int i = 0; i < nbits - 1; i++)
-		setBit(dnode, i + 1, getBit(local_id, i));
-	setBit(dnode, 0, getBit(local_id, nbits - 1));
+ int nbits = (int) log2ceil(
+ (double) (NoximGlobalParams::mesh_dim_x
+ * NoximGlobalParams::mesh_dim_y));
+ int dnode = 0;
+ for (int i = 0; i < nbits - 1; i++)
+ setBit(dnode, i + 1, getBit(local_id, i));
+ setBit(dnode, 0, getBit(local_id, nbits - 1));
 
-	NoximPacket p;
-	p.src_id = local_id;
-	p.dst_id = dnode;
+ NoximPacket p;
+ p.src_id = local_id;
+ p.dst_id = dnode;
 
-	p.timestamp = sc_time_stamp().to_double() / 1000;
-	p.size = p.flit_left = getRandomSize();
+ p.timestamp = sc_time_stamp().to_double() / 1000;
+ p.size = p.flit_left = getRandomSize();
 
-	return p;
-}
+ return p;
+ }
 
-NoximPacket NoximProcessingElement::trafficButterfly() {
+ NoximPacket NoximProcessingElement::trafficButterfly() {
 
-	int nbits = (int) log2ceil(
-			(double) (NoximGlobalParams::mesh_dim_x
-					* NoximGlobalParams::mesh_dim_y));
-	int dnode = 0;
-	for (int i = 1; i < nbits - 1; i++)
-		setBit(dnode, i, getBit(local_id, i));
-	setBit(dnode, 0, getBit(local_id, nbits - 1));
-	setBit(dnode, nbits - 1, getBit(local_id, 0));
+ int nbits = (int) log2ceil(
+ (double) (NoximGlobalParams::mesh_dim_x
+ * NoximGlobalParams::mesh_dim_y));
+ int dnode = 0;
+ for (int i = 1; i < nbits - 1; i++)
+ setBit(dnode, i, getBit(local_id, i));
+ setBit(dnode, 0, getBit(local_id, nbits - 1));
+ setBit(dnode, nbits - 1, getBit(local_id, 0));
 
-	NoximPacket p;
-	p.src_id = local_id;
-	p.dst_id = dnode;
+ NoximPacket p;
+ p.src_id = local_id;
+ p.dst_id = dnode;
 
-	p.timestamp = sc_time_stamp().to_double() / 1000;
-	p.size = p.flit_left = getRandomSize();
+ p.timestamp = sc_time_stamp().to_double() / 1000;
+ p.size = p.flit_left = getRandomSize();
 
-	return p;
-}
+ return p;
+ }
 
-void NoximProcessingElement::fixRanges(const NoximCoord src, NoximCoord & dst) {
-	// Fix ranges
-	if (dst.x < 0)
-		dst.x = 0;
-	if (dst.y < 0)
-		dst.y = 0;
-	if (dst.x >= NoximGlobalParams::mesh_dim_x)
-		dst.x = NoximGlobalParams::mesh_dim_x - 1;
-	if (dst.y >= NoximGlobalParams::mesh_dim_y)
-		dst.y = NoximGlobalParams::mesh_dim_y - 1;
-}
-*/
+ void NoximProcessingElement::fixRanges(const NoximCoord src, NoximCoord & dst) {
+ // Fix ranges
+ if (dst.x < 0)
+ dst.x = 0;
+ if (dst.y < 0)
+ dst.y = 0;
+ if (dst.x >= NoximGlobalParams::mesh_dim_x)
+ dst.x = NoximGlobalParams::mesh_dim_x - 1;
+ if (dst.y >= NoximGlobalParams::mesh_dim_y)
+ dst.y = NoximGlobalParams::mesh_dim_y - 1;
+ }
+ */
 int NoximProcessingElement::getRandomSize() {
 	return randInt(NoximGlobalParams::min_packet_size,
 			NoximGlobalParams::max_packet_size);
