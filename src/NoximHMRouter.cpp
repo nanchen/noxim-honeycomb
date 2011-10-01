@@ -633,6 +633,9 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 //	return admissibleOutputsSet2Vector(ao);
 //}
 
+/**
+ * TODO the semantic of returned directions is different than other functions
+ */
 vector<int> NoximHMRouter::routingMinusXPlusZFirst(
 		const NoximHMCoord & current, const NoximHMCoord & destination) {
 	vector<int> directions;

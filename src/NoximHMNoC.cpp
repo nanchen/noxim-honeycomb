@@ -78,76 +78,29 @@ void NoximHMNoC::buildHoneycombMesh()
 //        tmp_NoP.channel_status_neighbor[i].available = false;
 //    }
 
-//    //Initilize signals on tile
-//	for (int x = -MAX_ABSOLUTE_COORD_VALUE; x < MAX_ABSOLUTE_COORD_VALUE + 1; x++) {
-//		for (int y = -MAX_ABSOLUTE_COORD_VALUE; y < MAX_ABSOLUTE_COORD_VALUE+ 1; y++) {
-//			for (int z = -MAX_ABSOLUTE_COORD_VALUE; z< MAX_ABSOLUTE_COORD_VALUE + 1; z++) {
-//				NoximHMTile* tile = NULL;
-//				tile = NoximHexagon::getTile(x, y, z);
-//
-//				// in case there is no tile at x, y, z
-//				if (tile == NULL)
-//					continue;
-//
-//				for (int i = 0; i < DIRS; i++) {
-//					sc_signal<bool> nullBool;
-//					sc_signal<NoximFlit> nullFlit;
-//					sc_signal<int> nullInt;
-//					nullInt.write(5);
-//
-////					sc_signal<NoximNoP_data> nullNoP;
-////
-////					nullInt.write(NOT_VALID);
-////					nullNoP.write(tmp_NoP);
-//
-////					tile->flit_rx[i](nullFlit);
-////					tile->req_rx[i](nullBool);
-////					tile->ack_rx[i](nullBool);
-////
-////					tile->flit_tx[i](nullFlit);
-////					tile->req_tx[i](nullBool);
-////					tile->ack_tx[i](nullBool);
-//
-////					tile->free_slots[i](nullInt);
-////					tile->free_slots_neighbor[i](nullInt);
-//
-//					invalid_free_slots[x+OFFSET][y+OFFSET][z+OFFSET][i].write(NOT_VALID);
-//					tile->free_slots_neighbor[i](invalid_free_slots[x+OFFSET][y+OFFSET][z+OFFSET][i]);
-////					tile->free_slots_neighbor[i] (free_slots_to_mx[OFFSET][OFFSET][OFFSET]);
-//
-////					tile->NoP_data_in[i](nullNoP);
-////					tile->NoP_data_out[i](nullNoP);
-//				}
-//			}
-//		}
-//	}
 
+    // Iterate over all tiles
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+        NoximHMTile* tile = NoximHexagon::getTile(i);
+        NoximHMCoord coord = tile->getCoord();
+        int x = coord.x+OFFSET;
+        int y = coord.y+OFFSET;
+        int z = coord.z+OFFSET;
+		cout << "building signals for " << tile->toString() << endl;
 
-    // Iterate over the tile array
-    for(int x=-MAX_ABSOLUTE_COORD_VALUE; x<MAX_ABSOLUTE_COORD_VALUE+1; x++){
-        for(int y=-MAX_ABSOLUTE_COORD_VALUE; y<MAX_ABSOLUTE_COORD_VALUE+1; y++){
-            for(int z=-MAX_ABSOLUTE_COORD_VALUE; z<MAX_ABSOLUTE_COORD_VALUE+1; z++){
-                NoximHMTile* tile = NULL;
-                tile = NoximHexagon::getTile(x,y,z);
+		// Tell to the router its id
+		tile->r->configure(tile->getId(),
+				NoximGlobalParams::stats_warm_up_time,
+				NoximGlobalParams::buffer_depth, grtable);
 
-                // in case there is no tile at x, y, z
-                if(tile == NULL)
-                    continue;
+		// Tell to the PE its coordinates
+		tile->pe->traffic_table = &gttable; // Needed to choose destination
+		tile->pe->never_transmit = (gttable.occurrencesAsSource(
+				tile->pe->local_id) == 0);
 
-                cout << "building signals for " << tile->toString() << endl;
-
-                // Tell to the router its id
-				tile->r->configure(tile->getId(), NoximGlobalParams::stats_warm_up_time,
-						NoximGlobalParams::buffer_depth, grtable);
-
-				// Tell to the PE its coordinates
-				tile->pe->traffic_table = &gttable; // Needed to choose destination
-				tile->pe->never_transmit = (gttable.occurrencesAsSource(
-						tile->pe->local_id) == 0);
-
-                // Map clock and reset
-                tile->clock(clock);
-                tile->reset(reset);
+		// Map clock and reset
+		tile->clock(clock);
+		tile->reset(reset);
 
                 // Signal binding
                 if(tile->getType() == NoximHMTile::POSITIVE){
@@ -174,150 +127,145 @@ void NoximHMNoC::buildHoneycombMesh()
 
 //                	printNeighborSignals(DIRECTION_PX,n);
                 	// in direction: rx, free_slots_neighbor, NoP_data_in
-                    tile->req_rx[DIR_X] (req_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_X] (flit_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_X] (ack_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_X] (free_slots_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-//    				tile->NoP_data_in[DIRECTION_PX] (NoP_data_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_rx[DIR_X] (req_to_mx[x][y][z]);
+                    tile->flit_rx[DIR_X] (flit_to_mx[x][y][z]);
+                    tile->ack_rx[DIR_X] (ack_to_px[x][y][z]);
+                    tile->free_slots_neighbor[DIR_X] (free_slots_to_mx[x][y][z]);
+//    				tile->NoP_data_in[DIRECTION_PX] (NoP_data_to_mx[x][y][z]);
                     // tx
-                    tile->req_tx[DIR_X] (req_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
-                    tile->flit_tx[DIR_X] (flit_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
-                    tile->ack_tx[DIR_X] (ack_to_mx[x+OFFSET+1][y+OFFSET][z+OFFSET]);
-                    tile->free_slots[DIR_X](free_slots_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
-//                    tile->NoP_data_out[DIRECTION_PX](NoP_data_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
+                    tile->req_tx[DIR_X] (req_to_px[x+1][y][z]);
+                    tile->flit_tx[DIR_X] (flit_to_px[x+1][y][z]);
+                    tile->ack_tx[DIR_X] (ack_to_mx[x+1][y][z]);
+                    tile->free_slots[DIR_X](free_slots_to_px[x+1][y][z]);
+//                    tile->NoP_data_out[DIRECTION_PX](NoP_data_to_px[x+1][y][z]);
 
 //                    printNeighborSignals(DIRECTION_PY,n);
                     // rx
-                    tile->req_rx[DIR_Y] (req_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_Y] (flit_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_Y] (ack_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_Y] (free_slots_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-//       				tile->NoP_data_in[DIRECTION_PY] (NoP_data_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_rx[DIR_Y] (req_to_my[x][y][z]);
+                    tile->flit_rx[DIR_Y] (flit_to_my[x][y][z]);
+                    tile->ack_rx[DIR_Y] (ack_to_py[x][y][z]);
+                    tile->free_slots_neighbor[DIR_Y] (free_slots_to_my[x][y][z]);
+//       				tile->NoP_data_in[DIRECTION_PY] (NoP_data_to_my[x][y][z]);
                     // tx
-                    tile->req_tx[DIR_Y] (req_to_py[x+OFFSET][y+OFFSET+1][z+OFFSET]);
-                    tile->flit_tx[DIR_Y] (flit_to_py[x+OFFSET][y+OFFSET+1][z+OFFSET]);
-                    tile->ack_tx[DIR_Y] (ack_to_my[x+OFFSET][y+OFFSET+1][z+OFFSET]);
-                    tile->free_slots[DIR_Y](free_slots_to_py[x+OFFSET][y+OFFSET+1][z+OFFSET]);
-//                    tile->NoP_data_out[DIRECTION_PY](NoP_data_to_py[x+OFFSET][y+OFFSET+1][z+OFFSET]);
+                    tile->req_tx[DIR_Y] (req_to_py[x][y+1][z]);
+                    tile->flit_tx[DIR_Y] (flit_to_py[x][y+1][z]);
+                    tile->ack_tx[DIR_Y] (ack_to_my[x][y+1][z]);
+                    tile->free_slots[DIR_Y](free_slots_to_py[x][y+1][z]);
+//                    tile->NoP_data_out[DIRECTION_PY](NoP_data_to_py[x][y+1][z]);
 
 //                	printNeighborSignals(DIRECTION_PZ,n);
                     // rx
-                    tile->req_rx[DIR_Z] (req_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_Z] (flit_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_Z] (ack_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_Z] (free_slots_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//       				tile->NoP_data_in[DIRECTION_PZ] (NoP_data_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_rx[DIR_Z] (req_to_mz[x][y][z]);
+                    tile->flit_rx[DIR_Z] (flit_to_mz[x][y][z]);
+                    tile->ack_rx[DIR_Z] (ack_to_pz[x][y][z]);
+                    tile->free_slots_neighbor[DIR_Z] (free_slots_to_mz[x][y][z]);
+//       				tile->NoP_data_in[DIRECTION_PZ] (NoP_data_to_mz[x][y][z]);
                     // tx
-                    tile->req_tx[DIR_Z] (req_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
-                    tile->flit_tx[DIR_Z] (flit_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
-                    tile->ack_tx[DIR_Z] (ack_to_mz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
-                    tile->free_slots[DIR_Z](free_slots_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
-//                    tile->NoP_data_out[DIRECTION_PZ](NoP_data_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
+                    tile->req_tx[DIR_Z] (req_to_pz[x][y][z+1]);
+                    tile->flit_tx[DIR_Z] (flit_to_pz[x][y][z+1]);
+                    tile->ack_tx[DIR_Z] (ack_to_mz[x][y][z+1]);
+                    tile->free_slots[DIR_Z](free_slots_to_pz[x][y][z+1]);
+//                    tile->NoP_data_out[DIRECTION_PZ](NoP_data_to_pz[x][y][z+1]);
                 }
 
                 else if(tile->getType() == NoximHMTile::NEGATIVE){
 
-                	tile->req_rx[DIR_X] (req_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_X] (flit_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_X] (ack_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_X] (free_slots_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-//    				tile->NoP_data_in[DIRECTION_MX] (NoP_data_to_px[x+OFFSET+1][y+OFFSET][z+OFFSET]);
+                	tile->req_rx[DIR_X] (req_to_px[x][y][z]);
+                    tile->flit_rx[DIR_X] (flit_to_px[x][y][z]);
+                    tile->ack_rx[DIR_X] (ack_to_mx[x][y][z]);
+                    tile->free_slots_neighbor[DIR_X] (free_slots_to_px[x][y][z]);
+//    				tile->NoP_data_in[DIRECTION_MX] (NoP_data_to_px[x+1][y][z]);
 
 
-                    tile->req_tx[DIR_X] (req_to_mx[x+OFFSET-1][y+OFFSET][z+OFFSET]);
-                    tile->flit_tx[DIR_X] (flit_to_mx[x+OFFSET-1][y+OFFSET][z+OFFSET]);
-                    tile->ack_tx[DIR_X] (ack_to_px[x+OFFSET-1][y+OFFSET][z+OFFSET]);
-                    tile->free_slots[DIR_X](free_slots_to_mx[x+OFFSET-1][y+OFFSET][z+OFFSET]);
-//                    tile->NoP_data_out[DIRECTION_MX](NoP_data_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_tx[DIR_X] (req_to_mx[x-1][y][z]);
+                    tile->flit_tx[DIR_X] (flit_to_mx[x-1][y][z]);
+                    tile->ack_tx[DIR_X] (ack_to_px[x-1][y][z]);
+                    tile->free_slots[DIR_X](free_slots_to_mx[x-1][y][z]);
+//                    tile->NoP_data_out[DIRECTION_MX](NoP_data_to_mx[x][y][z]);
 
 
-                    tile->req_rx[DIR_Y] (req_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_Y] (flit_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_Y] (ack_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_Y] (free_slots_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-//    				tile->NoP_data_in[DIRECTION_MY] (NoP_data_to_py[x+OFFSET][y+OFFSET+1][z+OFFSET]);
+                    tile->req_rx[DIR_Y] (req_to_py[x][y][z]);
+                    tile->flit_rx[DIR_Y] (flit_to_py[x][y][z]);
+                    tile->ack_rx[DIR_Y] (ack_to_my[x][y][z]);
+                    tile->free_slots_neighbor[DIR_Y] (free_slots_to_py[x][y][z]);
+//    				tile->NoP_data_in[DIRECTION_MY] (NoP_data_to_py[x][y+1][z]);
 
 
-                    tile->req_tx[DIR_Y] (req_to_my[x+OFFSET][y+OFFSET-1][z+OFFSET]);
-                    tile->flit_tx[DIR_Y] (flit_to_my[x+OFFSET][y+OFFSET-1][z+OFFSET]);
-                    tile->ack_tx[DIR_Y] (ack_to_py[x+OFFSET][y+OFFSET-1][z+OFFSET]);
-                    tile->free_slots[DIR_Y](free_slots_to_my[x+OFFSET][y+OFFSET-1][z+OFFSET]);
-//                    tile->NoP_data_out[DIRECTION_MY](NoP_data_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_tx[DIR_Y] (req_to_my[x][y-1][z]);
+                    tile->flit_tx[DIR_Y] (flit_to_my[x][y-1][z]);
+                    tile->ack_tx[DIR_Y] (ack_to_py[x][y-1][z]);
+                    tile->free_slots[DIR_Y](free_slots_to_my[x][y-1][z]);
+//                    tile->NoP_data_out[DIRECTION_MY](NoP_data_to_my[x][y][z]);
 
 
-                    tile->req_rx[DIR_Z] (req_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->flit_rx[DIR_Z] (flit_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->ack_rx[DIR_Z] (ack_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-                    tile->free_slots_neighbor[DIR_Z] (free_slots_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//    				tile->NoP_data_in[DIRECTION_MZ] (NoP_data_to_pz[x+OFFSET][y+OFFSET][z+OFFSET+1]);
+                    tile->req_rx[DIR_Z] (req_to_pz[x][y][z]);
+                    tile->flit_rx[DIR_Z] (flit_to_pz[x][y][z]);
+                    tile->ack_rx[DIR_Z] (ack_to_mz[x][y][z]);
+                    tile->free_slots_neighbor[DIR_Z] (free_slots_to_pz[x][y][z]);
+//    				tile->NoP_data_in[DIRECTION_MZ] (NoP_data_to_pz[x][y][z+1]);
 
 
-                    tile->req_tx[DIR_Z] (req_to_mz[x+OFFSET][y+OFFSET][z+OFFSET-1]);
-                    tile->flit_tx[DIR_Z] (flit_to_mz[x+OFFSET][y+OFFSET][z+OFFSET-1]);
-                    tile->ack_tx[DIR_Z] (ack_to_pz[x+OFFSET][y+OFFSET][z+OFFSET-1]);
-                    tile->free_slots[DIR_Z](free_slots_to_mz[x+OFFSET][y+OFFSET][z+OFFSET-1]);
-//                    tile->NoP_data_out[DIRECTION_MZ](NoP_data_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+                    tile->req_tx[DIR_Z] (req_to_mz[x][y][z-1]);
+                    tile->flit_tx[DIR_Z] (flit_to_mz[x][y][z-1]);
+                    tile->ack_tx[DIR_Z] (ack_to_pz[x][y][z-1]);
+                    tile->free_slots[DIR_Z](free_slots_to_mz[x][y][z-1]);
+//                    tile->NoP_data_out[DIRECTION_MZ](NoP_data_to_mz[x][y][z]);
 
                 }
                 // +x
-                NoximHMTile* n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PX);
+                NoximHMTile* n = NoximHexagon::getNeighborTile(coord, DIRECTION_PX);
                 if(n)
                 {
                 	tile->nTile[DIRECTION_PX] = n;
                 }
                 // -x
-                n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MX);
+                n = NoximHexagon::getNeighborTile(coord, DIRECTION_MX);
                 if(n)
                 {
                     tile->nTile[DIRECTION_MX] = n;
 //                    // rx
-//                    tile->req_rx[DIRECTION_MX] (req_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_rx[DIRECTION_MX] (flit_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_rx[DIRECTION_MX] (ack_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_rx[DIRECTION_MX] (req_to_px[x][y][z]);
+//                    tile->flit_rx[DIRECTION_MX] (flit_to_px[x][y][z]);
+//                    tile->ack_rx[DIRECTION_MX] (ack_to_mx[x][y][z]);
 //                    // tx
-//                    tile->req_tx[DIRECTION_MX] (req_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_tx[DIRECTION_MX] (flit_to_mx[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_tx[DIRECTION_MX] (ack_to_px[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_tx[DIRECTION_MX] (req_to_mx[x][y][z]);
+//                    tile->flit_tx[DIRECTION_MX] (flit_to_mx[x][y][z]);
+//                    tile->ack_tx[DIRECTION_MX] (ack_to_px[x][y][z]);
                 }
-                n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PY);
+                n = NoximHexagon::getNeighborTile(coord, DIRECTION_PY);
                 if(n)
-                {
-
                     tile->nTile[DIRECTION_PY] = n;
-
-
-                }
-                n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MY);
+                n = NoximHexagon::getNeighborTile(coord, DIRECTION_MY);
                 if(n)
                 {
                     tile->nTile[DIRECTION_MY] = n;
 //                    // rx
-//                    tile->req_rx[DIRECTION_MY] (req_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_rx[DIRECTION_MY] (flit_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_rx[DIRECTION_MY] (ack_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_rx[DIRECTION_MY] (req_to_py[x][y][z]);
+//                    tile->flit_rx[DIRECTION_MY] (flit_to_py[x][y][z]);
+//                    tile->ack_rx[DIRECTION_MY] (ack_to_my[x][y][z]);
 //                    // tx
-//                    tile->req_tx[DIRECTION_MY] (req_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_tx[DIRECTION_MY] (flit_to_my[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_tx[DIRECTION_MY] (ack_to_py[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_tx[DIRECTION_MY] (req_to_my[x][y][z]);
+//                    tile->flit_tx[DIRECTION_MY] (flit_to_my[x][y][z]);
+//                    tile->ack_tx[DIRECTION_MY] (ack_to_py[x][y][z]);
                 }
-                n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_PZ);
+                n = NoximHexagon::getNeighborTile(coord, DIRECTION_PZ);
                 if(n)
                 {
                     tile->nTile[DIRECTION_PZ] = n;
 
                 }
-                n = NoximHexagon::getNeighborTile(x, y, z, DIRECTION_MZ);
+                n = NoximHexagon::getNeighborTile(coord, DIRECTION_MZ);
                 if(n)
                 {
                     tile->nTile[DIRECTION_MZ] = n;
 //                    // rx
-//                    tile->req_rx[DIRECTION_MZ] (req_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_rx[DIRECTION_MZ] (flit_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_rx[DIRECTION_MZ] (ack_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_rx[DIRECTION_MZ] (req_to_pz[x][y][z]);
+//                    tile->flit_rx[DIRECTION_MZ] (flit_to_pz[x][y][z]);
+//                    tile->ack_rx[DIRECTION_MZ] (ack_to_mz[x][y][z]);
 //                    // tx
-//                    tile->req_tx[DIRECTION_MZ] (req_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->flit_tx[DIRECTION_MZ] (flit_to_mz[x+OFFSET][y+OFFSET][z+OFFSET]);
-//                    tile->ack_tx[DIRECTION_MZ] (ack_to_pz[x+OFFSET][y+OFFSET][z+OFFSET]);
+//                    tile->req_tx[DIRECTION_MZ] (req_to_mz[x][y][z]);
+//                    tile->flit_tx[DIRECTION_MZ] (flit_to_mz[x][y][z]);
+//                    tile->ack_tx[DIRECTION_MZ] (ack_to_pz[x][y][z]);
                 }
                 // Map Rx signals
 				//                tile->req_rx[DIRECTION_NORTH] (req_to_south[i][j]);
@@ -374,8 +322,6 @@ void NoximHMNoC::buildHoneycombMesh()
 				//                tile->NoP_data_in[DIRECTION_EAST] (NoP_data_to_west[i + 1][j]);
 				//                tile->NoP_data_in[DIRECTION_SOUTH] (NoP_data_to_north[i][j + 1]);
 				//                tile->NoP_data_in[DIRECTION_WEST] (NoP_data_to_east[i][j]);
-			}
-		}
 	}
 
     // Iterate over the tile array

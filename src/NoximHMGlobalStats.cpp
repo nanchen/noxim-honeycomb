@@ -133,6 +133,7 @@ unsigned int NoximHMGlobalStats::getReceivedFlits() {
 }
 
 double NoximHMGlobalStats::getThroughput() {
+	//FIXME why = sim_time - warm up time
 	int total_cycles = NoximGlobalParams::simulation_time
 			- NoximGlobalParams::stats_warm_up_time;
 
