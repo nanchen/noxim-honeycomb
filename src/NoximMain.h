@@ -144,17 +144,6 @@ struct NoximGlobalParams {
 
 };
 
-//// NoximCoord -- XY coordinates type of the Tile inside the Mesh
-//class NoximCoord {
-//public:
-//	int x; // X coordinate
-//	int y; // Y coordinate
-//
-//	inline bool operator ==(const NoximCoord & coord) const {
-//		return (coord.x == x && coord.y == y);
-//	}
-//};
-
 // NoximHMCoord -- XYZ coordinates type of the Tile inside the Honeycomb Mesh
 class NoximHMCoord {
 public:
@@ -317,7 +306,6 @@ inline ostream & operator <<(ostream & os, const NoximFlit & flit) {
 			os << "T";
 			break;
 		}
-
 		os << ", seq: " << flit.sequence_no << ", " << flit.src_id << "-->"
 				<< flit.dst_id << "]";
 	}
