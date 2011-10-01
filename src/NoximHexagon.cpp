@@ -23,7 +23,6 @@ static map<int, NoximHMTile*> idTileMap;
 // tiles array
 static NoximHMTile *a[20][20][20];
 
-static const int OFFSET = 10;
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z) {
 	return a[x + OFFSET][y + OFFSET][z + OFFSET];
 }
@@ -95,6 +94,32 @@ NoximHMTile* NoximHexagon::getNeighborTile(NoximHMCoord c, int direction) {
 	return getNeighborTile(c.x, c.y, c.z, direction);
 }
 
+char* NoximHexagon::getDirectionStr(const int dir) {
+	char* ret = (char*) malloc(2 * sizeof(char));
+	switch (dir) {
+	case DIRECTION_PX:
+		ret = "+x";
+		break;
+	case DIRECTION_MX:
+		ret = "-x";
+		break;
+	case DIRECTION_PY:
+		ret = "+y";
+		break;
+	case DIRECTION_MY:
+		ret = "-y";
+		break;
+	case DIRECTION_PZ:
+		ret = "+z";
+		break;
+	case DIRECTION_MZ:
+		ret = "-z";
+		break;
+	}
+	return ret;
+}
+
+
 int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 	if (fullDir == DIRECTION_PX || fullDir == DIRECTION_MX)
 		return DIR_X;
@@ -106,7 +131,6 @@ int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 		assert(false);
 		return -1;
 	}
-
 }
 
 NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {

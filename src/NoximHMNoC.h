@@ -64,43 +64,43 @@ SC_MODULE(NoximHMNoC)
 //    sc_signal <NoximNoP_data> NoP_data_to_mz[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
     // Global tables
-    NoximGlobalRoutingTable grtable;
-    NoximGlobalTrafficTable gttable;
-
-    //---------- Mau experiment <start>
-//    void flitsMonitor() {
-//		if (!reset.read()) {
-//			//      if ((int)sc_simulation_time() % 5)
-//			//        return;
-//			unsigned int count = 0;
-//			for (int i = 0; i <= NoximHexagon::getLatestId(); i++)
-//				count += NoximHexagon::getTile(i)->r->getFlitsCount();
-//			cout << count << endl;
-//		}
-//	}
-    //---------- Mau experiment <stop>
-
-    // Constructor
-
-    SC_CTOR(NoximHMNoC) {
+	NoximGlobalRoutingTable grtable;
+	NoximGlobalTrafficTable gttable;
 
 	//---------- Mau experiment <start>
-	/*
-    SC_METHOD(flitsMonitor);
-	sensitive(reset);
-	sensitive_pos(clock);
-	*/
+	//    void flitsMonitor() {
+	//		if (!reset.read()) {
+	//			//      if ((int)sc_simulation_time() % 5)
+	//			//        return;
+	//			unsigned int count = 0;
+	//			for (int i = 0; i <= NoximHexagon::getLatestId(); i++)
+	//				count += NoximHexagon::getTile(i)->r->getFlitsCount();
+	//			cout << count << endl;
+	//		}
+	//	}
 	//---------- Mau experiment <stop>
 
-        // Build the Mesh
-        buildHoneycombMesh();
-    }
+	// Constructor
 
-    // Support methods
-    NoximHMTile *searchNode(const int id) const;
+	SC_CTOR(NoximHMNoC) {
 
-  private:
-      void buildHoneycombMesh();
+		//---------- Mau experiment <start>
+		/*
+		 SC_METHOD(flitsMonitor);
+		 sensitive(reset);
+		 sensitive_pos(clock);
+		 */
+		//---------- Mau experiment <stop>
+
+		// Build the Mesh
+		buildHoneycombMesh();
+	}
+
+	// Support methods
+	NoximHMTile *searchNode(const int id) const;
+
+private:
+	void buildHoneycombMesh();
 };
 
 #endif

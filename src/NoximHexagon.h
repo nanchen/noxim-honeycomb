@@ -29,6 +29,7 @@ class NoximHexagon {
 
 public:
 	// -------------STATIC-----------------------------
+	static const int OFFSET = 10;
 	static NoximHexagon* buildHexagonTree(int meshSize);
 
 	static NoximHMTile* getTile(int x, int y, int z);
@@ -39,6 +40,7 @@ public:
 	static NoximHMTile* getNeighborTile(int x, int y, int z, int direction);
 	static NoximHMTile* getNeighborTile(NoximHMCoord* c, int direction);
 	static NoximHMTile* getNeighborTile(NoximHMCoord c, int direction);
+	static char* getDirectionStr(const int dir);
 
 	static int getLatestId();
 	static int coord2Id(const NoximHMCoord& c);
