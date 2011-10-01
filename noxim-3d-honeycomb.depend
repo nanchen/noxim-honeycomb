@@ -966,7 +966,7 @@
 1303083512 source:/home/nan/chen-work/noxim-3d-honeycomb/src/NoximHMTile.cpp
 	"NoximHMTile.h"
 
-1316008453 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximBuffer.cpp
+1316886019 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximBuffer.cpp
 	"NoximBuffer.h"
 
 1316005251 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximBuffer.h
@@ -974,7 +974,7 @@
 	<queue>
 	"NoximMain.h"
 
-1316276087 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.h
+1317499991 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.h
 	<cassert>
 	<systemc.h>
 	<vector>
@@ -987,7 +987,7 @@
 1299618353 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximCmdLineParser.h
 	"NoximMain.h"
 
-1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalRoutingTable.cpp
+1316633873 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalRoutingTable.cpp
 	"NoximGlobalRoutingTable.h"
 
 1316259887 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalRoutingTable.h
@@ -1038,15 +1038,15 @@
 	"NoximMain.h"
 	"NoximPower.h"
 
-1303417110 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.h
+1316550498 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.h
 	<cassert>
 	"NoximMain.h"
 
-1299451752 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximLocalRoutingTable.h
+1316633724 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximLocalRoutingTable.h
 	"NoximMain.h"
 	"NoximGlobalRoutingTable.h"
 
-1299451752 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximReservationTable.h
+1316892090 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximReservationTable.h
 	<cassert>
 	"NoximMain.h"
 
@@ -1056,26 +1056,26 @@
 	"NoximMain.h"
 	"NoximGlobalTrafficTable.h"
 
-1299451752 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalTrafficTable.h
+1316633905 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalTrafficTable.h
 	<stdio.h>
 	<stdlib.h>
 	<vector>
 	"NoximMain.h"
 
-1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalTrafficTable.cpp
+1316633900 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalTrafficTable.cpp
 	"NoximGlobalTrafficTable.h"
 
-1316008096 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.cpp
+1317324985 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.cpp
 	"NoximHMGlobalStats.h"
 
-1316008096 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.h
+1316633803 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.h
 	<iostream>
 	<vector>
 	<iomanip>
 	"NoximHMNoC.h"
 	"NoximHMTile.h"
 
-1316259801 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.h
+1317499813 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.h
 	<systemc.h>
 	"NoximHMTile.h"
 	"NoximHexagon.h"
@@ -1088,7 +1088,7 @@
 	"NoximProcessingElement.h"
 	<stdio.h>
 
-1316283322 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.h
+1316867274 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.h
 	<systemc.h>
 	"NoximMain.h"
 	"NoximBuffer.h"
@@ -1097,34 +1097,35 @@
 	"NoximLocalRoutingTable.h"
 	"NoximReservationTable.h"
 
-1316284759 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.h
+1317498860 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.h
 	<stdlib.h>
 	<string>
 	"NoximHMNoC.h"
 	"NoximHMTile.h"
 	"queue.h"
 
-1316213010 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.cpp
+1317499373 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.cpp
 	<math.h>
 	"NoximHMNoC.h"
 	"queue.h"
 
-1316256518 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.cpp
+1317327191 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.cpp
+	<stdio.h>
 	"NoximHMRouter.h"
 	"NoximHexagon.h"
 
-1316255949 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMTile.cpp
+1316278363 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMTile.cpp
 	"NoximHMTile.h"
 
-1316256831 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.cpp
+1317499398 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.cpp
 	<unistd.h>
 	<map>
 	"NoximHexagon.h"
 
-1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximLocalRoutingTable.cpp
+1316633710 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximLocalRoutingTable.cpp
 	"NoximLocalRoutingTable.h"
 
-1316248664 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.cpp
+1317500210 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.cpp
 	"NoximMain.h"
 	"NoximHMNoC.h"
 	"NoximHMGlobalStats.h"
@@ -1133,21 +1134,22 @@
 1300061488 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximNoC.cpp
 	"NoximNoC.h"
 
-1303417359 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.cpp
+1316550567 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.cpp
 	"NoximPower.h"
 
-1316248010 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximProcessingElement.cpp
+1316459232 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximProcessingElement.cpp
 	"NoximProcessingElement.h"
 	"NoximHexagon.h"
 
-1316006508 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximReservationTable.cpp
+1316274457 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximReservationTable.cpp
 	"NoximReservationTable.h"
 
 1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximRouter.cpp
 	"NoximRouter.h"
 
-1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximStats.cpp
+1316884558 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximStats.cpp
 	"NoximStats.h"
+	"NoximHMRouter.h"
 
 1316008096 source:/home/nan/Dropbox/noxim-3d-honeycomb/tests/NoximHMNoCTest.cpp
 	"NoximHMNoCTest.h"
