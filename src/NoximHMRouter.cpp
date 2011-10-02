@@ -198,7 +198,7 @@ vector<int> NoximHMRouter::routingFunction(const NoximRouteData & route_data) {
 	switch (NoximGlobalParams::routing_algorithm) {
 
 	case ROUTING_MXPZ:
-		return estimateRoutingMXPZFirst(hmPosition, hmDstCoord);
+		return routingMXPZFirst(hmPosition, hmDstCoord);
 
 		//    case ROUTING_XY:
 		//	return routingXY(position, dst_coord);
@@ -240,15 +240,15 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 
 	vector<int> candidate_channels = routingFunction(route_data);
 
-	if (candidate_channels.size() > 0) {
-		int fullOutDir = candidate_channels[0];
-		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
-		return reducedOutDir;
-	}
-	//TODO needed?
-	else
-		return 0;
-	//	return selectionFunction(candidate_channels, route_data);
+	int fullOutDir = selectionFunction(candidate_channels, route_data);
+	int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
+	return reducedOutDir;
+
+	//	if (candidate_channels.size() > 0) {
+	//		int fullOutDir = candidate_channels[0];
+	//		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
+	//		return reducedOutDir;
+	//	}
 }
 
 //void NoximHMRouter::NoP_report() const
@@ -630,6 +630,57 @@ int NoximHMRouter::selectionFunction(const vector<int>&directions,
 //
 //	return admissibleOutputsSet2Vector(ao);
 //}
+
+vector<int> NoximHMRouter::routingMXPZFirst(const NoximHMCoord & current,
+		const NoximHMCoord & destination) {
+	vector<int> directions;
+	int cx = current.x;
+	int cy = current.y;
+	int cz = current.z;
+	const int dx = destination.x;
+	const int dy = destination.y;
+	const int dz = destination.z;
+
+	NoximHMTile* t = NoximHexagon::getTile(cx, cy, cz);
+	const NoximHMTile* dstTile = NoximHexagon::getTile(dx, dy, dz);
+	if (dstTile == NULL) {
+		cout << "Destination tile is NULL! return" << endl;
+		return directions;
+	}
+	// -x +z first
+	if (t && t != dstTile && (t->getCoord().x > dx || t->getCoord().z < dz)) {
+		if (t->nTile[DIRECTION_MX] != NULL) {
+			directions.push_back(DIRECTION_MX);
+		} else if (t->nTile[DIRECTION_PZ] != NULL) {
+			directions.push_back(DIRECTION_PZ);
+		} else if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
+			directions.push_back(DIRECTION_PY);
+		} else if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
+			directions.push_back(DIRECTION_MY);
+		}
+		if (directions.size() > 0)
+			return directions;
+	}
+	// minimal routing algorithm
+	if (t && t != dstTile) {
+		if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
+			directions.push_back(DIRECTION_PY);
+		}
+
+		if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
+			directions.push_back(DIRECTION_MY);
+		}
+
+		if (t->nTile[DIRECTION_PX] != NULL && t->getCoord().x < dx) {
+			directions.push_back(DIRECTION_PX);
+		}
+
+		if (t->nTile[DIRECTION_MZ] != NULL && t->getCoord().z > dz) {
+			directions.push_back(DIRECTION_MZ);
+		}
+	}
+	return directions;
+}
 
 vector<int> NoximHMRouter::estimateRoutingMXPZFirst(
 		const NoximHMCoord & current, const NoximHMCoord & destination) {

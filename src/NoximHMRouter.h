@@ -89,6 +89,9 @@ public:
 	static vector<int> estimateRoutingMXPZFirst(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
 
+	static vector<int> routingMXPZFirst(const NoximHMCoord & current,
+			const NoximHMCoord & destination);
+
 	string toString() const;
 
 	NoximHMCoord getCoord() const {
