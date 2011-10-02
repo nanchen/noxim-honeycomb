@@ -287,7 +287,12 @@ void parseCmdLine(int arg_num, char *arg_vet[])
 		    strcpy(NoximGlobalParams::routing_table_filename,
 			   arg_vet[++i]);
 		    NoximGlobalParams::packet_injection_rate = 0;	// ??? why ???
-		} else
+		}
+		else if (!strcmp(routing, "mxpz"))
+		    NoximGlobalParams::routing_algorithm = ROUTING_MXPZ;
+		else if (!strcmp(routing, "min"))
+			NoximGlobalParams::routing_algorithm = ROUTING_MIN;
+		else
 		    NoximGlobalParams::routing_algorithm = INVALID_ROUTING;
 	    } else if (!strcmp(arg_vet[i], "-sel")) {
 		char *selection = arg_vet[++i];

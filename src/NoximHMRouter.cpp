@@ -34,23 +34,30 @@ void NoximHMRouter::rxProcess() {
 			// 1) there is an incoming request
 			// 2) there is a free slot in the input buffer of direction i
 
-			if ((req_rx[i].read() == 1 - current_level_rx[i])
-					&& !buffer[i].IsFull()) {
-				NoximFlit received_flit = flit_rx[i].read();
-
+			if (req_rx[i].read() == 1 - current_level_rx[i]) {
 				if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
 					cout << sc_time_stamp().to_double() / 1000 << ": "
-							<< this->toString() << ", Input[" << i
-							<< "], Received flit: " << received_flit << endl;
+							<< this->toString() << ", RX request[" << i << "]";
 				}
-				// Store the incoming flit in the circular buffer
-				buffer[i].Push(received_flit);
 
-				// Negate the old value for Alternating Bit Protocol (ABP)
-				current_level_rx[i] = 1 - current_level_rx[i];
+				if (!buffer[i].IsFull()) {
+					NoximFlit received_flit = flit_rx[i].read();
 
-				// Incoming flit
-				stats.power.Incoming();
+					if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
+						cout << ", Input[" << i << "], Received flit: "
+								<< received_flit << endl;
+					}
+					// Store the incoming flit in the circular buffer
+					buffer[i].Push(received_flit);
+
+					// Negate the old value for Alternating Bit Protocol (ABP)
+					current_level_rx[i] = 1 - current_level_rx[i];
+
+					// Incoming flit
+					stats.power.Incoming();
+				} else if (NoximGlobalParams::verbose_mode > VERBOSE_OFF)
+					cout << "\n\tBuffer[" << i << "] is full" << endl;
+
 			}
 			ack_rx[i].write(current_level_rx[i]);
 		}
@@ -83,16 +90,21 @@ void NoximHMRouter::txProcess() {
 
 					int o = route(route_data);
 
+					if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
+						cout << sc_time_stamp().to_double() / 1000 << ": "
+								<< this->toString() << ", Input[" << i << "] ("
+								<< buffer[i]. Size() << " flits)";
+					}
 					if (reservation_table.isAvailable(o)) {
 						reservation_table.reserve(i, o);
 						if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-							cout << sc_time_stamp().to_double() / 1000 << ": "
-									<< this->toString() << ", Input[" << i
-									<< "] (" << buffer[i]. Size() << " flits)"
-									<< ", reserved Output[" << o << "], flit: "
+							cout << ", reserved Output[" << o << "], flit: "
 									<< flit << endl;
 						}
-					}
+					} else if (NoximGlobalParams::verbose_mode > VERBOSE_OFF)
+						cout << "\n\tOutput[" << o << "] is not available"
+								<< endl;
+
 				}
 			}
 		}
@@ -104,14 +116,16 @@ void NoximHMRouter::txProcess() {
 				NoximFlit flit = buffer[i].Front();
 
 				int o = reservation_table.getOutputPort(i);
+				if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
+					cout << sc_time_stamp().to_double() / 1000 << ": "
+							<< this->toString() << ", Input[" << i
+							<< "] forwarding.. ";
+				}
 				if (o != NOT_RESERVED) {
 					if (current_level_tx[o] == ack_tx[o].read()) {
-						if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
-							cout << sc_time_stamp().to_double() / 1000 << ": "
-									<< this->toString() << ", Input[" << i
-									<< "] forward to Output[" << o
-									<< "], flit: " << flit << endl;
-						}
+						if (NoximGlobalParams::verbose_mode > VERBOSE_OFF)
+							cout << ", forward to Output[" << o << "], flit: "
+									<< flit << endl;
 
 						flit_tx[o].write(flit);
 						current_level_tx[o] = 1 - current_level_tx[o];
@@ -141,7 +155,8 @@ void NoximHMRouter::txProcess() {
 							routed_flits++;
 						}
 					}
-				}
+				} else if (NoximGlobalParams::verbose_mode > VERBOSE_OFF)
+					cout << "\n\tOutput not reserved!" << endl;
 			}
 		}
 	} // else
@@ -199,7 +214,8 @@ vector<int> NoximHMRouter::routingFunction(const NoximRouteData & route_data) {
 
 	case ROUTING_MXPZ:
 		return routingMXPZFirst(hmPosition, hmDstCoord);
-
+	case ROUTING_MIN:
+		return routingMin(hmPosition, hmDstCoord);
 		//    case ROUTING_XY:
 		//	return routingXY(position, dst_coord);
 		//
@@ -634,28 +650,34 @@ int NoximHMRouter::selectionFunction(const vector<int>&directions,
 vector<int> NoximHMRouter::routingMXPZFirst(const NoximHMCoord & current,
 		const NoximHMCoord & destination) {
 	vector<int> directions;
-	int cx = current.x;
-	int cy = current.y;
-	int cz = current.z;
+	const int cx = current.x;
+	const int cy = current.y;
+	const int cz = current.z;
 	const int dx = destination.x;
 	const int dy = destination.y;
 	const int dz = destination.z;
 
-	NoximHMTile* t = NoximHexagon::getTile(cx, cy, cz);
+	const NoximHMTile* t = NoximHexagon::getTile(cx, cy, cz);
 	const NoximHMTile* dstTile = NoximHexagon::getTile(dx, dy, dz);
 	if (dstTile == NULL) {
 		cout << "Destination tile is NULL! return" << endl;
+		assert(false);
 		return directions;
 	}
 	// -x +z first
-	if (t && t != dstTile && (t->getCoord().x > dx || t->getCoord().z < dz)) {
+	//		if (t && t != dstTile) {
+	if (t && t != dstTile && cx > dx || cz < dz) {
+		//		if (t->nTile[DIRECTION_MX] != NULL && cx > dx) {
+		//			directions.push_back(DIRECTION_MX);
+		//		} else if (t->nTile[DIRECTION_PZ] != NULL && cz < dz) {
+		//			directions.push_back(DIRECTION_PZ);
 		if (t->nTile[DIRECTION_MX] != NULL) {
 			directions.push_back(DIRECTION_MX);
 		} else if (t->nTile[DIRECTION_PZ] != NULL) {
 			directions.push_back(DIRECTION_PZ);
-		} else if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
+		} else if (t->nTile[DIRECTION_PY] != NULL && cy < dy) {
 			directions.push_back(DIRECTION_PY);
-		} else if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
+		} else if (t->nTile[DIRECTION_MY] != NULL && cy > dy) {
 			directions.push_back(DIRECTION_MY);
 		}
 		if (directions.size() > 0)
@@ -663,19 +685,16 @@ vector<int> NoximHMRouter::routingMXPZFirst(const NoximHMCoord & current,
 	}
 	// minimal routing algorithm
 	if (t && t != dstTile) {
-		if (t->nTile[DIRECTION_PY] != NULL && t->getCoord().y < dy) {
+		if (t->nTile[DIRECTION_PY] != NULL && cy < dy) {
 			directions.push_back(DIRECTION_PY);
 		}
-
-		if (t->nTile[DIRECTION_MY] != NULL && t->getCoord().y > dy) {
+		if (t->nTile[DIRECTION_MY] != NULL && cy > dy) {
 			directions.push_back(DIRECTION_MY);
 		}
-
-		if (t->nTile[DIRECTION_PX] != NULL && t->getCoord().x < dx) {
+		if (t->nTile[DIRECTION_PX] != NULL && cx < dx) {
 			directions.push_back(DIRECTION_PX);
 		}
-
-		if (t->nTile[DIRECTION_MZ] != NULL && t->getCoord().z > dz) {
+		if (t->nTile[DIRECTION_MZ] != NULL && cz > dz) {
 			directions.push_back(DIRECTION_MZ);
 		}
 	}
@@ -768,6 +787,40 @@ vector<int> NoximHMRouter::estimateRoutingMXPZFirst(
 			t = NoximHexagon::getNeighborTile(t->getCoord(), DIRECTION_MZ);
 			continue;
 		}
+	}
+	return directions;
+}
+
+vector<int> NoximHMRouter::routingMin(const NoximHMCoord & current,
+		const NoximHMCoord & destination) {
+	vector<int> directions;
+	const int cx = current.x;
+	const int cy = current.y;
+	const int cz = current.z;
+	const int dx = destination.x;
+	const int dy = destination.y;
+	const int dz = destination.z;
+
+	const NoximHMTile* t = NoximHexagon::getTile(cx, cy, cz);
+	const NoximHMTile* dstTile = NoximHexagon::getTile(dx, dy, dz);
+	if (dstTile == NULL) {
+		cout << "Destination tile is NULL! return" << endl;
+		assert(false);
+	}
+
+	if (t && t != dstTile) {
+		if (t->nTile[DIRECTION_PX] != NULL && cx < dx)
+			directions.push_back(DIRECTION_PX);
+		if (t->nTile[DIRECTION_MX] != NULL && cx > dx)
+			directions.push_back(DIRECTION_MX);
+		if (t->nTile[DIRECTION_PY] != NULL && cy < dy)
+			directions.push_back(DIRECTION_PY);
+		if (t->nTile[DIRECTION_MY] != NULL && cy > dy)
+			directions.push_back(DIRECTION_MY);
+		if (t->nTile[DIRECTION_PZ] != NULL && cz < dz)
+			directions.push_back(DIRECTION_PZ);
+		if (t->nTile[DIRECTION_MZ] != NULL && cz > dz)
+			directions.push_back(DIRECTION_MZ);
 	}
 	return directions;
 }

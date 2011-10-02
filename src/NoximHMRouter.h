@@ -84,12 +84,15 @@ SC_MODULE(NoximHMRouter) {
 	}
 
 public:
-	static vector<int> routingFunction(const NoximRouteData & route_data);
+	vector<int> routingFunction(const NoximRouteData & route_data);
 
 	static vector<int> estimateRoutingMXPZFirst(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
 
-	static vector<int> routingMXPZFirst(const NoximHMCoord & current,
+	vector<int> routingMXPZFirst(const NoximHMCoord & current,
+			const NoximHMCoord & destination);
+
+	vector<int> routingMin(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
 
 	string toString() const;

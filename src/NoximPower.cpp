@@ -38,6 +38,8 @@ NoximPower::NoximPower() {
 		pwr_routing = PWR_ROUTING_TABLE_BASED;
 	else if (NoximGlobalParams::routing_algorithm == ROUTING_MXPZ)
 		pwr_routing = PWR_ROUTING_MXPZ;
+	else if (NoximGlobalParams::routing_algorithm == ROUTING_MIN)
+		pwr_routing = PWR_ROUTING_MIN;
 	else
 		assert(false);
 

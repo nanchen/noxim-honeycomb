@@ -52,6 +52,7 @@ using namespace std;
 
 // Routing algorithms
 #define ROUTING_MXPZ           10
+#define ROUTING_MIN           11
 #define ROUTING_XY             0
 #define ROUTING_WEST_FIRST     1
 #define ROUTING_NORTH_LAST     2
@@ -111,7 +112,7 @@ using namespace std;
 #define DEFAULT_HONEYCOMB_MESH_SIZE                  1
 
 // TODO by Fafa - this MUST be removed!!! Use only STL vectors instead!!!
-#define MAX_STATIC_DIM 20
+#define MAX_STATIC_DIM 40
 #define MAX_ABSOLUTE_COORD_VALUE 7
 
 // NoximGlobalParams -- used to forward configuration to every sub-block

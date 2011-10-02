@@ -21,7 +21,7 @@ int NoximHexagon::getLatestId() {
 static map<int, NoximHMTile*> idTileMap;
 
 // tiles array
-static NoximHMTile *a[20][20][20];
+static NoximHMTile *a[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
 
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z) {
 	return a[x + OFFSET][y + OFFSET][z + OFFSET];
@@ -137,10 +137,9 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
 	// reset
 	id = -1;
 
-	const int length = 20;
-	for (int i = 0; i < length; i++)
-		for (int j = 0; j < length; j++)
-			for (int k = 0; k < length; k++)
+	for (int i = 0; i < MAX_STATIC_DIM+1; i++)
+		for (int j = 0; j < MAX_STATIC_DIM+1; j++)
+			for (int k = 0; k < MAX_STATIC_DIM+1; k++)
 				a[i][j][k] = NULL;
 
 	std::cout << "------------buildHexagonTree-------------: meshSize = "
