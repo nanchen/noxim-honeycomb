@@ -664,13 +664,8 @@ vector<int> NoximHMRouter::routingMXPZFirst(const NoximHMCoord & current,
 		assert(false);
 		return directions;
 	}
-	// -x +z first
-	//		if (t && t != dstTile) {
+	// -x +z first phase
 	if (t && t != dstTile && cx > dx || cz < dz) {
-		//		if (t->nTile[DIRECTION_MX] != NULL && cx > dx) {
-		//			directions.push_back(DIRECTION_MX);
-		//		} else if (t->nTile[DIRECTION_PZ] != NULL && cz < dz) {
-		//			directions.push_back(DIRECTION_PZ);
 		if (t->nTile[DIRECTION_MX] != NULL) {
 			directions.push_back(DIRECTION_MX);
 		} else if (t->nTile[DIRECTION_PZ] != NULL) {
@@ -683,7 +678,7 @@ vector<int> NoximHMRouter::routingMXPZFirst(const NoximHMCoord & current,
 		if (directions.size() > 0)
 			return directions;
 	}
-	// minimal routing algorithm
+	// minimal routing phase
 	if (t && t != dstTile) {
 		if (t->nTile[DIRECTION_PY] != NULL && cy < dy) {
 			directions.push_back(DIRECTION_PY);

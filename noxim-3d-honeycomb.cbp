@@ -64,8 +64,6 @@
 		<Unit filename="src/NoximCmdLineParser.h" />
 		<Unit filename="src/NoximGlobalRoutingTable.cpp" />
 		<Unit filename="src/NoximGlobalRoutingTable.h" />
-		<Unit filename="src/NoximGlobalStats.cpp" />
-		<Unit filename="src/NoximGlobalStats.h" />
 		<Unit filename="src/NoximGlobalTrafficTable.cpp" />
 		<Unit filename="src/NoximGlobalTrafficTable.h" />
 		<Unit filename="src/NoximHMGlobalStats.cpp" />
@@ -82,16 +80,12 @@
 		<Unit filename="src/NoximLocalRoutingTable.h" />
 		<Unit filename="src/NoximMain.cpp" />
 		<Unit filename="src/NoximMain.h" />
-		<Unit filename="src/NoximNoC.cpp" />
-		<Unit filename="src/NoximNoC.h" />
 		<Unit filename="src/NoximPower.cpp" />
 		<Unit filename="src/NoximPower.h" />
 		<Unit filename="src/NoximProcessingElement.cpp" />
 		<Unit filename="src/NoximProcessingElement.h" />
 		<Unit filename="src/NoximReservationTable.cpp" />
 		<Unit filename="src/NoximReservationTable.h" />
-		<Unit filename="src/NoximRouter.cpp" />
-		<Unit filename="src/NoximRouter.h" />
 		<Unit filename="src/NoximStats.cpp" />
 		<Unit filename="src/NoximStats.h" />
 		<Unit filename="src/NoximTile.h" />

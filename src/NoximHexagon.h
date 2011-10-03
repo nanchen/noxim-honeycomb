@@ -19,13 +19,9 @@ extern "C" {
 #include "queue.h"
 }
 
-//#include "../gui/noximguimanager.h"
-
 using namespace std;
 
 class NoximHexagon {
-
-	//typedef NoximHexagon ElementType;
 
 public:
 	// -------------STATIC-----------------------------

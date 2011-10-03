@@ -10,12 +10,6 @@
 	<File name="src/NoximGlobalRoutingTable.h" open="0" top="0" tabpos="0">
 		<Cursor position="1545" topLine="48" />
 	</File>
-	<File name="src/NoximGlobalStats.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="2640" topLine="109" />
-	</File>
-	<File name="src/NoximGlobalStats.h" open="0" top="0" tabpos="0">
-		<Cursor position="359" topLine="8" />
-	</File>
 	<File name="src/NoximHMNoC.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2992" topLine="77" />
 	</File>
@@ -52,12 +46,6 @@
 	<File name="src/NoximMain.h" open="0" top="0" tabpos="0">
 		<Cursor position="3616" topLine="183" />
 	</File>
-	<File name="src/NoximNoC.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="2469" topLine="6" />
-	</File>
-	<File name="src/NoximNoC.h" open="0" top="0" tabpos="0">
-		<Cursor position="3176" topLine="51" />
-	</File>
 	<File name="src/NoximProcessingElement.h" open="0" top="0" tabpos="0">
 		<Cursor position="0" topLine="54" />
 	</File>
@@ -66,12 +54,6 @@
 	</File>
 	<File name="src/NoximReservationTable.h" open="0" top="0" tabpos="0">
 		<Cursor position="601" topLine="18" />
-	</File>
-	<File name="src/NoximRouter.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="17942" topLine="645" />
-	</File>
-	<File name="src/NoximRouter.h" open="0" top="0" tabpos="0">
-		<Cursor position="2635" topLine="54" />
 	</File>
 	<File name="src/NoximTile.h" open="0" top="0" tabpos="0">
 		<Cursor position="3158" topLine="85" />

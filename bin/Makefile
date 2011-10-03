@@ -6,8 +6,6 @@
 # the following variable to point to your SystemC installation path
 TARGET_ARCH = linux
 SYSTEMC = /home/nan/dev/systemc-2.2.0
-DS = /home/nan/chen-work/c-data-structures-analysis
-QT = /home/nan/qtsdk-2010.05/qt
 
 CC     = g++
 OPT    = -O0
@@ -20,19 +18,15 @@ VPATH = ../src:.
 SRCS := $(wildcard ../src/*.cpp)
 OBJS = $(subst ../src/,,$(SRCS:.cpp=.o))
 
-#INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I$(QT)/include -I$(DS)/ds-lib 
-#LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L$(QT)/lib -L$(DS)/bin/Debug
-
-INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I$(DS)/ds-lib 
-LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L$(DS)/bin/Debug
-
+INCDIR = -I. -I.. -I../src -I$(SYSTEMC)/include -I../ds-lib/include 
+LIBDIR = -L. -L.. -L../src -L$(SYSTEMC)/lib-$(TARGET_ARCH) -L../ds-lib
 
 #EXTRA_LIBS = -lpthread
 LIBS = -lsystemc -lm $(EXTRA_LIBS) -lc-data-structures-analysis
 
 .SUFFIXES: .cpp .o 
 
-noxim: $(OBJS) $(SYSTEMC)/lib-$(TARGET_ARCH)/libsystemc.a /home/nan/chen-work/c-data-structures-analysis/bin/Debug/libc-data-structures-analysis.a
+noxim: $(OBJS) $(SYSTEMC)/lib-$(TARGET_ARCH)/libsystemc.a ../ds-lib/libc-data-structures-analysis.a
 	$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) -fexceptions -o $@ $(OBJS) $(LIBS) 2>&1 | c++filt
 
 .cpp.o:
@@ -46,6 +40,3 @@ noxim: $(OBJS) $(SYSTEMC)/lib-$(TARGET_ARCH)/libsystemc.a /home/nan/chen-work/c-
 
 clean:
 	rm -f $(OBJS) *~ noxim core
-
-#include ./Makefile.deps
-
