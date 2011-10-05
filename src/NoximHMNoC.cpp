@@ -172,27 +172,6 @@ void NoximHMNoC::buildHoneycombMesh(int hmSize) {
 			tile->free_slots[DIR_Z](free_slots_to_mz[x][y][z - 1]);
 			//                    tile->NoP_data_out[DIRECTION_MZ](NoP_data_to_mz[x][y][z]);
 		}
-		// neighbor tiles
-		// +x
-		NoximHMTile* n = NoximHexagon::getNeighborTile(coord, DIRECTION_PX);
-		if (n)
-			tile->nTile[DIRECTION_PX] = n;
-		// -x
-		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MX);
-		if (n)
-			tile->nTile[DIRECTION_MX] = n;
-		n = NoximHexagon::getNeighborTile(coord, DIRECTION_PY);
-		if (n)
-			tile->nTile[DIRECTION_PY] = n;
-		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MY);
-		if (n)
-			tile->nTile[DIRECTION_MY] = n;
-		n = NoximHexagon::getNeighborTile(coord, DIRECTION_PZ);
-		if (n)
-			tile->nTile[DIRECTION_PZ] = n;
-		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MZ);
-		if (n)
-			tile->nTile[DIRECTION_MZ] = n;
 	}
 
 	// Iterate over the tile array

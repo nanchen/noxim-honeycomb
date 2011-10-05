@@ -26,6 +26,7 @@ class NoximHexagon {
 public:
 	// -------------STATIC-----------------------------
 	static const int OFFSET = 20;
+	static void reset();
 	static NoximHexagon* buildHexagonTree(int meshSize);
 
 	static NoximHMTile* getTile(int x, int y, int z);

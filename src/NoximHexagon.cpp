@@ -21,7 +21,8 @@ int NoximHexagon::getLatestId() {
 static map<int, NoximHMTile*> idTileMap;
 
 // tiles array
-static NoximHMTile *a[MAX_STATIC_DIM+1][MAX_STATIC_DIM+1][MAX_STATIC_DIM+1];
+static NoximHMTile *a[MAX_STATIC_DIM + 1][MAX_STATIC_DIM + 1][MAX_STATIC_DIM
+		+ 1];
 
 NoximHMTile* NoximHexagon::getTile(int x, int y, int z) {
 	return a[x + OFFSET][y + OFFSET][z + OFFSET];
@@ -119,7 +120,6 @@ char* NoximHexagon::getDirectionStr(const int dir) {
 	return ret;
 }
 
-
 int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 	if (fullDir == DIRECTION_PX || fullDir == DIRECTION_MX)
 		return DIR_X;
@@ -133,14 +133,19 @@ int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 	}
 }
 
-NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
-	// reset
+/**
+ * reset
+ */
+void NoximHexagon::reset(){
 	id = -1;
 
-	for (int i = 0; i < MAX_STATIC_DIM+1; i++)
-		for (int j = 0; j < MAX_STATIC_DIM+1; j++)
-			for (int k = 0; k < MAX_STATIC_DIM+1; k++)
+	for (int i = 0; i < MAX_STATIC_DIM + 1; i++)
+		for (int j = 0; j < MAX_STATIC_DIM + 1; j++)
+			for (int k = 0; k < MAX_STATIC_DIM + 1; k++)
 				a[i][j][k] = NULL;
+}
+NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
+	reset();
 
 	std::cout << "------------buildHexagonTree-------------: meshSize = "
 			<< meshSize << std::endl;
@@ -237,10 +242,36 @@ NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
 			}
 		}
 	}
-//	count += levelCount;
-//	std::cout << levelCount << " hexagons for level: " << currentLevel
-//			<< " (total: " << count << ") created." << std::endl;
+	//	count += levelCount;
+	//	std::cout << levelCount << " hexagons for level: " << currentLevel
+	//			<< " (total: " << count << ") created." << std::endl;
 	Queue_disposeQueue(queue);
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		NoximHMTile* tile = NoximHexagon::getTile(i);
+		NoximHMCoord coord = tile->getCoord();
+		// neighbor tiles
+		// +x
+		NoximHMTile* n = NoximHexagon::getNeighborTile(coord, DIRECTION_PX);
+		if (n)
+			tile->nTile[DIRECTION_PX] = n;
+		// -x
+		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MX);
+		if (n)
+			tile->nTile[DIRECTION_MX] = n;
+		n = NoximHexagon::getNeighborTile(coord, DIRECTION_PY);
+		if (n)
+			tile->nTile[DIRECTION_PY] = n;
+		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MY);
+		if (n)
+			tile->nTile[DIRECTION_MY] = n;
+		n = NoximHexagon::getNeighborTile(coord, DIRECTION_PZ);
+		if (n)
+			tile->nTile[DIRECTION_PZ] = n;
+		n = NoximHexagon::getNeighborTile(coord, DIRECTION_MZ);
+		if (n)
+			tile->nTile[DIRECTION_MZ] = n;
+	}
+
 	return rootHexagon;
 }
 // -------------STATIC----------END----------------
