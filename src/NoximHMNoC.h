@@ -93,14 +93,14 @@ SC_MODULE(NoximHMNoC)
 		//---------- Mau experiment <stop>
 
 		// Build the Mesh
-		buildHoneycombMesh();
+		buildHoneycombMesh(NoximGlobalParams::honeycomb_mesh_size);
 	}
 
 	// Support methods
 	NoximHMTile *searchNode(const int id) const;
 
 private:
-	void buildHoneycombMesh();
+	void buildHoneycombMesh(int hmSize);
 };
 
 #endif

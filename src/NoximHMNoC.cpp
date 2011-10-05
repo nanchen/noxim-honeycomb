@@ -26,7 +26,9 @@ void printNeighborSignals(const int dir, const NoximHMTile* tile) {
 		printf("\t<==>[@%s] NULL\n", NoximHexagon::getDirectionStr(dir));
 }
 
-void NoximHMNoC::buildHoneycombMesh() {
+void NoximHMNoC::buildHoneycombMesh(int hmSize) {
+	assert(hmSize > 0);
+
 	// Check for routing table availability
 	if (NoximGlobalParams::routing_algorithm == ROUTING_TABLE_BASED)
 		assert(grtable.load(NoximGlobalParams::routing_table_filename));
@@ -36,8 +38,7 @@ void NoximHMNoC::buildHoneycombMesh() {
 		assert(gttable.load(NoximGlobalParams::traffic_table_filename));
 
 	// Create honeycomb mesh
-	NoximHexagon* root = NoximHexagon::buildHexagonTree(
-			NoximGlobalParams::honeycomb_mesh_size);
+	NoximHexagon* root = NoximHexagon::buildHexagonTree(hmSize);
 
 	// Travese (level-order) the tree
 	//    Queue q = Queue_CreateQueue(100);
