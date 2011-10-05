@@ -1,5 +1,7 @@
 #include "NoximHMRouterTest.h"
 #include "NoximMain.h"
+#include "NoximHexagon.h"
+#include "NoximHMNoC.h"
 #include <systemc.h>
 #include <vector>
 
@@ -73,6 +75,8 @@ void NoximHMRouterTest::testTxProcess() {
 }
 
 void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
+	NoximHexagon::buildHexagonTree(4);
+
 	NoximHMRouter* router = new NoximHMRouter("router");
 
 	//----------start from +x--------------
@@ -320,24 +324,23 @@ void NoximHMRouterTest::testRoutingMinusXPlusZFirst() {
 	test_(ret[0] == DIRECTION_MX);
 
 	//arbitary   commented out, currently by default hmsize = 1
-	/*
-	 ret = router->estimateRoutingMXPZFirst(NoximHMCoord(3,0,-2),NoximHMCoord(-3,1,4));
-	 printVector(ret);
-	 test_(ret.size()==13);
-	 test_(ret[0] == DIRECTION_PZ);
-	 test_(ret[1] == DIRECTION_MX);
-	 test_(ret[2] == DIRECTION_PZ);
-	 test_(ret[3] == DIRECTION_MX);
-	 test_(ret[4] == DIRECTION_PZ);
-	 test_(ret[5] == DIRECTION_MX);
-	 test_(ret[6] == DIRECTION_PZ);
-	 test_(ret[7] == DIRECTION_MX);
-	 test_(ret[8] == DIRECTION_PZ);
-	 test_(ret[9] == DIRECTION_MX);
-	 test_(ret[10] == DIRECTION_PZ);
-	 test_(ret[11] == DIRECTION_MX);
-	 test_(ret[12] == DIRECTION_PY);
-	 */
+	ret = router->estimateRoutingMXPZFirst(NoximHMCoord(3, 0, -2),
+			NoximHMCoord(-3, 1, 4));
+	printVector(ret);
+	test_(ret.size()==13);
+	test_(ret[0] == DIRECTION_PZ);
+	test_(ret[1] == DIRECTION_MX);
+	test_(ret[2] == DIRECTION_PZ);
+	test_(ret[3] == DIRECTION_MX);
+	test_(ret[4] == DIRECTION_PZ);
+	test_(ret[5] == DIRECTION_MX);
+	test_(ret[6] == DIRECTION_PZ);
+	test_(ret[7] == DIRECTION_MX);
+	test_(ret[8] == DIRECTION_PZ);
+	test_(ret[9] == DIRECTION_MX);
+	test_(ret[10] == DIRECTION_PZ);
+	test_(ret[11] == DIRECTION_MX);
+	test_(ret[12] == DIRECTION_PY);
 }
 
 void NoximHMRouterTest::printVector(const vector<int>& v) {

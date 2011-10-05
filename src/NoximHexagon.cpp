@@ -127,6 +127,8 @@ int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 		return DIR_Y;
 	else if (fullDir == DIRECTION_PZ || fullDir == DIRECTION_MZ)
 		return DIR_Z;
+	else if (fullDir == DIRECTION_HM_LOCAL)
+		return DIR_LOCAL;
 	else {
 		assert(false);
 		return -1;

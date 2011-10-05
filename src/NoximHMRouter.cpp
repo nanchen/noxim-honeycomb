@@ -88,7 +88,8 @@ void NoximHMRouter::txProcess() {
 					route_data.dst_id = flit.dst_id;
 					route_data.dir_in = i;
 
-					int o = route(route_data);
+					int fullOutDir = route(route_data);
+					int o = NoximHexagon::fullDir2ReducedDir(fullOutDir);
 
 					if (NoximGlobalParams::verbose_mode > VERBOSE_OFF) {
 						cout << sc_time_stamp().to_double() / 1000 << ": "
@@ -104,7 +105,6 @@ void NoximHMRouter::txProcess() {
 					} else if (NoximGlobalParams::verbose_mode > VERBOSE_OFF)
 						cout << "\n\tOutput[" << o << "] is not available"
 								<< endl;
-
 				}
 			}
 		}
@@ -252,19 +252,10 @@ int NoximHMRouter::route(const NoximRouteData & route_data) {
 	stats.power.Routing();
 
 	if (route_data.dst_id == local_id)
-		return DIR_LOCAL;
+		return DIRECTION_HM_LOCAL;
 
 	vector<int> candidate_channels = routingFunction(route_data);
-
-	int fullOutDir = selectionFunction(candidate_channels, route_data);
-	int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
-	return reducedOutDir;
-
-	//	if (candidate_channels.size() > 0) {
-	//		int fullOutDir = candidate_channels[0];
-	//		int reducedOutDir = NoximHexagon::fullDir2ReducedDir(fullOutDir);
-	//		return reducedOutDir;
-	//	}
+	return selectionFunction(candidate_channels, route_data);
 }
 
 //void NoximHMRouter::NoP_report() const
@@ -784,6 +775,22 @@ vector<int> NoximHMRouter::estimateRoutingMXPZFirst(
 		}
 	}
 	return directions;
+}
+
+vector<int> NoximHMRouter::estimateRouting(const int srcId, const int dstId) {
+	vector<int> dirs;
+	NoximHMTile* curTile = NoximHexagon::getTile(srcId);
+	while (curTile->getId() != dstId) {
+		NoximHMRouter* curRouter = curTile->r;
+		NoximRouteData rd;
+		rd.current_id = curTile->getId();
+		rd.src_id = srcId;
+		rd.dst_id = dstId;
+		int dir = curRouter->route(rd);
+		dirs.push_back(dir);
+		curTile = curTile->nTile[dir];
+	}
+	return dirs;
 }
 
 vector<int> NoximHMRouter::routingMin(const NoximHMCoord & current,

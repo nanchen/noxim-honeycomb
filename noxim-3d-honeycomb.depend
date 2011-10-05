@@ -974,14 +974,14 @@
 	<queue>
 	"NoximMain.h"
 
-1317499991 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.h
+1317589171 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.h
 	<cassert>
 	<systemc.h>
 	<vector>
 	<string>
 	<stdio.h>
 
-1299713408 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximCmdLineParser.cpp
+1317575256 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximCmdLineParser.cpp
 	"NoximCmdLineParser.h"
 
 1299618353 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximCmdLineParser.h
@@ -1038,7 +1038,7 @@
 	"NoximMain.h"
 	"NoximPower.h"
 
-1316550498 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.h
+1317575517 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.h
 	<cassert>
 	"NoximMain.h"
 
@@ -1065,7 +1065,7 @@
 1316633900 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximGlobalTrafficTable.cpp
 	"NoximGlobalTrafficTable.h"
 
-1317324985 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.cpp
+1317502426 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.cpp
 	"NoximHMGlobalStats.h"
 
 1316633803 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMGlobalStats.h
@@ -1075,20 +1075,20 @@
 	"NoximHMNoC.h"
 	"NoximHMTile.h"
 
-1317499813 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.h
+1317818057 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.h
 	<systemc.h>
 	"NoximHMTile.h"
 	"NoximHexagon.h"
 	"NoximGlobalRoutingTable.h"
 	"NoximGlobalTrafficTable.h"
 
-1316278629 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMTile.h
+1317505919 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMTile.h
 	<systemc.h>
 	"NoximHMRouter.h"
 	"NoximProcessingElement.h"
 	<stdio.h>
 
-1316867274 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.h
+1317575339 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.h
 	<systemc.h>
 	"NoximMain.h"
 	"NoximBuffer.h"
@@ -1097,19 +1097,19 @@
 	"NoximLocalRoutingTable.h"
 	"NoximReservationTable.h"
 
-1317498860 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.h
+1317818330 /home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.h
 	<stdlib.h>
 	<string>
 	"NoximHMNoC.h"
 	"NoximHMTile.h"
 	"queue.h"
 
-1317499373 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.cpp
+1317817943 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMNoC.cpp
 	<math.h>
 	"NoximHMNoC.h"
 	"queue.h"
 
-1317327191 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.cpp
+1317641013 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMRouter.cpp
 	<stdio.h>
 	"NoximHMRouter.h"
 	"NoximHexagon.h"
@@ -1117,7 +1117,7 @@
 1316278363 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHMTile.cpp
 	"NoximHMTile.h"
 
-1317499398 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.cpp
+1317818300 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximHexagon.cpp
 	<unistd.h>
 	<map>
 	"NoximHexagon.h"
@@ -1125,7 +1125,7 @@
 1316633710 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximLocalRoutingTable.cpp
 	"NoximLocalRoutingTable.h"
 
-1317500210 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.cpp
+1317818611 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximMain.cpp
 	"NoximMain.h"
 	"NoximHMNoC.h"
 	"NoximHMGlobalStats.h"
@@ -1134,10 +1134,10 @@
 1300061488 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximNoC.cpp
 	"NoximNoC.h"
 
-1316550567 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.cpp
+1317575528 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximPower.cpp
 	"NoximPower.h"
 
-1316459232 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximProcessingElement.cpp
+1317587844 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximProcessingElement.cpp
 	"NoximProcessingElement.h"
 	"NoximHexagon.h"
 
@@ -1147,9 +1147,10 @@
 1299451752 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximRouter.cpp
 	"NoximRouter.h"
 
-1316884558 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximStats.cpp
+1317508064 source:/home/nan/Dropbox/noxim-3d-honeycomb/src/NoximStats.cpp
 	"NoximStats.h"
 	"NoximHMRouter.h"
+	"NoximHexagon.h"
 
 1316008096 source:/home/nan/Dropbox/noxim-3d-honeycomb/tests/NoximHMNoCTest.cpp
 	"NoximHMNoCTest.h"

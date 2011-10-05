@@ -224,3 +224,75 @@ void NoximHMGlobalStats::showStats(std::ostream & out, bool detailed) {
 		//		out << "];" << endl;
 	}
 }
+//------------------------Calculated statistics----------------------------
+struct Hops {
+	double average;
+	int max;
+	int maxSrcId;
+	int maxDstId;
+	int min;
+	int minSrcId;
+	int minDstId;
+	int pathCount;
+};
+
+struct Hops calcHopsStats() {
+	unsigned int count = 0;
+	int hopsSum = 0;
+	struct Hops hs;
+	hs.max = -1;
+	hs.min = 999999;
+	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+		for (int j = 0; j <= NoximHexagon::getLatestId(); j++) {
+			if (i != j) {
+				vector<int> dirs = NoximHMRouter::estimateRouting(i, j);
+				int hops = dirs.size();
+				hopsSum += hops;
+				count++;
+				if (hops > hs.max) {
+					hs.max = hops;
+					hs.maxSrcId = i;
+					hs.maxDstId = j;
+				}
+				if (hops < hs.min) {
+					hs.min = hops;
+					hs.minSrcId = i;
+					hs.minDstId = j;
+				}
+			}
+		}
+	}
+	hs.average = (double) hopsSum / count;
+	hs.pathCount = count;
+	return hs;
+}
+
+void printVector(vector<int> v) {
+	cout << "vector: ";
+	for (int i = 0; i < v.size(); i++)
+		cout << v[i] << ",";
+	cout << endl;
+}
+
+void NoximHMGlobalStats::showCalcStats(std::ostream & out) {
+	struct Hops hs = calcHopsStats();
+	out << "Calculated for " << hs.pathCount << " paths" << endl;
+	out << "\t Average hops = " << hs.average << endl;
+	//max
+	out << "\t Max hops = " << hs.max << endl;
+	const vector<int> maxDirs = NoximHMRouter::estimateRouting(hs.maxSrcId,
+			hs.maxDstId);
+	out << "\t\t e.g.: src = " << NoximHexagon::id2Coord(hs.maxSrcId)
+			<< ", dst = " << NoximHexagon::id2Coord(hs.maxDstId) << endl;
+	out << "\t\t Routing result direction ";
+	printVector(maxDirs);
+	//min
+	out << "\t Min hops = " << hs.min << endl;
+	const vector<int> minDirs = NoximHMRouter::estimateRouting(hs.minSrcId,
+			hs.minDstId);
+	out << "\t\t e.g.: src = " << NoximHexagon::id2Coord(hs.minSrcId)
+			<< ", dst = " << NoximHexagon::id2Coord(hs.minDstId) << endl;
+	out << "\t\t Routing result direction ";
+	printVector(minDirs);
+}
+//------------------------Calculated statistics----------------------------

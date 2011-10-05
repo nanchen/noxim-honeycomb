@@ -143,6 +143,8 @@ struct NoximGlobalParams {
 	// for honeycomb
 	static int honeycomb_mesh_size;
 
+	// for calculated statistics
+	static bool calc;
 };
 
 // NoximHMCoord -- XYZ coordinates type of the Tile inside the Honeycomb Mesh

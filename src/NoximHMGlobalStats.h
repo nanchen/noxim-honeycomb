@@ -69,6 +69,9 @@ public:
 	// Shows global statistics
 	void showStats(std::ostream & out = std::cout, bool detailed = false);
 
+	// show calculated statistics
+	void showCalcStats(std::ostream & out = std::cout);
+
 #ifdef TESTING
 	unsigned int drained_total;
 #endif

@@ -84,10 +84,15 @@ SC_MODULE(NoximHMRouter) {
 	}
 
 public:
+	// performs actual routing + selection
+	int route(const NoximRouteData & route_data);
+
 	vector<int> routingFunction(const NoximRouteData & route_data);
 
 	static vector<int> estimateRoutingMXPZFirst(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
+
+	static vector<int> estimateRouting(const int srcId, const int dstId);
 
 	vector<int> routingMXPZFirst(const NoximHMCoord & current,
 			const NoximHMCoord & destination);
@@ -109,9 +114,6 @@ public:
 	}
 
 private:
-
-	// performs actual routing + selection
-	int route(const NoximRouteData & route_data);
 
 	// wrappers
 	int selectionFunction(const vector<int> &directions,

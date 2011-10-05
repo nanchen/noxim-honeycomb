@@ -44,6 +44,7 @@ float NoximGlobalParams::dyad_threshold = DEFAULT_DYAD_THRESHOLD;
 unsigned int NoximGlobalParams::max_volume_to_be_drained =
 		DEFAULT_MAX_VOLUME_TO_BE_DRAINED;
 vector<pair<int, double> > NoximGlobalParams::hotspots;
+bool NoximGlobalParams::calc = false;
 
 // for honeycomb mesh
 int NoximGlobalParams::honeycomb_mesh_size = DEFAULT_HONEYCOMB_MESH_SIZE;
@@ -71,6 +72,12 @@ int sc_main(int arg_num, char *arg_vet[]) {
 	NoximHMNoC *n = new NoximHMNoC("NoC");
 	n->clock(clock);
 	n->reset(reset);
+
+	if(NoximGlobalParams::calc){
+		NoximHMGlobalStats gs(n);
+		gs.showCalcStats();
+		exit(0);
+	}
 
 	// Trace signals
 	sc_trace_file *tf = NULL;

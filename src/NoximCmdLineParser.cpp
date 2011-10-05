@@ -372,6 +372,8 @@ void parseCmdLine(int arg_num, char *arg_vet[])
 		    atoi(arg_vet[++i]);
 	    else if (!strcmp(arg_vet[i], "-sim"))
 		NoximGlobalParams::simulation_time = atoi(arg_vet[++i]);
+	    else if (!strcmp(arg_vet[i], "-calc"))
+			NoximGlobalParams::calc = true;
 	    else {
 		cerr << "Error: Invalid option: " << arg_vet[i] << endl;
 		exit(1);
