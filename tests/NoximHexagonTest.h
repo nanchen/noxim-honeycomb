@@ -16,7 +16,7 @@ private:
     void testBuildHexagonTree();
     void testTileType();
     void testIdAndCoord();
-
+    void testNumberOfTiles();
 };
 
 #endif	/* NOXIMHEXAGONTEST_H */
