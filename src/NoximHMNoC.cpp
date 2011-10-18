@@ -20,10 +20,10 @@ static const int OFFSET = NoximHexagon::OFFSET;
 void printNeighborSignals(const int dir, const NoximHMTile* tile) {
 	NoximHMTile* nTile = NoximHexagon::getNeighborTile(tile->getCoord(), dir);
 	if (nTile)
-		printf("\t<==>[@%s] %s\n", NoximHexagon::getDirectionStr(dir),
+		printf("\t==>[@%s] %s\n", NoximHexagon::getDirectionStr(dir),
 				nTile->toString());
 	else
-		printf("\t<==>[@%s] NULL\n", NoximHexagon::getDirectionStr(dir));
+		printf("\t==>[@%s] NULL\n", NoximHexagon::getDirectionStr(dir));
 }
 
 void NoximHMNoC::buildHoneycombMesh(int hmSize) {
@@ -173,33 +173,6 @@ void NoximHMNoC::buildHoneycombMesh(int hmSize) {
 			//                    tile->NoP_data_out[DIRECTION_MZ](NoP_data_to_mz[x][y][z]);
 		}
 	}
-
-	// Iterate over the tile array
-	//    for(int x=-MAX_ABSOLUTE_COORD_VALUE; x<MAX_ABSOLUTE_COORD_VALUE+1; x++){
-	//        for(int y=-MAX_ABSOLUTE_COORD_VALUE; y<MAX_ABSOLUTE_COORD_VALUE+1; y++){
-	//            for(int z=-MAX_ABSOLUTE_COORD_VALUE; z<MAX_ABSOLUTE_COORD_VALUE+1; z++){
-	//                NoximHMTile* tile = NoximHexagon::getTile(x,y,z);
-	//
-	//                // in case there is no tile at x, y, z
-	//                if(tile == NULL)
-	//                    continue;
-	//
-	//                cout << "checking signals for tile at (" << x << ", " << y << ", " << z << "):" << endl;
-	//                for(int x0=-MAX_ABSOLUTE_COORD_VALUE; x0<MAX_ABSOLUTE_COORD_VALUE+1; x0++){
-	//                      for(int y0=-MAX_ABSOLUTE_COORD_VALUE; y0<MAX_ABSOLUTE_COORD_VALUE+1; y0++){
-	//                          for(int z0=-MAX_ABSOLUTE_COORD_VALUE; z0<MAX_ABSOLUTE_COORD_VALUE+1; z0++){
-	//                        	  NoximHMTile* tile0 = NoximHexagon::getTile(x0,y0,z0);
-	//
-	//                        	  if(tile0 == NULL)
-	//                        		  continue;
-	//                        	  if(tile->req_tx[DIRECTION_PX]==tile0->req_rx[DIRECTION_MX])
-	//                        		  cout << "px ==  mx" << endl;
-	//                          }
-	//                     }
-	//                }
-	//            }
-	//        }
-	//    }
 
 	// dummy NoximNoP_data structure
 	/*

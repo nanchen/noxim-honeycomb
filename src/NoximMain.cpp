@@ -53,6 +53,8 @@ int NoximGlobalParams::honeycomb_mesh_size = DEFAULT_HONEYCOMB_MESH_SIZE;
 #ifndef MAIN
 #define MAIN
 
+static const int OFFSET = NoximHexagon::OFFSET;
+
 int sc_main(int arg_num, char *arg_vet[]) {
 	// TEMP
 	drained_volume = 0;
@@ -73,7 +75,8 @@ int sc_main(int arg_num, char *arg_vet[]) {
 	n->clock(clock);
 	n->reset(reset);
 
-	if(NoximGlobalParams::calc){
+	// Calculate, do not run simulation
+	if (NoximGlobalParams::calc) {
 		NoximHMGlobalStats gs(n);
 		gs.showCalcStats();
 		exit(0);
@@ -86,31 +89,43 @@ int sc_main(int arg_num, char *arg_vet[]) {
 		sc_trace(tf, reset, "reset");
 		sc_trace(tf, clock, "clock");
 
-		/*
-		 for (int i = 0; i < NoximGlobalParams::mesh_dim_x; i++) {
-		 for (int j = 0; j < NoximGlobalParams::mesh_dim_y; j++) {
-		 char label[30];
+		for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
+			NoximHMTile* tile = NoximHexagon::getTile(i);
+			NoximHMCoord coord = tile->getCoord();
+			int ox = coord.x;
+			int oy = coord.y;
+			int oz = coord.z;
+			int x = ox + OFFSET;
+			int y = oy + OFFSET;
+			int z = oz + OFFSET;
+			char label[30];
 
-		 sprintf(label, "req_to_east(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->req_to_east[i][j], label);
-		 sprintf(label, "req_to_west(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->req_to_west[i][j], label);
-		 sprintf(label, "req_to_south(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->req_to_south[i][j], label);
-		 sprintf(label, "req_to_north(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->req_to_north[i][j], label);
+			sprintf(label, "req_to_px(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_px[x][y][z], label);
+			sprintf(label, "req_to_mx(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_mx[x][y][z], label);
+			sprintf(label, "req_to_py(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_py[x][y][z], label);
+			sprintf(label, "req_to_my(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_my[x][y][z], label);
+			sprintf(label, "req_to_pz(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_pz[x][y][z], label);
+			sprintf(label, "req_to_mz(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->req_to_mz[x][y][z], label);
 
-		 sprintf(label, "ack_to_east(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->ack_to_east[i][j], label);
-		 sprintf(label, "ack_to_west(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->ack_to_west[i][j], label);
-		 sprintf(label, "ack_to_south(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->ack_to_south[i][j], label);
-		 sprintf(label, "ack_to_north(%02d)(%02d)", i, j);
-		 sc_trace(tf, n->ack_to_north[i][j], label);
-		 }
-		 }
-		 */
+			sprintf(label, "ack_to_px(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_px[x][y][z], label);
+			sprintf(label, "ack_to_mx(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_mx[x][y][z], label);
+			sprintf(label, "ack_to_py(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_py[x][y][z], label);
+			sprintf(label, "ack_to_my(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_my[x][y][z], label);
+			sprintf(label, "ack_to_pz(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_pz[x][y][z], label);
+			sprintf(label, "ack_to_mz(%02d)(%02d)(%02d)", ox, oy, oz);
+			sc_trace(tf, n->ack_to_mz[x][y][z], label);
+		}
 	}
 
 	// Reset the chip and run the simulation

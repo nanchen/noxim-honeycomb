@@ -30,7 +30,7 @@ noxim: $(OBJS) $(SYSTEMC)/lib-$(TARGET_ARCH)/libsystemc.a ../ds-lib/libc-data-st
 	$(CC) $(CFLAGS) $(INCDIR) $(LIBDIR) -fexceptions -o $@ $(OBJS) $(LIBS) 2>&1 | c++filt
 
 .cpp.o:
-	$(CC) $(CFLAGS) $(INCDIR) -c -g $<
+	$(CC) $(CFLAGS) $(INCDIR) -c -g -fpermissive  $<
 
 %.d: %.cpp
 	@set -e; rm -f $@; \
