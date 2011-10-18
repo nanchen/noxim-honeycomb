@@ -138,12 +138,12 @@ int NoximHexagon::fullDir2ReducedDir(const int fullDir) {
 /**
  * reset
  */
-void NoximHexagon::reset(){
+void NoximHexagon::reset() {
 	id = -1;
 
-	for (int i = 0; i < MAX_STATIC_DIM + 1; i++)
-		for (int j = 0; j < MAX_STATIC_DIM + 1; j++)
-			for (int k = 0; k < MAX_STATIC_DIM + 1; k++)
+	for (int i = 0; i < MAX_STATIC_DIM; i++)
+		for (int j = 0; j < MAX_STATIC_DIM; j++)
+			for (int k = 0; k < MAX_STATIC_DIM; k++)
 				a[i][j][k] = NULL;
 }
 NoximHexagon* NoximHexagon::buildHexagonTree(int meshSize) {
