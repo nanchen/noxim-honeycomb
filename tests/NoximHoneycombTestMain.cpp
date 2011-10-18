@@ -7,6 +7,7 @@
 #include "NoximHexagonTest.h"
 #include "NoximHMRouterTest.h"
 #include "NoximHMNoCTest.h"
+#include "NoximReservationTableTest.h"
 
 using namespace std;
 using namespace TestSuite;
@@ -21,6 +22,7 @@ int sc_main(int argc, char* argv[])
     suite.addTest(new NoximHexagonTest);
     suite.addTest(new NoximHMNoCTest);
     suite.addTest(new NoximHMRouterTest);
+    suite.addTest(new NoximReservationTableTest);
 
     suite.run();
     suite.report();

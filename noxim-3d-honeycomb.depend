@@ -1316,7 +1316,7 @@
 	"NoximHMTile.h"
 	"queue.h"
 
-1317817943 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/src/NoximHMNoC.cpp
+1318944235 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/src/NoximHMNoC.cpp
 	<math.h>
 	"NoximHMNoC.h"
 	"queue.h"
@@ -1337,7 +1337,7 @@
 1316633710 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/src/NoximLocalRoutingTable.cpp
 	"NoximLocalRoutingTable.h"
 
-1318793783 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/src/NoximMain.cpp
+1318959498 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/src/NoximMain.cpp
 	"NoximMain.h"
 	"NoximHMNoC.h"
 	"NoximHMGlobalStats.h"
@@ -1384,13 +1384,14 @@
 	"Test.h"
 	"NoximHMRouter.h"
 
-1315755221 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/NoximHoneycombTestMain.cpp
+1318959468 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/NoximHoneycombTestMain.cpp
 	<iostream>
 	"systemc.h"
 	"Suite.h"
 	"NoximHexagonTest.h"
 	"NoximHMRouterTest.h"
 	"NoximHMNoCTest.h"
+	"NoximReservationTableTest.h"
 
 1211447188 /home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/Suite.h
 	<vector>
@@ -1410,4 +1411,16 @@
 	"Test.h"
 	<iostream>
 	<typeinfo>
+
+1318794082 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/NoximHexagonTest.cpp
+	"NoximHexagonTest.h"
+	"NoximHexagon.h"
+	"NoximHMTile.h"
+
+1318959716 /home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/NoximReservationTableTest.h
+	"Test.h"
+	"NoximReservationTable.h"
+
+1318959686 source:/home/nan/Dropbox/chen-work/noxim-3d-honeycomb/tests/NoximReservationTableTest.cpp
+	"NoximReservationTableTest.h"
 
