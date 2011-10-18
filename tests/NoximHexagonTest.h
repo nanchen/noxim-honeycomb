@@ -17,6 +17,7 @@ private:
     void testTileType();
     void testIdAndCoord();
     void testNumberOfTiles();
+    void testFullDir2ReducedDir();
 };
 
 #endif	/* NOXIMHEXAGONTEST_H */

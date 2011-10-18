@@ -9,6 +9,7 @@ void NoximHexagonTest::run() {
 	testTileType();
 	testIdAndCoord();
 	testNumberOfTiles();
+	testFullDir2ReducedDir();
 }
 
 void NoximHexagonTest::testConstructor() {
@@ -103,4 +104,14 @@ void NoximHexagonTest::testNumberOfTiles() {
 		NoximHexagon::buildHexagonTree(i);
 		test_(NoximHexagon::getLatestId() == 6*i*i -1);
 	}
+}
+
+void NoximHexagonTest::testFullDir2ReducedDir() {
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_PX) == DIR_X);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_MX) == DIR_X);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_PY) == DIR_Y);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_MY) == DIR_Y);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_PZ) == DIR_Z);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_MZ) == DIR_Z);
+	test_(NoximHexagon::fullDir2ReducedDir(DIRECTION_HM_LOCAL) == DIR_LOCAL);
 }
