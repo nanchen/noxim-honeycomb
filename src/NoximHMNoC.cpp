@@ -40,26 +40,6 @@ void NoximHMNoC::buildHoneycombMesh(int hmSize) {
 	// Create honeycomb mesh
 	NoximHexagon* root = NoximHexagon::buildHexagonTree(hmSize);
 
-	// Travese (level-order) the tree
-	//    Queue q = Queue_CreateQueue(100);
-	//    Queue_Enqueue(root,q);
-	//    while(!Queue_IsEmpty(q))
-	//    {
-	//        NoximHexagon* h = (NoximHexagon*) Queue_FrontAndDequeue(q);
-	//
-	//    }
-
-	//    // dummy NoximNoP_data structure
-	//    NoximNoP_data tmp_NoP;
-	//
-	//    tmp_NoP.sender_id = NOT_VALID;
-	//
-	//    for (int i = 0; i < DIRECTIONS_HM; i++) {
-	//        tmp_NoP.channel_status_neighbor[i].free_slots = NOT_VALID;
-	//        tmp_NoP.channel_status_neighbor[i].available = false;
-	//    }
-
-
 	// Iterate over all tiles
 	for (int i = 0; i <= NoximHexagon::getLatestId(); i++) {
 		NoximHMTile* tile = NoximHexagon::getTile(i);
