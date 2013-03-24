@@ -923,7 +923,7 @@ double NoximHMRouter::getPower() {
 
 string NoximHMRouter::toString() const {
 	char* ret = (char*) malloc(50 * sizeof(char));
-	sprintf(ret, "Router[%d] at %s", local_id, getCoord().toString());
+	sprintf(ret, " Router [%d] at %s", local_id, getCoord().toString());
 	string strRet(ret);
 	return strRet;
 }
