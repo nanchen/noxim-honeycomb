@@ -5,7 +5,7 @@ void NoximHMTile::setCoord(int x, int y, int z) {
 	coord.y = y;
 	coord.z = z;
 	if (r)
-		r->setCoord(coord);
+		r->setCoord(coordF);
 	if (pe)
 		pe->coord = coord;
 }
